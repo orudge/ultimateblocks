@@ -1,0 +1,54 @@
+BLOCKS 4 README
+By Owen Rudge
+
+This is the horrible mess that is Blocks 4.
+
+I have not included the music. You should put all the Blocks+ music
+files in the Music directory. I have also not included FONTS.DAT or
+SFX.DAT, as these are identical to the Blocks 3 equivalent. You may
+want to change the title bitmap - it was something I knocked up a
+while ago and doesn't work perfectly.
+
+In the GRAPHICS directory are a number of .BGP and .BMP files. The
+BMP files are, surprise surprise, bitmap files, but the .BGP files
+are special description files (Blocks Graphics Pack is the proper
+name). The format is as follows:
+
+[Blocks]
+Version=4
+Title=Castle
+Special=2
+UID=CSTL
+Filename=./graphics/CASTLE.BMP
+Music=./music/inside.s3m
+
+Version is the version number the graphics pack is meant to work with.
+I'm not entirely sure if I actually wrote code to check this! Title is
+the "friendly" name for this. Special is the ID number of the equivalent
+"old-style" motif, if applicable. UID is the 4-letter ID string for it.
+Filename is the filename to the bitmap file - YOU MUST INCLUDE THE
+./graphics/ BIT! Music is the path to the music file, if applicable. I
+did originally try to get this all into a .DAT file, but failed (not
+because of the DAT code, but because the rest of my code was horribly
+hackish and buggy. It still is... ;-)).
+
+I reimplemented the Blocks+ style of having different music for every
+motif. You can turn this off by modifying BLOCKS4.CFG.
+
+The MAP file format has changed slightly. Instead of a number for the
+motif, you have the 4-letter ID string. The CONVERT.C file will
+convert old-style MAP files to the new format. Blocks 4 can also do
+this "on-the-fly", but everything seems to be a square or two off. I
+don't know why. Something's gone wrong obviously...
+
+I think that's all for now. There's bound to be something I've
+forgotton..... If you have any trouble, e-mail me at
+blocks4@orudge.freeuk.com.
+
+Have fun! :-)
+
+Owen Rudge, 9th November 2001
+http://www.owenrudge.co.uk/
+
+MSN Messenger: orudge@freeuk.com
+ICQ: 125455765

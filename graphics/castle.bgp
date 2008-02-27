@@ -1,0 +1,14 @@
+[Blocks]
+Version=4
+Title=Castle
+Special=2
+UID=CSTL
+Filename=./graphics/CASTLE.BMP
+Music=./music/inside.s3m
+
+# If this is a graphics pack of one of the
+# old motifs, set Special to the ID number
+# of it.
+
+# Set UID to an identifier, which will be
+# written to the map file

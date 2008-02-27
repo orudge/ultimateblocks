@@ -1,0 +1,7 @@
+[Blocks]
+Version=4
+Title=Rocky
+Special=3
+UID=RCKY
+Filename=./graphics/ROCKY.BMP
+Music=./music/fishtro.s3m

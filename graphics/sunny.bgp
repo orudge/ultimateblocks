@@ -1,0 +1,7 @@
+[Blocks]
+Version=4
+Title=Sunny
+Special=1
+UID=SUNY
+Filename=./graphics/SUNNY.BMP
+Music=./music/deadlock.xm

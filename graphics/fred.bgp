@@ -1,0 +1,7 @@
+[Blocks]
+Version=4
+Title=Fred-like
+Special=4
+UID=FRED
+Filename=./graphics/FRED.BMP
+Music=./music/deadlock.xm
