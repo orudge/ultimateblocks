@@ -217,7 +217,7 @@ void Draw_Block(int x, int y, int z, BITMAP *pic)
 
  if ((map[x][y][z] == 0) && (!z))
  {
-  if (map[x][y - 1][z] == 0) blit(back, pic, block_width_x, block_height_y, block_width_x, block_height_y, _block_width, _block_height);
+  if (map[x][y - 1][z] == 0) blit(back, pic, block_width_x, block_height_y, block_width_x, block_height_y, _block_width, block_height_yz);
   else blit(back, pic, block_width_x, block_height_y + _block_depth, block_width_x, block_height_y + _block_depth, _block_width, _block_height);
  }
  if (map[x][y][z] == SOLID)

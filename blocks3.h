@@ -180,7 +180,7 @@ int mus_vol, sfx_vol, cd_vol;
 
 int map[20][15][2];
 int maps[20][15][2][101];
-char map_motif[4][100];
+char map_motif[100][5];
 int map2[20][15];
 int map_laser[20][15][2];
 int map_door[20][15][2];

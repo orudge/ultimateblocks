@@ -178,9 +178,9 @@ void Monster_Mon3(int m_no)
 void Monster_Move(int m_no)
 {
  map[mon[m_no].x/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = 0;
- map[(mon[m_no].x + (_block_width/2))/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = 0;
- map[mon[m_no].x/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = 0;
- map[(mon[m_no].x + (_block_width/2))/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = 0;
+ map[(mon[m_no].x + (_block_width - 1))/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = 0;
+ map[mon[m_no].x/_block_width][(mon[m_no].y + (_block_height - 1))/_block_height][mon[m_no].z/_block_depth] = 0;
+ map[(mon[m_no].x + (_block_width - 1))/_block_width][(mon[m_no].y + (_block_height - 1))/_block_height][mon[m_no].z/_block_depth] = 0;
 
  mon[m_no].x += mon[m_no].dx;
  mon[m_no].y += mon[m_no].dy;
@@ -189,9 +189,9 @@ void Monster_Move(int m_no)
  if (mon[m_no].z == 0) mon[m_no].dz = 0;
 
  map[mon[m_no].x/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
- map[(mon[m_no].x + (_block_width/2))/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
- map[mon[m_no].x/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
- map[(mon[m_no].x + (_block_width/2))/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
+ map[(mon[m_no].x + (_block_width - 1))/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
+ map[mon[m_no].x/_block_width][(mon[m_no].y + (_block_height - 1))/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
+ map[(mon[m_no].x + (_block_width - 1))/_block_width][(mon[m_no].y + (_block_height - 1))/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
 }
 
 void Monster_Mon0(int m_no)
@@ -316,23 +316,24 @@ void Monster_Die_Check(void)
    i--;
   }
 
-  if (map_laser[(mon[i].x + (_block_width/2))/_block_width][mon[i].y/_block_height][mon[i].z/_block_depth])
+  if (map_laser[(mon[i].x + (_block_width - 1))/_block_width][mon[i].y/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode((mon[i].x + (_block_width/2))/_block_width, mon[i].y/_block_height, mon[i].z/_block_depth);
+   Add_Explode((mon[i].x + (_block_width - 1))/_block_width, mon[i].y/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }
 
-  if (map_laser[mon[i].x/_block_width][(mon[i].y + (_block_height/2))/_block_height][mon[i].z/_block_depth])
+  if (map_laser[mon[i].x/_block_width][(mon[i].y + (_block_height - 1))/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode(mon[i].x/_block_width, (mon[i].y + (_block_height/2))/_block_height, mon[i].z/_block_depth);
+   Add_Explode(mon[i].x/_block_width, (mon[i].y + (_block_height - 1))/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }
 
-  if (map_laser[(mon[i].x + (_block_width/2))/_block_width][(mon[i].y + (_block_height/2))/_block_height][mon[i].z/_block_depth])
+  if (map_laser[(mon[i].x + (_block_width - 1))/_block_width][(mon[i].y + (_block_height - 1))/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode((mon[i].x + (_block_width/2))/_block_width, (mon[i].y + (_block_height/2))/_block_height, mon[i].z/_block_depth);
+
+   Add_Explode((mon[i].x + (_block_width - 1))/_block_width, (mon[i].y + (_block_height - 1))/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }

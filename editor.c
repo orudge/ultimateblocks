@@ -811,7 +811,7 @@ void Copy_From_Buffer(int lev)
 
 void Editor_Draw_Tiles(void)
 {
- blit(editor_icons, temp, icon_start*32, 0, 0, SCREEN_H-_block_height, SCREEN_W, _block_height);
+ blit(editor_icons, temp, icon_start*_block_width, 0, 0, SCREEN_H-_block_height, SCREEN_W, _block_height);
 }
 
 void Editor_Change_Block_Type(int b)

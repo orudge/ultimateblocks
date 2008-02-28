@@ -134,7 +134,7 @@ int Player_On(int x, int y, int p_no)
 	if ((ply[p_no].x/_block_width == x) && (ply[p_no].y/_block_height == y)) return 1;
 	if (((ply[p_no].x + (_block_width-1))/_block_width == x) && (ply[p_no].y/_block_height == y)) return 1;
 	if ((ply[p_no].x/_block_width == x) && ((ply[p_no].y + (_block_height-1))/_block_height == y)) return 1;
-	if (((ply[p_no].x/_block_width + (_block_width-1)) == x) && ((ply[p_no].y + (_block_height-1))/_block_width == y)) return 1;
+	if (((ply[p_no].x/_block_width + (_block_width-1)) == x) && ((ply[p_no].y + (_block_height-1))/_block_height == y)) return 1;
 
 	for (i = 0; i < mon_count; i++)
 	{

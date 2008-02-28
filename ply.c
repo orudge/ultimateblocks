@@ -189,7 +189,7 @@ void Player_Teleport(int p_no)
  ply[p_no].y = j*_block_height;
 
  if (map[i][j][0] == c) ply[p_no].z = 0;
- else ply[p_no].z = 8;
+ else ply[p_no].z = _block_depth;
 
 }
 
