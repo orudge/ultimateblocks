@@ -13,7 +13,7 @@ void Box_Push(int x, int y, int z, int dx, int dy)
 
 	i = 0;
 
-	while ((i < box_count) && ((box[i].x/32 != x) || (box[i].y/32 != y) || (box[i].z != z)))
+	while ((i < box_count) && ((box[i].x / _block_width != x) || (box[i].y / _block_height != y) || (box[i].z != z)))
 		i++;
 
 	if (i == box_count)
@@ -25,7 +25,7 @@ void Box_Push(int x, int y, int z, int dx, int dy)
 		box[i].dy = dy;
 	}
 
-	map[box[i].x / 32 + box[i].dx][box[i].y / 32 + box[i].dy][box[i].z / 8] = (RESERVE | box[i].type);
+	map[box[i].x / _block_width + box[i].dx][box[i].y / _block_height + box[i].dy][box[i].z / _block_depth] = (RESERVE | box[i].type);
 }
 
 void Box_Move(void)
@@ -39,11 +39,11 @@ void Box_Move(void)
 			box[i].x +=box[i].dx;
 			box[i].y +=box[i].dy;
 
-			if ((box[i].x % 32 == 0) && (box[i].y % 32 == 0) && (!box[i].dz))
+			if ((box[i].x % _block_width == 0) && (box[i].y % _block_height == 0) && (!box[i].dz))
 			{
 				box[i].dx = 0;
 				box[i].dy = 0;
-				map[box[i].x / 32][box[i].y / 32][box[i].z / 8] = box[i].type;
+				map[box[i].x / _block_width][box[i].y / _block_height][box[i].z / _block_depth] = box[i].type;
 			}
 
 			if (box[i].dz)
@@ -53,12 +53,12 @@ void Box_Move(void)
 				if (!box[i].z)
 				{
 					box[i].dz = 0;
-					map[box[i].x/32][box[i].y/32][0] = box[i].type;
-					map[box[i].x/32][box[i].y/32][1] = 0;
+					map[box[i].x/_block_width][box[i].y/_block_height][0] = box[i].type;
+					map[box[i].x/_block_width][box[i].y/_block_height][1] = 0;
 				}
 			}
 
-			DirtyList(box[i].x, box[i].y, box[i].z, 32, 40, box[i].pic);
+			DirtyList(box[i].x, box[i].y, box[i].z, _block_width, _block_height + _block_depth, box[i].pic);
 		}
 	}
 }
@@ -70,15 +70,15 @@ void Box_Fall(void)
 	for (i = 0; i < box_count; i++)
 	{
 		if ((Check_Can_Fall(box[i].x, box[i].y, box[i].z)) &&
-			((ply[0].x/32 != box[i].x/32) || (ply[0].y/32 != box[i].y/32)) &&
-			(((ply[0].x + 31)/32 != box[i].x/32) || (ply[0].y/32 != box[i].y/32)) &&
-			((ply[0].x/32 != box[i].x/32) || ((ply[0].y + 31)/32 != box[i].y/32)) &&
-			(((ply[0].x + 31)/32 != box[i].x/32) || ((ply[0].y + 31)/32 != box[i].y/32)))
+			((ply[0].x / _block_width != box[i].x / _block_width) || (ply[0].y / _block_height != box[i].y / _block_height)) &&
+			(((ply[0].x + (_block_width-1)) / _block_width != box[i].x / _block_width) || (ply[0].y/_block_height != box[i].y/_block_height)) &&
+			((ply[0].x / _block_width != box[i].x / _block_width) || ((ply[0].y + (_block_height-1))/_block_height != box[i].y/_block_height)) &&
+			(((ply[0].x + (_block_width-1))/_block_width != box[i].x/_block_width) || ((ply[0].y + (_block_height-1))/_block_height != box[i].y/_block_height)))
 		{
 			box[i].dz = -1;
 
-			map[box[i].x/32][box[i].y/32][1] = RESERVE;
-			map[box[i].x/32][box[i].y/32][0] = RESERVE;
+			map[box[i].x/_block_width][box[i].y/_block_height][1] = RESERVE;
+			map[box[i].x/_block_width][box[i].y/_block_height][0] = RESERVE;
 		}
 	}
 }

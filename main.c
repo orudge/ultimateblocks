@@ -72,9 +72,9 @@ void Init_Level(void)
 				if (map[i][j][k] == AUDREY)
 				{
 					map[i][j][k] = 0;
-					ply[0].x = i*32;
-					ply[0].y = j*32;
-					ply[0].z = k*8;
+					ply[0].x = i*_block_width;
+					ply[0].y = j*_block_height;
+					ply[0].z = k*_block_depth;
 					ply[0].dx = 0;
 					ply[0].dy = 0;
 					ply[0].dz = 0;
@@ -82,9 +82,9 @@ void Init_Level(void)
 				else if (map[i][j][k] == AN)
 				{
 					map[i][j][k] = 0;
-					ply[1].x = i*32;
-					ply[1].y = j*32;
-					ply[1].z = k*8;
+					ply[1].x = i*_block_width;
+					ply[1].y = j*_block_height;
+					ply[1].z = k*_block_depth;
 					ply[1].dx = 0;
 					ply[1].dy = 0;
 					ply[1].dz = 0;

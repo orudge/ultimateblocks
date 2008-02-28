@@ -16,8 +16,9 @@
 
 void Change_Motif(char *m)
 {
- int i;
- int palid;
+	int i;
+	int palid;
+	int old_block_width = 0, old_block_height = 0, old_block_depth = 0;
  
 #ifdef DO_GRAPHICS_LOG
  FILE *tmp;
@@ -63,6 +64,14 @@ void Change_Motif(char *m)
 #endif
        gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
 
+	   old_block_width = _block_width;
+	   old_block_height = _block_height;
+	   old_block_depth = _block_depth;
+
+	   _block_width = motifs[i].block_width;
+	   _block_height = motifs[i].block_height;
+	   _block_depth = motifs[i].block_depth;
+
        if (B2Music == 1)
        {
           destroy_mod(music);
@@ -90,184 +99,216 @@ void Change_Motif(char *m)
 
  strcpy(motif, m);
 
- blit(gfx, ply_pic[0][0], 0,  0, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][1], 32, 0, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][2], 64, 0, 0, 0, 32, 40);
+ 	// Recreate bitmaps if necessary
+
+	if ((old_block_width != _block_width) || (old_block_height != _block_height) || (old_block_depth != _block_depth))
+	{
+		// first destroy the old ones
+		for (i = 0; i < 12; i++)
+		{
+			destroy_bitmap(ply_pic[0][i]);
+			destroy_bitmap(ply_pic[0][i]);
+		}
+
+		destroy_bitmap(box_pic);
+		destroy_bitmap(blank);
+		destroy_bitmap(editor_icons);
+
+		// Now create the new ones
+		for (i = 0; i < 12; i++)
+		{
+			ply_pic[0][i] = create_bitmap(_block_width, _block_height_depth);
+			ply_pic[1][i] = create_bitmap(_block_width, _block_height_depth);
+		}
+
+		box_pic = create_bitmap(_block_width, _block_height_depth);
+		clear(box_pic);
+
+		blank = create_bitmap(_block_width, _block_height_depth);
+		clear(blank);
+
+		editor_icons = create_bitmap(_block_width * 32, _block_height_depth);
+		clear(editor_icons);
+	}
+
+blit(gfx, ply_pic[0][0], 0,  0, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][1], _block_width, 0, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][2], _block_width*2, 0, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past first blit block...\n");
 #endif
 
- blit(gfx, ply_pic[0][3], 0,  40, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][4], 32, 40, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][5], 64, 40, 0, 0, 32, 40);
+ blit(gfx, ply_pic[0][3], 0,  _block_height_depth, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][4], _block_width, _block_height_depth, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][5], _block_width*2, _block_height_depth, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past second blit block...\n");
 #endif
 
- blit(gfx, ply_pic[0][6], 0,  80, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][7], 32, 80, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][8], 64, 80, 0, 0, 32, 40);
+ blit(gfx, ply_pic[0][6], 0,  _block_height_depth*2, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][7], _block_width, _block_height_depth*2, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][8], _block_width*2, _block_height_depth*2, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past third blit block...\n");
 #endif
 
- blit(gfx, ply_pic[0][9] , 0,  120, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][10], 32, 120, 0, 0, 32, 40);
- blit(gfx, ply_pic[0][11], 64, 120, 0, 0, 32, 40);
+ blit(gfx, ply_pic[0][9] , 0,  _block_height_depth*3, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][10], _block_width, _block_height_depth*3, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[0][11], _block_width*2, _block_height_depth*3, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past fourth blit block...\n");
 #endif
 
- blit(gfx, ply_pic[1][0], 384,  0, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][1], 416, 0, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][2], 448, 0, 0, 0, 32, 40);
+ blit(gfx, ply_pic[1][0], _block_width*12,  0, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][1], _block_width*13, 0, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][2], _block_width*14, 0, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past fifth blit block...\n");
 #endif
 
- blit(gfx, ply_pic[1][3], 384,  40, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][4], 416, 40, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][5], 448, 40, 0, 0, 32, 40);
+ blit(gfx, ply_pic[1][3], _block_width*12, _block_height_depth, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][4], _block_width*13, _block_height_depth, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][5], _block_width*14, _block_height_depth, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past sixth blit block...\n");
 #endif
 
- blit(gfx, ply_pic[1][6], 384,  80, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][7], 416, 80, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][8], 448, 80, 0, 0, 32, 40);
+ blit(gfx, ply_pic[1][6], _block_width*12, _block_height_depth * 2, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][7], _block_width*13, _block_height_depth * 2, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][8], _block_width*14, _block_height_depth * 2, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past seventh blit block...\n");
 #endif
 
- blit(gfx, ply_pic[1][9] , 384,  120, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][10], 416, 120, 0, 0, 32, 40);
- blit(gfx, ply_pic[1][11], 448, 120, 0, 0, 32, 40);
+ blit(gfx, ply_pic[1][9] , _block_width*12, _block_height_depth * 3, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][10], _block_width*13, _block_height_depth * 3, 0, 0, _block_width, _block_height_depth);
+ blit(gfx, ply_pic[1][11], _block_width*14, _block_height_depth * 3, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past eighth blit block...\n");
 #endif
 
- blit(gfx, box_pic, 0, 160, 0, 0, 32, 40);
+ blit(gfx, box_pic, 0, _block_width*5, 0, 0, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past last blit call after blocks...\n");
 #endif
 
- token_pic = create_sub_bitmap(gfx, 32, 160, 32, 40);
+ token_pic = create_sub_bitmap(gfx, _block_width, _block_height_depth * 4, _block_width, _block_height_depth);
 
- teleport_pic[0] = create_sub_bitmap(gfx, 64, 160, 32, 40);
- teleport_pic[1] = create_sub_bitmap(gfx, 96, 160, 32, 40);
- teleport_pic[2] = create_sub_bitmap(gfx, 128, 160, 32, 40);
+ teleport_pic[0] = create_sub_bitmap(gfx, _block_width * 2, _block_height_depth * 4, _block_width, _block_height_depth);
+ teleport_pic[1] = create_sub_bitmap(gfx, _block_width * 3, _block_height_depth * 4, _block_width, _block_height_depth);
+ teleport_pic[2] = create_sub_bitmap(gfx, _block_width * 4, _block_height_depth * 4, _block_width, _block_height_depth);
 
- laser_pic[0] = create_sub_bitmap(gfx, 64, 240, 32, 40);
- laser_pic[1] = create_sub_bitmap(gfx, 96, 240, 32, 40);
- laser_pic[2] = create_sub_bitmap(gfx, 128, 240, 32, 40);
- laser_pic[3] = create_sub_bitmap(gfx, 160, 240, 32, 40);
- laser_pic[4] = create_sub_bitmap(gfx, 192, 240, 32, 40);
+ laser_pic[0] = create_sub_bitmap(gfx, _block_width * 2, _block_height_depth * 6, _block_width, _block_height_depth);
+ laser_pic[1] = create_sub_bitmap(gfx, _block_width * 3, _block_height_depth * 6, _block_width, _block_height_depth);
+ laser_pic[2] = create_sub_bitmap(gfx, _block_width * 4, _block_height_depth * 6, _block_width, _block_height_depth);
+ laser_pic[3] = create_sub_bitmap(gfx, _block_width * 5, _block_height_depth * 6, _block_width, _block_height_depth);
+ laser_pic[4] = create_sub_bitmap(gfx, _block_width * 6, _block_height_depth * 6, _block_width, _block_height_depth);
 
- mirror_pic[0] = create_sub_bitmap(gfx, 64, 200, 32, 40);
- mirror_pic[1] = create_sub_bitmap(gfx, 96, 200, 32, 40);
+ mirror_pic[0] = create_sub_bitmap(gfx, _block_width * 2, _block_height_depth * 5, _block_width, _block_height_depth);
+ mirror_pic[1] = create_sub_bitmap(gfx, _block_width * 3, _block_height_depth * 5, _block_width, _block_height_depth);
 
- beam_pic[0] = create_sub_bitmap(gfx, 128, 200, 32, 40);
- beam_pic[1] = create_sub_bitmap(gfx, 160, 200, 32, 40);
- beam_pic[3] = create_sub_bitmap(gfx, 192, 200, 32, 40);
- beam_pic[4] = create_sub_bitmap(gfx, 224, 200, 32, 40);
- beam_pic[5] = create_sub_bitmap(gfx, 256, 200, 32, 40);
- beam_pic[6] = create_sub_bitmap(gfx, 288, 200, 32, 40);
- beam_pic[2] = create_sub_bitmap(gfx, 320, 200, 32, 40);
+ beam_pic[0] = create_sub_bitmap(gfx, _block_width * 4, _block_height_depth * 5, _block_width, _block_height_depth);
+ beam_pic[1] = create_sub_bitmap(gfx, _block_width * 5, _block_height_depth * 5, _block_width, _block_height_depth);
+ beam_pic[3] = create_sub_bitmap(gfx, _block_width * 6, _block_height_depth * 5, _block_width, _block_height_depth);
+ beam_pic[4] = create_sub_bitmap(gfx, _block_width * 7, _block_height_depth * 5, _block_width, _block_height_depth);
+ beam_pic[5] = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 5, _block_width, _block_height_depth);
+ beam_pic[6] = create_sub_bitmap(gfx, _block_width * 9, _block_height_depth * 5, _block_width, _block_height_depth);
+ beam_pic[2] = create_sub_bitmap(gfx, _block_width * 10, _block_height_depth * 5, _block_width, _block_height_depth);
 
- bomb_pic[0] = create_sub_bitmap(gfx, 192, 160, 32, 40);
- bomb_pic[1] = create_sub_bitmap(gfx, 160, 160, 32, 40);
- bomb_pic[2] = create_sub_bitmap(gfx, 352, 200, 32, 40);
+ bomb_pic[0] = create_sub_bitmap(gfx, _block_width * 6, _block_height_depth * 4, _block_width, _block_height_depth);
+ bomb_pic[1] = create_sub_bitmap(gfx, _block_width * 5, _block_height_depth * 4, _block_width, _block_height_depth);
+ bomb_pic[2] = create_sub_bitmap(gfx, _block_width * 11, _block_height_depth * 5, _block_width, _block_height_depth);
 
- explode_pic[0] = create_sub_bitmap(gfx, 224, 160, 32, 40);
- explode_pic[1] = create_sub_bitmap(gfx, 256, 160, 32, 40);
- explode_pic[2] = create_sub_bitmap(gfx, 288, 160, 32, 40);
- explode_pic[3] = create_sub_bitmap(gfx, 320, 160, 32, 40);
- explode_pic[4] = create_sub_bitmap(gfx, 352, 160, 32, 40);
- explode_pic[5] = create_sub_bitmap(gfx, 384, 160, 32, 40);
- explode_pic[6] = create_sub_bitmap(gfx, 416, 160, 32, 40);
- explode_pic[7] = create_sub_bitmap(gfx, 448, 160, 32, 40);
+ explode_pic[0] = create_sub_bitmap(gfx, _block_width * 7, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[1] = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[2] = create_sub_bitmap(gfx, _block_width * 9, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[3] = create_sub_bitmap(gfx, _block_width * 10, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[4] = create_sub_bitmap(gfx, _block_width * 11, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[5] = create_sub_bitmap(gfx, _block_width * 12, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[6] = create_sub_bitmap(gfx, _block_width * 13, _block_height_depth * 4, _block_width, _block_height_depth);
+ explode_pic[7] = create_sub_bitmap(gfx, _block_width * 14, _block_height_depth * 4, _block_width, _block_height_depth);
 
- mon_pic[0][0]  = create_sub_bitmap(gfx,  96, 0, 32, 40);
- mon_pic[0][1]  = create_sub_bitmap(gfx, 128, 0, 32, 40);
- mon_pic[0][2]  = create_sub_bitmap(gfx, 160, 0, 32, 40);
- mon_pic[0][3]  = create_sub_bitmap(gfx,  96, 40, 32, 40);
- mon_pic[0][4]  = create_sub_bitmap(gfx, 128, 40, 32, 40);
- mon_pic[0][5]  = create_sub_bitmap(gfx, 160, 40, 32, 40);
- mon_pic[0][6]  = create_sub_bitmap(gfx,  96, 80, 32, 40);
- mon_pic[0][7]  = create_sub_bitmap(gfx, 128, 80, 32, 40);
- mon_pic[0][8]  = create_sub_bitmap(gfx, 160, 80, 32, 40);
- mon_pic[0][9]  = create_sub_bitmap(gfx,  96, 120, 32, 40);
- mon_pic[0][10] = create_sub_bitmap(gfx, 128, 120, 32, 40);
- mon_pic[0][11] = create_sub_bitmap(gfx, 160, 120, 32, 40);
+ mon_pic[0][0]  = create_sub_bitmap(gfx, _block_width * 3, 0, _block_width, _block_height_depth);
+ mon_pic[0][1]  = create_sub_bitmap(gfx, _block_width * 4, 0, _block_width, _block_height_depth);
+ mon_pic[0][2]  = create_sub_bitmap(gfx, _block_width * 5, 0, _block_width, _block_height_depth);
+ mon_pic[0][3]  = create_sub_bitmap(gfx, _block_width * 3, _block_height_depth, _block_width, _block_height_depth);
+ mon_pic[0][4]  = create_sub_bitmap(gfx, _block_width * 4, _block_height_depth, _block_width, _block_height_depth);
+ mon_pic[0][5]  = create_sub_bitmap(gfx, _block_width * 5, _block_height_depth, _block_width, _block_height_depth);
+ mon_pic[0][6]  = create_sub_bitmap(gfx, _block_width * 3, _block_height_depth * 2, _block_width, _block_height_depth);
+ mon_pic[0][7]  = create_sub_bitmap(gfx, _block_width * 4, _block_height_depth * 2, _block_width, _block_height_depth);
+ mon_pic[0][8]  = create_sub_bitmap(gfx, _block_width * 5, _block_height_depth * 2, _block_width, _block_height_depth);
+ mon_pic[0][9]  = create_sub_bitmap(gfx, _block_width * 3, _block_height_depth * 3, _block_width, _block_height_depth);
+ mon_pic[0][10] = create_sub_bitmap(gfx, _block_width * 4, _block_height_depth * 3, _block_width, _block_height_depth);
+ mon_pic[0][11] = create_sub_bitmap(gfx, _block_width * 5, _block_height_depth * 3, _block_width, _block_height_depth);
 
- filter_pic = create_sub_bitmap(gfx, 224, 240, 32, 40);
+ filter_pic = create_sub_bitmap(gfx, _block_width * 7, _block_height_depth * 6, _block_width, _block_height_depth);
 
- switches_pic[0] = create_sub_bitmap(gfx, 256, 240, 32, 40);
- switches_pic[1] = create_sub_bitmap(gfx, 288, 240, 32, 40);
- switches_pic[2] = create_sub_bitmap(gfx, 320, 240, 32, 40);
+ switches_pic[0] = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 6, _block_width, _block_height_depth);
+ switches_pic[1] = create_sub_bitmap(gfx, _block_width * 9, _block_height_depth * 6, _block_width, _block_height_depth);
+ switches_pic[2] = create_sub_bitmap(gfx, _block_width * 10, _block_height_depth * 6, _block_width, _block_height_depth);
 
- door_pic[0] = create_sub_bitmap(gfx, 256, 280, 32, 40);
- door_pic[1] = create_sub_bitmap(gfx, 288, 280, 32, 40);
- door_pic[2] = create_sub_bitmap(gfx, 320, 280, 32, 40);
+ door_pic[0] = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 7, _block_width, _block_height_depth);
+ door_pic[1] = create_sub_bitmap(gfx, _block_width * 9, _block_height_depth * 7, _block_width, _block_height_depth);
+ door_pic[2] = create_sub_bitmap(gfx, _block_width * 10, _block_height_depth * 7, _block_width, _block_height_depth);
 
- fall_pic = create_sub_bitmap(gfx, 256, 320, 32, 40);
+ fall_pic = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 8, _block_width, _block_height_depth);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past create_sub_bitmap() calls...\n");
 #endif
 
- blit(gfx, editor_icons, 0, 280, 0,   0, 32, 32);
- blit(box_pic, editor_icons, 0, 0,   32,  0, 32, 32);
- blit(ply_pic[0][0], editor_icons, 0, 0,   64,  0, 32, 32);
- blit(ply_pic[1][0], editor_icons, 0, 0,   96,  0, 32, 32);
- blit(token_pic, editor_icons, 0, 0,   128,  0, 32, 32);
- blit(teleport_pic[0], editor_icons, 0, 0,   160,  0, 32, 32);
- blit(teleport_pic[1], editor_icons, 0, 0,   192,  0, 32, 32);
- blit(teleport_pic[2], editor_icons, 0, 0,   224,  0, 32, 32);
- blit(laser_pic[0], editor_icons, 0, 0, 256, 0, 32, 32);
- blit(laser_pic[1], editor_icons, 0, 0, 288, 0, 32, 32);
- blit(laser_pic[2], editor_icons, 0, 0, 320, 0, 32, 32);
- blit(laser_pic[3], editor_icons, 0, 0, 352, 0, 32, 32);
- blit(laser_pic[4], editor_icons, 0, 0, 384, 0, 32, 32);
- blit(mirror_pic[0], editor_icons, 0, 0, 416, 0, 32, 32);
- blit(mirror_pic[1], editor_icons, 0, 0, 448, 0, 32, 32);
- blit(bomb_pic[0], editor_icons, 0, 0, 480, 0, 32, 32);
- blit(bomb_pic[1], editor_icons, 0, 0, 512, 0, 32, 32);
- blit(bomb_pic[2], editor_icons, 0, 0, 544, 0, 32, 32);
- blit(mon_pic[0][0], editor_icons, 0, 0, 576, 0, 32, 32);
- blit(mon_pic[0][0], editor_icons, 0, 0, 608, 0, 32, 32);
- blit(filter_pic, editor_icons, 0, 0, 640,   0, 32, 32);
+ blit(gfx, editor_icons, 0, _block_height_depth * 7, 0,   0, _block_width, _block_height);
+ blit(box_pic, editor_icons, 0, 0,   _block_width,  0, _block_width, _block_height);
+ blit(ply_pic[0][0], editor_icons, 0, 0,   _block_width*2,  0, _block_width, _block_height);
+ blit(ply_pic[1][0], editor_icons, 0, 0,   _block_width*3,  0, _block_width, _block_height);
+ blit(token_pic, editor_icons, 0, 0,   _block_width*4,  0, _block_width, _block_height);
+ blit(teleport_pic[0], editor_icons, 0, 0,   _block_width*5,  0, _block_width, _block_height);
+ blit(teleport_pic[1], editor_icons, 0, 0,   _block_width*6,  0, _block_width, _block_height);
+ blit(teleport_pic[2], editor_icons, 0, 0,   _block_width*7,  0, _block_width, _block_height);
+ blit(laser_pic[0], editor_icons, 0, 0, _block_width*8, 0, _block_width, _block_height);
+ blit(laser_pic[1], editor_icons, 0, 0, _block_width*9, 0, _block_width, _block_height);
+ blit(laser_pic[2], editor_icons, 0, 0, _block_width*10, 0, _block_width, _block_height);
+ blit(laser_pic[3], editor_icons, 0, 0, _block_width*11, 0, _block_width, _block_height);
+ blit(laser_pic[4], editor_icons, 0, 0, _block_width*12, 0, _block_width, _block_height);
+ blit(mirror_pic[0], editor_icons, 0, 0, _block_width*13, 0, _block_width, _block_height);
+ blit(mirror_pic[1], editor_icons, 0, 0, _block_width*14, 0, _block_width, _block_height);
+ blit(bomb_pic[0], editor_icons, 0, 0, _block_width*15, 0, _block_width, _block_height);
+ blit(bomb_pic[1], editor_icons, 0, 0, _block_width*16, 0, _block_width, _block_height);
+ blit(bomb_pic[2], editor_icons, 0, 0, _block_width*17, 0, _block_width, _block_height);
+ blit(mon_pic[0][0], editor_icons, 0, 0, _block_width*18, 0, _block_width, _block_height);
+ blit(mon_pic[0][0], editor_icons, 0, 0, _block_width*19, 0, _block_width, _block_height);
+ blit(filter_pic, editor_icons, 0, 0, _block_width*20,   0, _block_width, _block_height);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past first BIG blit block...\n");
 #endif
 
- blit(switches_pic[0], editor_icons, 0, 0, 672, 0, 32, 32);
- blit(switches_pic[1], editor_icons, 0, 0, 704, 0, 32, 32);
- blit(switches_pic[2], editor_icons, 0, 0, 736, 0, 32, 32);
+ blit(switches_pic[0], editor_icons, 0, 0, _block_width*21, 0, _block_width, _block_height);
+ blit(switches_pic[1], editor_icons, 0, 0, _block_width*22, 0, _block_width, _block_height);
+ blit(switches_pic[2], editor_icons, 0, 0, _block_width*23, 0, _block_width, _block_height);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past switches blit block...\n");
 #endif
 
- blit(door_pic[0], editor_icons, 0, 0, 768, 0, 32, 32);
- blit(door_pic[1], editor_icons, 0, 0, 800, 0, 32, 32);
- blit(door_pic[2], editor_icons, 0, 0, 832, 0, 32, 32);
+ blit(door_pic[0], editor_icons, 0, 0, _block_width*24, 0, _block_width, _block_height);
+ blit(door_pic[1], editor_icons, 0, 0, _block_width*25, 0, _block_width, _block_height);
+ blit(door_pic[2], editor_icons, 0, 0, _block_width*26, 0, _block_width, _block_height);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past doors blit block...\n");
 #endif
 
- blit(fall_pic, editor_icons, 0, 0, 864, 0, 32, 32);
+ blit(fall_pic, editor_icons, 0, 0, _block_width*27, 0, _block_width, _block_height);
 
 #ifdef DO_GRAPHICS_LOG
  fprintf(tmp, "Got past fall blit block...\n");

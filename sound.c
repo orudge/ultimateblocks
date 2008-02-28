@@ -11,7 +11,7 @@ void Add_Sound(int x, int s)
 {
 	if (fx_count < MAX_SOUND_EFFECTS)
 	{
-		fx[fx_count].x = x*255/32;
+		fx[fx_count].x = x*255/_block_width;
 		fx[fx_count].s = s;
 
 		fx_count++;

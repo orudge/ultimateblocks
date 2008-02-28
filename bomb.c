@@ -9,8 +9,8 @@
 
 void Blow_Box(int b_no)
 {
-	Add_Explode(box[b_no].x / 32, box[b_no].y / 32, box[b_no].z / 8);
-	map[box[b_no].x / 32][box[b_no].y / 32][box[b_no].z / 8] = RESERVE;
+	Add_Explode(box[b_no].x / _block_width, box[b_no].y / _block_height, box[b_no].z / _block_depth);
+	map[box[b_no].x / _block_width][box[b_no].y / _block_height][box[b_no].z / _block_depth] = RESERVE;
 	Del_Box(b_no);
 }
 
@@ -22,7 +22,7 @@ void Bomb_Prime_Laser(void)
 	{
 		if (box[i].type & BOMB)
 		{
-			if ((!box[i].dx) && (!box[i].dy) && (!box[i].dz) && (map_laser[box[i].x / 32][box[i].y / 32][box[i].z / 8]))
+			if ((!box[i].dx) && (!box[i].dy) && (!box[i].dz) && (map_laser[box[i].x / _block_width][box[i].y / _block_height][box[i].z / _block_depth]))
 			{
 				if (box[i].type == BOMB3)
 				{
@@ -101,18 +101,18 @@ void Draw_Explode(void)
 	{
 		explode[i].frame++;
 
-		if (explode[i].frame/10 == 0) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[0]);
-		if (explode[i].frame/10 == 1) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[1]);
-		if (explode[i].frame/10 == 2) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[2]);
-		if (explode[i].frame/10 == 3) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[3]);
-		if (explode[i].frame/10 == 4) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[4]);
-		if (explode[i].frame/10 == 5) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[5]);
-		if (explode[i].frame/10 == 6) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[6]);
-		if (explode[i].frame/10 == 7) DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, explode_pic[7]);
+		if (explode[i].frame/10 == 0) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[0]);
+		if (explode[i].frame/10 == 1) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[1]);
+		if (explode[i].frame/10 == 2) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[2]);
+		if (explode[i].frame/10 == 3) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[3]);
+		if (explode[i].frame/10 == 4) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[4]);
+		if (explode[i].frame/10 == 5) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[5]);
+		if (explode[i].frame/10 == 6) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[6]);
+		if (explode[i].frame/10 == 7) DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, explode_pic[7]);
 
 		if (explode[i].frame/10 == 8)
 		{
-			DirtyList(explode[i].x * 32, explode[i].y * 32, explode[i].z * 8, 32, 40, blank);
+			DirtyList(explode[i].x * _block_width, explode[i].y * _block_height, explode[i].z * _block_depth, _block_width, _block_height + _block_depth, blank);
 
 			if (explode[i].type == BOMB)
 				Explode_Prime_Chain(explode[i].x, explode[i].y);
@@ -155,7 +155,7 @@ void Explode_Prime(int x, int y, int z)
 
 	i = 0;
 
-	while ((box[i].x/32 != x) || (box[i].y/32 != y)  || (box[i].z/8 != z))
+	while ((box[i].x / _block_width != x) || (box[i].y / _block_height != y)  || (box[i].z / _block_depth != z))
 		i++;
 
 	if (box[i].type == BOMB3)

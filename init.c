@@ -58,6 +58,9 @@ void LoadGraphicsPack(char *fn, int a, int b)
 	motifs[num_motifs].gfx_fn = strdup(get_config_string("Blocks", "Filename", ""));
 	motifs[num_motifs].music_fn = strdup(get_config_string("Blocks", "Music", ""));
 	motifs[num_motifs].special = get_config_int("Blocks", "Special", -1);
+	motifs[num_motifs].block_width = get_config_int("Blocks", "BlockWidth", 32);
+	motifs[num_motifs].block_height = get_config_int("Blocks", "BlockHeight", 32);
+	motifs[num_motifs].block_depth = get_config_int("Blocks", "BlockDepth", 8);
 	num_motifs++;
 }
 
@@ -107,23 +110,11 @@ void Initialise(void)
 
 	// Create bitmaps
 
-	for (i = 0; i < 12; i++)
-	{
-		ply_pic[0][i] = create_bitmap(32, 40);
-		ply_pic[1][i] = create_bitmap(32, 40);
-	}
+	memset(ply_pic, 0, sizeof(ply_pic));
+	box_pic = blank = editor_icons = NULL;
 
-	box_pic = create_bitmap(32, 40);
-	clear(box_pic);
-
-	blank = create_bitmap(32, 40);
-	clear(blank);
-
-	editor_icons = create_bitmap(1024, 32);
-	clear(editor_icons);
-
-	temp = create_bitmap(640, 480);
-	back = create_bitmap(640, 480);
+	temp = create_bitmap(SCREEN_W, SCREEN_H);
+	back = create_bitmap(SCREEN_W, SCREEN_H);
 
 	// Iterate through motifs
 

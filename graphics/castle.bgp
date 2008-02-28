@@ -5,10 +5,13 @@ Special=2
 UID=CSTL
 Filename=./graphics/CASTLE.BMP
 Music=./music/inside.s3m
+BlockWidth=32
+BlockHeight=32
+BlockDepth=8
 
 # If this is a graphics pack of one of the
 # old motifs, set Special to the ID number
 # of it.
 
-# Set UID to an identifier, which will be
+# Set UID to an identifier which will be
 # written to the map file

@@ -80,10 +80,10 @@ void Door(void)
 			{
 				if (map_backup[i][j][k] != map_door[i][j][k])
 				{
-					if (map_door[i][j][k] == 0) DirtyList(i*32, j*32, k*8, 32, 40, blank);
-					if (map_door[i][j][k] == RED) DirtyList(i*32, j*32, k*8, 32, 40, door_pic[0]);
-					if (map_door[i][j][k] == GREEN) DirtyList(i*32, j*32, k*8, 32, 40, door_pic[1]);
-					if (map_door[i][j][k] == BLUE) DirtyList(i*32, j*32, k*8, 32, 40, door_pic[2]);
+					if (map_door[i][j][k] == 0) DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height+_block_depth, blank);
+					if (map_door[i][j][k] == RED) DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height+_block_depth, door_pic[0]);
+					if (map_door[i][j][k] == GREEN) DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height+_block_depth, door_pic[1]);
+					if (map_door[i][j][k] == BLUE) DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height+_block_depth, door_pic[2]);
 				}
 			}
 		}
@@ -94,7 +94,7 @@ void Door(void)
 		if (map[switches[i].x][switches[i].y][switches[i].z] == 0)
 		{
 			map[switches[i].x][switches[i].y][switches[i].z] = switches[i].c + SWITCH;
-			DirtyList(switches[i].x*32, switches[i].y*32, switches[i].z*8, 32, 40, blank);
+			DirtyList(switches[i].x*_block_width, switches[i].y*_block_height, switches[i].z*_block_depth, _block_width, _block_height+_block_depth, blank);
 		}
 	}
 }
@@ -131,17 +131,17 @@ int Player_On(int x, int y, int p_no)
 {
 	int i;
 
-	if ((ply[p_no].x/32 == x) && (ply[p_no].y/32 == y)) return 1;
-	if (((ply[p_no].x + 31)/32 == x) && (ply[p_no].y/32 == y)) return 1;
-	if ((ply[p_no].x/32 == x) && ((ply[p_no].y + 31)/32 == y)) return 1;
-	if (((ply[p_no].x/32 + 31) == x) && ((ply[p_no].y + 31)/32 == y)) return 1;
+	if ((ply[p_no].x/_block_width == x) && (ply[p_no].y/_block_height == y)) return 1;
+	if (((ply[p_no].x + (_block_width-1))/_block_width == x) && (ply[p_no].y/_block_height == y)) return 1;
+	if ((ply[p_no].x/_block_width == x) && ((ply[p_no].y + (_block_height-1))/_block_height == y)) return 1;
+	if (((ply[p_no].x/_block_width + (_block_width-1)) == x) && ((ply[p_no].y + (_block_height-1))/_block_width == y)) return 1;
 
 	for (i = 0; i < mon_count; i++)
 	{
-		if ((mon[i].x/32 == x) && (mon[i].y/32 == y)) return 1;
-		if (((mon[i].x + 31)/32 == x) && (mon[i].y/32 == y)) return 1;
-		if ((mon[i].x/32 == x) && ((mon[i].y + 31)/32 == y)) return 1;
-		if (((mon[i].x/32 + 31) == x) && ((mon[i].y + 31)/32 == y)) return 1;
+		if ((mon[i].x/_block_width == x) && (mon[i].y/_block_height == y)) return 1;
+		if (((mon[i].x + (_block_width-1))/_block_width == x) && (mon[i].y/_block_height == y)) return 1;
+		if ((mon[i].x/_block_width == x) && ((mon[i].y + (_block_height-1))/_block_height == y)) return 1;
+		if (((mon[i].x/_block_width + (_block_width-1)) == x) && ((mon[i].y + (_block_height-1))/_block_height == y)) return 1;
 	}
 
 	return 0;

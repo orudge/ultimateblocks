@@ -104,7 +104,7 @@ void Draw_Map(void)
  {
     for (i = 0; i < 20; i+=2)
     {
-       blit(gfx, back, 0, 200, i*32, j*32, 64, 64);
+       blit(gfx, back, 0, 200, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
 #ifdef DO_GRAPHICS_LOG
        tmp = fopen("tmp.log", "at");
        fprintf(tmp, "Drawn background - [i=%d;j=%d] blit(gfx, back, 0, 200, %d, %d, 64, 64);\n", i,j,i*32, j*32);
@@ -113,7 +113,7 @@ void Draw_Map(void)
     }
  }
 
- blit(back, temp, 0, 0, 0, 0, 640, 480);
+ blit(back, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
  for (k = 0; k < 2; k++)
  for (j = 0; j < 15; j++)
@@ -135,27 +135,27 @@ void Draw_Area(void)
 
  for (i = 0; i < dirty_count; i++)
  {
-  map2[dirty[i].x/32][dirty[i].y/32] = 1;
-  map2[(dirty[i].x + 31)/32][dirty[i].y/32] = 1;
+  map2[dirty[i].x/_block_width][dirty[i].y/_block_height] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width][dirty[i].y/_block_height] = 1;
 
-  map2[dirty[i].x/32][(dirty[i].y + 31)/32] = 1;
-  map2[(dirty[i].x + 31)/32][(dirty[i].y + 31)/32] = 1;
+  map2[dirty[i].x/_block_width][(dirty[i].y + (_block_height-1))/_block_height] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width][(dirty[i].y + (_block_height-1))/_block_height] = 1;
 
-  map2[dirty[i].x/32 - 1][dirty[i].y/32] = 1;
-  map2[dirty[i].x/32][dirty[i].y/32 - 1] = 1;
-  map2[dirty[i].x/32 - 1][dirty[i].y/32 - 1] = 1;
+  map2[dirty[i].x/_block_width - 1][dirty[i].y/_block_height] = 1;
+  map2[dirty[i].x/_block_width][dirty[i].y/_block_height - 1] = 1;
+  map2[dirty[i].x/_block_width - 1][dirty[i].y/_block_height - 1] = 1;
 
-  map2[(dirty[i].x + 31)/32 + 1][dirty[i].y/32] = 1;
-  map2[(dirty[i].x + 31)/32][dirty[i].y/32 - 1] = 1;
-  map2[(dirty[i].x + 31)/32 + 1][dirty[i].y/32 - 1] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width + 1][dirty[i].y/_block_height] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width][dirty[i].y/_block_height - 1] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width + 1][dirty[i].y/_block_height - 1] = 1;
 
-  map2[dirty[i].x/32 - 1][(dirty[i].y + 31)/32] = 1;
-  map2[dirty[i].x/32][(dirty[i].y + 31)/32 + 1] = 1;
-  map2[dirty[i].x/32 - 1][(dirty[i].y + 31)/32 + 1] = 1;
+  map2[dirty[i].x/_block_width - 1][(dirty[i].y + (_block_height-1))/_block_height] = 1;
+  map2[dirty[i].x/_block_width][(dirty[i].y + (_block_height-1))/_block_height + 1] = 1;
+  map2[dirty[i].x/_block_width - 1][(dirty[i].y + (_block_height-1))/_block_height + 1] = 1;
 
-  map2[(dirty[i].x + 31)/32 + 1][(dirty[i].y + 31)/32] = 1;
-  map2[(dirty[i].x + 31)/32][(dirty[i].y + 31)/32 + 1] = 1;
-  map2[(dirty[i].x + 31)/32 + 1][(dirty[i].y + 31)/32 + 1] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width + 1][(dirty[i].y + (_block_height-1))/_block_height] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width][(dirty[i].y + (_block_height-1))/_block_height + 1] = 1;
+  map2[(dirty[i].x + (_block_width-1))/_block_width + 1][(dirty[i].y + (_block_height-1))/_block_height + 1] = 1;
  }
 }
 
@@ -206,14 +206,19 @@ void Sort_Dirty(void)
 
 void Draw_Block(int x, int y, int z, BITMAP *pic)
 {
- int k;
+	int k;
+	int block_width_x, block_height_y, block_height_yz;
+
+	block_width_x = x * _block_width;
+	block_height_y = y * _block_height - z * _block_depth;
+	block_height_yz = _block_height + _block_depth;
 
  if ((x < 0) || (y < 0) || (x > 19) || (y > 14)) return;
 
  if ((map[x][y][z] == 0) && (!z))
  {
-  if (map[x][y - 1][z] == 0) blit(back, pic, x*32, y*32 - z*8, x*32, y*32 - z*8, 32, 40);
-  else blit(back, pic, x*32, y*32 - z*8 + 8, x*32, y*32 - z*8 + 8, 32, 32);
+  if (map[x][y - 1][z] == 0) blit(back, pic, block_width_x, block_height_y, block_width_x, block_height_y, _block_width, _block_height);
+  else blit(back, pic, block_width_x, block_height_y + _block_depth, block_width_x, block_height_y + _block_depth, _block_width, _block_height);
  }
  if (map[x][y][z] == SOLID)
  {
@@ -237,46 +242,48 @@ void Draw_Block(int x, int y, int z, BITMAP *pic)
    if (y == 14) k = k | 4;
   }
 
-  masked_blit(gfx, pic, (k%4)*32 + z*128, 280 + (k/4)*40, x*32, y*32 - z*8, 32, 40);
+  //TODO: check
+  masked_blit(gfx, pic, (k%4)*_block_width + z*(16 * _block_depth), 280 + (k/4)*(_block_height+_block_depth), block_width_x, block_height_y, _block_width, _block_height+_block_depth);
  }
 
- if (map[x][y][z] == BOX) masked_blit(box_pic, pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == AUDREY) masked_blit(ply_pic[0][0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == AN) masked_blit(ply_pic[1][0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == TOKEN) masked_blit(token_pic, pic, 0, 0, x*32, y*32 - z*8, 32, 40);
 
- if (map[x][y][z] == RED_TELEPORT) masked_blit(teleport_pic[0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == GREEN_TELEPORT) masked_blit(teleport_pic[1], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == BLUE_TELEPORT) masked_blit(teleport_pic[2], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == BOX) masked_blit(box_pic, pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == AUDREY) masked_blit(ply_pic[0][0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == AN) masked_blit(ply_pic[1][0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == TOKEN) masked_blit(token_pic, pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 
- if (map[x][y][z] == LASER_UP) masked_blit(laser_pic[0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == LASER_RIGHT) masked_blit(laser_pic[1], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == LASER_DOWN) masked_blit(laser_pic[2], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == LASER_LEFT) masked_blit(laser_pic[3], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == LASER_4WAY) masked_blit(laser_pic[4], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == RED_TELEPORT) masked_blit(teleport_pic[0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == GREEN_TELEPORT) masked_blit(teleport_pic[1], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == BLUE_TELEPORT) masked_blit(teleport_pic[2], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 
- if (map[x][y][z] == MIRROR_MINUS) masked_blit(mirror_pic[0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == MIRROR_PLUS) masked_blit(mirror_pic[1], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == LASER_UP) masked_blit(laser_pic[0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == LASER_RIGHT) masked_blit(laser_pic[1], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == LASER_DOWN) masked_blit(laser_pic[2], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == LASER_LEFT) masked_blit(laser_pic[3], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == LASER_4WAY) masked_blit(laser_pic[4], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 
- if (map[x][y][z] == BOMB1) masked_blit(bomb_pic[0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == BOMB2) masked_blit(bomb_pic[1], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == BOMB3) masked_blit(bomb_pic[2], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == MIRROR_MINUS) masked_blit(mirror_pic[0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == MIRROR_PLUS) masked_blit(mirror_pic[1], pic, 0, 0, block_width_x, block_height_y, _block_width, _block_height_depth);
 
- if (map[x][y][z] == LASER_FILTER) masked_blit(filter_pic, pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == BOMB1) masked_blit(bomb_pic[0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == BOMB2) masked_blit(bomb_pic[1], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == BOMB3) masked_blit(bomb_pic[2], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 
- if (map[x][y][z] == MON0) masked_blit(mon_pic[0][0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == MON1) masked_blit(mon_pic[0][0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == MON2) masked_blit(mon_pic[0][0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == LASER_FILTER) masked_blit(filter_pic, pic, 0, 0, block_width_x, block_height_y, _block_width, _block_height_depth);
 
- if (map[x][y][z] == RED_SWITCH) masked_blit(switches_pic[0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == GREEN_SWITCH) masked_blit(switches_pic[1], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == BLUE_SWITCH) masked_blit(switches_pic[2], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == MON0) masked_blit(mon_pic[0][0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == MON1) masked_blit(mon_pic[0][0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == MON2) masked_blit(mon_pic[0][0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 
- if (map[x][y][z] == RED_DOOR_CLOSE) masked_blit(door_pic[0], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == GREEN_DOOR_CLOSE) masked_blit(door_pic[1], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
- if (map[x][y][z] == BLUE_DOOR_CLOSE) masked_blit(door_pic[2], pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == RED_SWITCH) masked_blit(switches_pic[0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == GREEN_SWITCH) masked_blit(switches_pic[1], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == BLUE_SWITCH) masked_blit(switches_pic[2], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 
- if (map[x][y][z] == FALL) masked_blit(fall_pic, pic, 0, 0, x*32, y*32 - z*8, 32, 40);
+ if (map[x][y][z] == RED_DOOR_CLOSE) masked_blit(door_pic[0], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == GREEN_DOOR_CLOSE) masked_blit(door_pic[1], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+ if (map[x][y][z] == BLUE_DOOR_CLOSE) masked_blit(door_pic[2], pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
+
+ if (map[x][y][z] == FALL) masked_blit(fall_pic, pic, 0, 0, block_width_x, block_height_y, _block_width, block_height_yz);
 }
 
 void Draw_Screen(void)
@@ -288,7 +295,7 @@ void Draw_Screen(void)
 
  for (j = 0; j < 15; j++)
  for (i = 0; i < 20; i++)
- if (map2[i][j]) blit(back, temp, i * 32, j * 32, i * 32, j * 32, 32, 40);
+ if (map2[i][j]) blit(back, temp, i * _block_width, j * _block_height, i * _block_width, j * _block_height, _block_width, _block_height + _block_depth);
 
  for (j = 0; j < 15; j++)
  {
@@ -297,23 +304,23 @@ void Draw_Screen(void)
 
   for (k = 0; k < dirty_count; k++)
   {
-   if ((dirty[k].y/32 == j) && (dirty[k].z == 0))
+   if ((dirty[k].y/_block_height == j) && (dirty[k].z == 0))
    masked_blit(dirty[k].pic, temp, 0, 0, dirty[k].x, dirty[k].y - dirty[k].z, dirty[k].w, dirty[k].h);
 
-   if ((dirty[k].y/32 == j - 1) && (dirty[k].z != 0))
+   if ((dirty[k].y/_block_height == j - 1) && (dirty[k].z != 0))
    masked_blit(dirty[k].pic, temp, 0, 0, dirty[k].x, dirty[k].y - dirty[k].z, dirty[k].w, dirty[k].h);
   }
 
   for (i = 0; i < 20; i++)
   if (map2[i][j])
   {
-   if (map_laser[i][j][0] == 1) masked_blit(beam_pic[0], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
-   if (map_laser[i][j][0] == 2) masked_blit(beam_pic[1], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
-   if (map_laser[i][j][0] == 3) masked_blit(beam_pic[2], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
-   if (map_laser[i][j][0] & 4) masked_blit(beam_pic[3], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
-   if (map_laser[i][j][0] & 8) masked_blit(beam_pic[4], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
-   if (map_laser[i][j][0] & 16) masked_blit(beam_pic[5], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
-   if (map_laser[i][j][0] & 32) masked_blit(beam_pic[6], temp, 0, 0, i*32, j*32 - 0*8, 32, 35);
+   if (map_laser[i][j][0] == 1) masked_blit(beam_pic[0], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3); // todo: +3 ?
+   if (map_laser[i][j][0] == 2) masked_blit(beam_pic[1], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] == 3) masked_blit(beam_pic[2], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 4) masked_blit(beam_pic[3], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 8) masked_blit(beam_pic[4], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 16) masked_blit(beam_pic[5], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 32) masked_blit(beam_pic[6], temp, 0, 0, i*_block_width, j*_block_height, _block_width, _block_height + 3);
   }
 
   for (i = 0; i < 20; i++)
@@ -322,13 +329,13 @@ void Draw_Screen(void)
   for (i = 0; i < 20; i++)
   if (map2[i][j])
   {
-   if (map_laser[i][j][1] == 1) masked_blit(beam_pic[0], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
-   if (map_laser[i][j][1] == 2) masked_blit(beam_pic[1], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
-   if (map_laser[i][j][1] == 3) masked_blit(beam_pic[2], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
-   if (map_laser[i][j][1] & 4) masked_blit(beam_pic[3], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
-   if (map_laser[i][j][1] & 8) masked_blit(beam_pic[4], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
-   if (map_laser[i][j][1] & 16) masked_blit(beam_pic[5], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
-   if (map_laser[i][j][1] & 32) masked_blit(beam_pic[6], temp, 0, 0, i*32, j*32 - 1*8, 32, 35);
+   if (map_laser[i][j][0] == 1) masked_blit(beam_pic[0], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3); // todo: +3 ?
+   if (map_laser[i][j][0] == 2) masked_blit(beam_pic[1], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] == 3) masked_blit(beam_pic[2], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 4) masked_blit(beam_pic[3], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 8) masked_blit(beam_pic[4], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 16) masked_blit(beam_pic[5], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3);
+   if (map_laser[i][j][0] & 32) masked_blit(beam_pic[6], temp, 0, 0, i*_block_width, j*_block_height - _block_depth, _block_width, _block_height + 3);
   }
  }
 
@@ -358,9 +365,9 @@ void Map_Setup(void)
 
   if (map[i][j][k] & PUSH)
   {
-   box[box_count].x = i*32;
-   box[box_count].y = j*32;
-   box[box_count].z = k*8;
+   box[box_count].x = i*_block_width;
+   box[box_count].y = j*_block_height;
+   box[box_count].z = k*_block_depth;
    box[box_count].dx = 0;
    box[box_count].dy = 0;
    box[box_count].dz = 0;
@@ -385,9 +392,9 @@ void Map_Setup(void)
 
   if (map[i][j][k] & MONSTER)
   {
-   mon[mon_count].x = i*32;
-   mon[mon_count].y = j*32;
-   mon[mon_count].z = k*8;
+   mon[mon_count].x = i*_block_width;
+   mon[mon_count].y = j*_block_height;
+   mon[mon_count].z = k*_block_depth;
    mon[mon_count].dx = -1;
    mon[mon_count].dy = 0;
    mon[mon_count].dz = 0;

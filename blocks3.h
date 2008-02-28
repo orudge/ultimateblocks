@@ -167,6 +167,11 @@ PALETTE palette;
 COLOR_MAP trans_table;
 COLOR_MAP light_table;
 
+int _block_width;
+int _block_height;
+int _block_depth;
+#define _block_height_depth (_block_height + _block_depth)
+
 int time_count;
 int game_type;
 int game_exit;
@@ -305,12 +310,15 @@ int undo_count;
 
 typedef struct MOTIF
 {
- char *filename;
- char *title;
- int special;
- char uid[5];
- char *gfx_fn;
- char *music_fn;
+	char *filename;
+	char *title;
+	int special;
+	char uid[5];
+	char *gfx_fn;
+	char *music_fn;
+	int block_width;
+	int block_height;
+	int block_depth;
 } MOTIF;
 
 MOTIF motifs[20];

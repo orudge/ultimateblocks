@@ -36,10 +36,10 @@ void Monster(void)
 
  for (i = 0; i < mon_count; i++)
  {
-  map[mon[i].x/32][mon[i].y/32][mon[i].z/8] = RESERVE0;
-  map[(mon[i].x + 31)/32][mon[i].y/32][mon[i].z/8] = RESERVE0;
-  map[mon[i].x/32][(mon[i].y + 31)/32][mon[i].z/8] = RESERVE0;
-  map[(mon[i].x + 31)/32][(mon[i].y + 31)/32][mon[i].z/8] = RESERVE0;
+  map[mon[i].x/_block_width][mon[i].y/_block_height][mon[i].z/_block_depth] = RESERVE0;
+  map[(mon[i].x + (_block_width-1))/_block_width][mon[i].y/_block_height][mon[i].z/_block_depth] = RESERVE0;
+  map[mon[i].x/_block_width][(mon[i].y + (_block_height-1))/_block_height][mon[i].z/_block_depth] = RESERVE0;
+  map[(mon[i].x + (_block_width-1))/_block_width][(mon[i].y + (_block_height-1))/_block_height][mon[i].z/_block_depth] = RESERVE0;
  }
 }
 
@@ -48,10 +48,10 @@ void Monster_Draw(int m_no)
  if ((mon[m_no].dx) || (mon[m_no].dy)) mon[m_no].frame++;
  if (Player_Frame(mon[m_no].frame) == -1) mon[m_no].frame = 0;
 
- if (mon[m_no].dir == 4) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, 32, 40, mon_pic[0][0 + Player_Frame(mon[m_no].frame)]);
- if (mon[m_no].dir == 1) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, 32, 40, mon_pic[0][3 + Player_Frame(mon[m_no].frame)]);
- if (mon[m_no].dir == 2) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, 32, 40, mon_pic[0][6 + Player_Frame(mon[m_no].frame)]);
- if (mon[m_no].dir == 8) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, 32, 40, mon_pic[0][9 + Player_Frame(mon[m_no].frame)]);
+ if (mon[m_no].dir == 4) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, _block_width, _block_height_depth, mon_pic[0][0 + Player_Frame(mon[m_no].frame)]);
+ if (mon[m_no].dir == 1) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, _block_width, _block_height_depth, mon_pic[0][3 + Player_Frame(mon[m_no].frame)]);
+ if (mon[m_no].dir == 2) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, _block_width, _block_height_depth, mon_pic[0][6 + Player_Frame(mon[m_no].frame)]);
+ if (mon[m_no].dir == 8) DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, _block_width, _block_height_depth, mon_pic[0][9 + Player_Frame(mon[m_no].frame)]);
 }
 
 void Monster_Change_Dir(int m_no, int x, int y, int z)
@@ -152,8 +152,8 @@ int Monster_Sight(int x, int y, int z, int dir)
  if (dir == 8) dx = -1;
 
  while ((!(map[x][y][z] & FULL)) &&
-       ((x != ply[0].x/32) || (y != ply[0].y/32) ||
-        (x != (ply[0].x + 31)/32) || (y != (ply[0].y + 31)/32)))
+       ((x != ply[0].x/_block_width) || (y != ply[0].y/_block_height) ||
+        (x != (ply[0].x + (_block_width-1))/_block_width) || (y != (ply[0].y + (_block_height-1))/_block_height)))
  {
   x += dx;
   y += dy;
@@ -169,7 +169,7 @@ void Monster_Mon3(int m_no)
 {
  if (mon[m_no].state == PATROL) Monster_Patrol(m_no);
 
- if (Monster_Sight(mon[m_no].x/32, mon[m_no].y/32, mon[m_no].z/8, mon[m_no].dir))
+ if (Monster_Sight(mon[m_no].x/_block_width, mon[m_no].y/_block_height, mon[m_no].z/_block_depth, mon[m_no].dir))
  {
   mon[m_no].speed = 0;
  }
@@ -177,10 +177,10 @@ void Monster_Mon3(int m_no)
 
 void Monster_Move(int m_no)
 {
- map[mon[m_no].x/32][mon[m_no].y/32][mon[m_no].z/8] = 0;
- map[(mon[m_no].x + 31)/32][mon[m_no].y/32][mon[m_no].z/8] = 0;
- map[mon[m_no].x/32][(mon[m_no].y + 31)/32][mon[m_no].z/8] = 0;
- map[(mon[m_no].x + 31)/32][(mon[m_no].y + 31)/32][mon[m_no].z/8] = 0;
+ map[mon[m_no].x/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = 0;
+ map[(mon[m_no].x + (_block_width/2))/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = 0;
+ map[mon[m_no].x/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = 0;
+ map[(mon[m_no].x + (_block_width/2))/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = 0;
 
  mon[m_no].x += mon[m_no].dx;
  mon[m_no].y += mon[m_no].dy;
@@ -188,10 +188,10 @@ void Monster_Move(int m_no)
 
  if (mon[m_no].z == 0) mon[m_no].dz = 0;
 
- map[mon[m_no].x/32][mon[m_no].y/32][mon[m_no].z/8] = RESERVE0;
- map[(mon[m_no].x + 31)/32][mon[m_no].y/32][mon[m_no].z/8] = RESERVE0;
- map[mon[m_no].x/32][(mon[m_no].y + 31)/32][mon[m_no].z/8] = RESERVE0;
- map[(mon[m_no].x + 31)/32][(mon[m_no].y + 31)/32][mon[m_no].z/8] = RESERVE0;
+ map[mon[m_no].x/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
+ map[(mon[m_no].x + (_block_width/2))/_block_width][mon[m_no].y/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
+ map[mon[m_no].x/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
+ map[(mon[m_no].x + (_block_width/2))/_block_width][(mon[m_no].y + (_block_height/2))/_block_height][mon[m_no].z/_block_depth] = RESERVE0;
 }
 
 void Monster_Mon0(int m_no)
@@ -209,30 +209,30 @@ void Monster_Mon1(int m_no)
  if (mon[m_no].state == PATROL) Monster_Patrol(m_no);
  if (mon[m_no].state == TRACK) Monster_Track(m_no);
 
- if ((mon[m_no].state != TRACK) && (Monster_Sight(mon[m_no].x/32, mon[m_no].y/32, mon[m_no].z/8, mon[m_no].dir)))
+ if ((mon[m_no].state != TRACK) && (Monster_Sight(mon[m_no].x/_block_width, mon[m_no].y/_block_height, mon[m_no].z/_block_depth, mon[m_no].dir)))
  {
   mon[m_no].speed = 2;
   mon[m_no].state = TRACK;
-  Add_Sound(mon[m_no].x/32, SFX_ROAR);
+  Add_Sound(mon[m_no].x/_block_width, SFX_ROAR);
  }
 }
 
 void Monster_Patrol(int m_no)
 {
  if ((mon[m_no].dz == 0) &&
-     (mon[m_no].x%32 == 0) &&
-     (mon[m_no].y%32 == 0) &&
+     (mon[m_no].x%_block_width == 0) &&
+     (mon[m_no].y%_block_height == 0) &&
 
-     (((map[mon[m_no].x/32 + mon[m_no].dx][mon[m_no].y/32 + mon[m_no].dy][mon[m_no].z/8 + mon[m_no].dz] != 0) &&
-      ((map[mon[m_no].x/32 + mon[m_no].dx][mon[m_no].y/32 + mon[m_no].dy][mon[m_no].z/8 + mon[m_no].dz] & SWITCH) == 0))
+     (((map[mon[m_no].x/_block_width + mon[m_no].dx][mon[m_no].y/_block_height + mon[m_no].dy][mon[m_no].z/_block_depth + mon[m_no].dz] != 0) &&
+      ((map[mon[m_no].x/_block_width + mon[m_no].dx][mon[m_no].y/_block_height + mon[m_no].dy][mon[m_no].z/_block_depth + mon[m_no].dz] & SWITCH) == 0))
  ||
-     (map_laser[mon[m_no].x/32 + mon[m_no].dx][mon[m_no].y/32 + mon[m_no].dy][mon[m_no].z/8 + mon[m_no].dz] != 0)
+     (map_laser[mon[m_no].x/_block_width + mon[m_no].dx][mon[m_no].y/_block_height + mon[m_no].dy][mon[m_no].z/_block_depth + mon[m_no].dz] != 0)
  ||
-     ((mon[m_no].z/8 == 1) &&
-     ((map[mon[m_no].x/32 + mon[m_no].dx][mon[m_no].y/32 + mon[m_no].dy][0] & FULL) == 0)
+     ((mon[m_no].z/_block_depth == 1) &&
+     ((map[mon[m_no].x/_block_width + mon[m_no].dx][mon[m_no].y/_block_height + mon[m_no].dy][0] & FULL) == 0)
     )))
  {
-  if ((mon[m_no].z /8 == 1) && (map[mon[m_no].x/32][mon[m_no].y/32][0] == 0))
+  if ((mon[m_no].z /8 == 1) && (map[mon[m_no].x/_block_width][mon[m_no].y/_block_height][0] == 0))
   {
    mon[m_no].dx = 0;
    mon[m_no].dy = 0;
@@ -240,7 +240,7 @@ void Monster_Patrol(int m_no)
    return;
   }
   else
-  Monster_Change_Dir(m_no, mon[m_no].x/32, mon[m_no].y/32, mon[m_no].z/8);
+  Monster_Change_Dir(m_no, mon[m_no].x/_block_width, mon[m_no].y/_block_height, mon[m_no].z/_block_depth);
   return;
  }
 
@@ -250,10 +250,10 @@ void Monster_Patrol(int m_no)
 void Monster_Track(int m_no)
 {
  if ((mon[m_no].dz == 0) &&
-     (mon[m_no].x%32 == 0) &&
-     (mon[m_no].y%32 == 0))
+     (mon[m_no].x%_block_width == 0) &&
+     (mon[m_no].y%_block_height == 0))
  {
-  if ((mon[m_no].z/8 == 1) && (map[mon[m_no].x/32][mon[m_no].y/32][0] == 0))
+  if ((mon[m_no].z/_block_depth == 1) && (map[mon[m_no].x/_block_width][mon[m_no].y/_block_height][0] == 0))
   {
    mon[m_no].dx = 0;
    mon[m_no].dy = 0;
@@ -271,22 +271,22 @@ void Monster_Change_Dir_Track(int m_no, int p_no)
  mon[m_no].dx = 0;
  mon[m_no].dy = 0;
 
- if ((ply[p_no].x/32 > mon[m_no].x/32) &&
+ if ((ply[p_no].x/_block_width > mon[m_no].x/_block_width) &&
      (!Check_Map(mon[m_no].x + 1, mon[m_no].y, mon[m_no].z, FULL, 0, 1)) &&
      (!Check_Map(mon[m_no].x + 1, mon[m_no].y, mon[m_no].z, PICKUP, 0, 1)))
   mon[m_no].dx = 1;
 
- if ((ply[p_no].x/32 < mon[m_no].x/32) &&
+ if ((ply[p_no].x/_block_width < mon[m_no].x/_block_width) &&
      (!Check_Map(mon[m_no].x - 1, mon[m_no].y, mon[m_no].z, FULL, 0, 1)) &&
      (!Check_Map(mon[m_no].x - 1, mon[m_no].y, mon[m_no].z, PICKUP, 0, 1)))
   mon[m_no].dx = -1;
 
- if ((ply[p_no].y/32 > mon[m_no].y/32) &&
+ if ((ply[p_no].y/_block_height > mon[m_no].y/_block_height) &&
      (!Check_Map(mon[m_no].x + mon[m_no].dx, mon[m_no].y + 1, mon[m_no].z, FULL, 0, 1)) &&
      (!Check_Map(mon[m_no].x + mon[m_no].dx, mon[m_no].y + 1, mon[m_no].z, PICKUP, 0, 1)))
   mon[m_no].dy = 1;
 
- if ((ply[p_no].y/32 < mon[m_no].y/32) &&
+ if ((ply[p_no].y/_block_height < mon[m_no].y/_block_height) &&
      (!Check_Map(mon[m_no].x + mon[m_no].dx, mon[m_no].y - 1, mon[m_no].z, FULL, 0, 1)) &&
      (!Check_Map(mon[m_no].x + mon[m_no].dx, mon[m_no].y - 1, mon[m_no].z, PICKUP, 0, 1)))
   mon[m_no].dy = -1;
@@ -309,30 +309,30 @@ void Monster_Die_Check(void)
 
  for (i = 0; i < mon_count; i++)
  {
-  if (map_laser[mon[i].x/32][mon[i].y/32][mon[i].z/8])
+  if (map_laser[mon[i].x/_block_width][mon[i].y/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode(mon[i].x/32, mon[i].y/32, mon[i].z/8);
+   Add_Explode(mon[i].x/_block_width, mon[i].y/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }
 
-  if (map_laser[(mon[i].x + 31)/32][mon[i].y/32][mon[i].z/8])
+  if (map_laser[(mon[i].x + (_block_width/2))/_block_width][mon[i].y/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode((mon[i].x + 31)/32, mon[i].y/32, mon[i].z/8);
+   Add_Explode((mon[i].x + (_block_width/2))/_block_width, mon[i].y/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }
 
-  if (map_laser[mon[i].x/32][(mon[i].y + 31)/32][mon[i].z/8])
+  if (map_laser[mon[i].x/_block_width][(mon[i].y + (_block_height/2))/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode(mon[i].x/32, (mon[i].y + 31)/32, mon[i].z/8);
+   Add_Explode(mon[i].x/_block_width, (mon[i].y + (_block_height/2))/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }
 
-  if (map_laser[(mon[i].x + 31)/32][(mon[i].y + 31)/32][mon[i].z/8])
+  if (map_laser[(mon[i].x + (_block_width/2))/_block_width][(mon[i].y + (_block_height/2))/_block_height][mon[i].z/_block_depth])
   {
-   Add_Explode((mon[i].x + 31)/32, (mon[i].y + 31)/32, mon[i].z/8);
+   Add_Explode((mon[i].x + (_block_width/2))/_block_width, (mon[i].y + (_block_height/2))/_block_height, mon[i].z/_block_depth);
    Del_Monster(i);
    i--;
   }
@@ -343,7 +343,7 @@ void Del_Monster(int m_no)
 {
  int i;
 
- DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, 32, 40, blank);
+ DirtyList(mon[m_no].x, mon[m_no].y, mon[m_no].z, _block_width, _block_height_depth, blank);
 
  for (i = m_no; i < mon_count; i++)
  {

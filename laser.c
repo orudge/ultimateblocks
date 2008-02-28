@@ -51,7 +51,7 @@ void Laser(void)
  for (i = 0; i < 20; i++)
  for (j = 0; j < 15; j++)
  for (k = 0; k < 2; k++)
- if (map_laser[i][j][k] != map_laser_back[i][j][k]) DirtyList(i*32, j*32, k*8, 32, 40, blank);
+ if (map_laser[i][j][k] != map_laser_back[i][j][k]) DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height_depth, blank);
 
 }
 
@@ -67,39 +67,39 @@ void Start_XYZ(int b_x, int b_y, int b_z, int b_dx, int b_dy, int b_dir)
 
  if ((!b_dx) && (!b_dy))
  {
-  x = (b_x)/32 + dx;
-  y = (b_y)/32 + dy;
+  x = (b_x)/_block_width + dx;
+  y = (b_y)/_block_height + dy;
  }
 
  if ((b_dx) && (dy))
  {
-  x = (b_x + 16)/32;
-  y = b_y/32 + dy;
+  x = (b_x + (_block_width/2))/_block_width;
+  y = b_y/_block_height + dy;
  }
 
  if ((b_dy) && (dx))
  {
-  x = b_x/32 + dx;
-  y = (b_y + 16)/32;
+  x = b_x/_block_width + dx;
+  y = (b_y + (_block_height/2))/_block_height;
  }
 
  if ((b_dx) && (dx))
  {
-  x = (b_x)/32 + dx;
-  y = b_y/32;
+  x = (b_x)/_block_width + dx;
+  y = b_y/_block_height;
  }
 
  if ((b_dy) && (dy))
  {
-  x = b_x/32;
-  y = (b_y)/32 + dy;
+  x = b_x/_block_width;
+  y = (b_y)/_block_height + dy;
  }
 
 
  if ((b_dx ==  1) && (dx)) x++;
  if ((b_dy ==  1) && (dy)) y++;
 
- z = b_z/8;
+ z = b_z/_block_depth;
 }
 
 void Track_Laser(void)

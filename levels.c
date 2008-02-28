@@ -40,7 +40,7 @@ void Change_Levels(void)
 
   textprintf(temp, fonts[0].dat, 10, 10, 7, "Level: %d", l + 1);
 
-  blit(temp, screen, 0, 0, 0, 0, 640, 480);
+  blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
   while ((key[KEY_UP]) || (key[KEY_DOWN]) ||
          (key[KEY_LEFT]) || (key[KEY_RIGHT]));
@@ -56,9 +56,9 @@ void Change_Levels(void)
 
    for (j = 0; j < 15; j+=2)
    for (i = 0; i < 20; i+=2)
-   blit(gfx, back, 0, 200, i*32, j*32, 64, 64);
+   blit(gfx, back, 0, 200, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
 
-   blit(temp2, temp, 0, 0, 0, 0, 640, 480);
+   blit(temp2, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
    while(key[KEY_ESC]);
    return;
   }

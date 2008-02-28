@@ -103,14 +103,14 @@ void Editor(void)
 		my = mouse_y;
 		mb = mouse_b;
 
-		if ((mb & 1) && (mx > 32) && (my > 32) && (mx < 608) && (my < 448))
-			Editor_Put_Block(mx/32, my/32, block_type);
+		if ((mb & 1) && (mx > _block_width) && (my > _block_height) && (mx < SCREEN_W-_block_width) && (my < SCREEN_H-_block_height))
+			Editor_Put_Block(mx/_block_width, my/_block_height, block_type);
 
-		if ((mb & 2) && (mx > 32) && (my > 32) && (mx < 608) && (my < 448))
-			Editor_Put_Block(mx/32, my/32, 0);
+		if ((mb & 2) && (mx > _block_width) && (my > _block_height) && (mx < SCREEN_W-_block_width) && (my < SCREEN_H-_block_height))
+			Editor_Put_Block(mx/_block_width, my/_block_height, 0);
 
-		if ((mb & 1) && (my > 448))
-			Editor_Change_Block_Type(mx/32);
+		if ((mb & 1) && (my > SCREEN_H-_block_height))
+			Editor_Change_Block_Type(mx/_block_width);
 
 		if (my < 10)
 			Highlight_Menu(mx);
@@ -284,13 +284,13 @@ void Editor(void)
    redraw_flag = 1;
   }
 
-  if ((mx > 32) && (my > 32) && (mx < 608) && (my < 448)) Editor_Key_Put_Tile(mx/32, my/32);
+  if ((mx > _block_width) && (my > _block_height) && (mx < SCREEN_W-_block_width) && (my < SCREEN_H-_block_height)) Editor_Key_Put_Tile(mx/_block_width, my/_block_height);
 
   if (mb & 1) mb_flag = 1;
   else mb_flag = 0;
  }
 
- blit(screen, temp, 0, 0, 0, 0, 640, 480);
+ blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
  Transition_Out(temp, palette);
 }
@@ -811,7 +811,7 @@ void Copy_From_Buffer(int lev)
 
 void Editor_Draw_Tiles(void)
 {
- blit(editor_icons, temp, icon_start*32, 0, 0, 448, 640, 32);
+ blit(editor_icons, temp, icon_start*32, 0, 0, SCREEN_H-_block_height, SCREEN_W, _block_height);
 }
 
 void Editor_Change_Block_Type(int b)
