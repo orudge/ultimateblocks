@@ -38,6 +38,10 @@ void Change_Motif(char *m)
  if (m == ROCKY) gfx = load_bitmap("rocky256.bmp", palette);
  if (m == SNOWY) gfx = load_bitmap("snowy256.bmp", palette);*/
 
+ 	old_block_width = _block_width;
+	old_block_height = _block_height;
+	old_block_depth = _block_depth;
+
  for (i = 0; i < num_motifs; i++)
  {
 #ifdef DO_GRAPHICS_LOG
@@ -64,10 +68,6 @@ void Change_Motif(char *m)
 #endif
        gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
 
-	   old_block_width = _block_width;
-	   old_block_height = _block_height;
-	   old_block_depth = _block_depth;
-
 	   _block_width = motifs[i].block_width;
 	   _block_height = motifs[i].block_height;
 	   _block_depth = motifs[i].block_depth;
@@ -88,6 +88,10 @@ void Change_Motif(char *m)
  {
     gfx = load_bitmap("graphics/sunny.bmp", palette);
 
+   _block_width = motifs[i].block_width;
+   _block_height = motifs[i].block_height;
+   _block_depth = motifs[i].block_depth;
+
     if (B2Music == 1)
     {
        destroy_mod(music);
@@ -107,7 +111,7 @@ void Change_Motif(char *m)
 		for (i = 0; i < 12; i++)
 		{
 			destroy_bitmap(ply_pic[0][i]);
-			destroy_bitmap(ply_pic[0][i]);
+			destroy_bitmap(ply_pic[1][i]);
 		}
 
 		destroy_bitmap(box_pic);
