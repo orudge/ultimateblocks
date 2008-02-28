@@ -12,87 +12,53 @@
 BITMAP *gfx, *back, *temp;
 int B2Music;
 
-//#define DO_GRAPHICS_LOG
-
-#ifdef DO_GRAPHICS_LOG
-   #include <stdio.h>
-#endif
-
 int f_no;
 
 void increment_time_counter()
 {
- time_count++;
+	time_count++;
 }
 
 END_OF_FUNCTION(increment_time_counter);
 
 void Remember_Mod_File(char *fn, int a, int b)
 {
- strcpy(mod[f_no].name, "./music/");
- strcat(mod[f_no].name, get_filename(fn));
- f_no++;
+	strcpy(mod[f_no].name, "./music/");
+	strcat(mod[f_no].name, get_filename(fn));
+	f_no++;
 }
 
 void LoadGraphicsPack(char *fn, int a, int b)
 {
- char tmp_id[4];
- char *tmp_fn;
- char *tmp_ptr;
- int ver;
-#ifdef DO_GRAPHICS_LOG
- FILE *tmp;
-#endif
+	char tmp_id[4];
+	char *tmp_fn;
+	char *tmp_ptr;
+	int ver;
 
- if (num_motifs >= 9)
-    return;
+	if (num_motifs >= 9)
+		return;
 
- motifs[num_motifs].filename = get_filename(fn);
- //strcpy(motifs[num_motifs].filename, get_filename(fn));
-// sprintf(cfg_name, "%s#INFO", fn);
+	// get filename of graphics pack
+	motifs[num_motifs].filename = get_filename(fn);
 
-#ifdef DO_GRAPHICS_LOG
- tmp = fopen("tmpinit.log", "at");
- fprintf(tmp, "------------------------------------------\n");
- fprintf(tmp, "%s - %d\n", fn, num_motifs);
-#endif
+	// check version == 4
+	set_config_file(fn);
+	ver = get_config_int("Blocks", "Version", 4);
 
- set_config_file(fn);
- ver = get_config_int("Blocks", "Version", 4);
+	if (ver != 4)
+		return;
 
-#ifdef DO_GRAPHICS_LOG
- fprintf(tmp, " Ver: %d\n", ver);
-#endif
+	// allocate a temporary ID, but try to retrieve the real one from the config file
+	sprintf(tmp_id, "%d", num_motifs);
+	strncpy(motifs[num_motifs].uid, get_config_string("Blocks", "UID", tmp_id), 4);
 
- if (ver > 4)
-    return;
-
-// motifs[num_motifs].dat = load_datafile(fn);
-
-// if (motifs[num_motifs].dat == NULL)
-//    return;
-
- sprintf(tmp_id, "%d", num_motifs);
-
-// sprintf(motifs[num_motifs].gfx_fn, "%s#0", fn);
-/* tmp_fn = get_config_string("Blocks", "FN", "");
- sprintf(motifs[num_motifs].gfx_fn, "./graphics/%s", tmp_fn);*/
-// motifs[num_motifs].gfx_fn = (char *) get_config_string("Blocks", "FN", "");
-// motifs[num_motifs].gfx = load_bitmap(cfg_name, motifs[num_motifs].pal); //(BITMAP *) motifs[num_motifs].dat[0].dat;
-// motifs[num_motifs].pal = (RGB *) motifs[num_motifs].dat[1].dat;
- strcpy(motifs[num_motifs].uid, get_config_string("Blocks", "UID", tmp_id));
- motifs[num_motifs].uid[5] = 0;
- motifs[num_motifs].title = strdup(get_config_string("Blocks", "Title", get_filename(fn)));
- motifs[num_motifs].gfx_fn = strdup(get_config_string("Blocks", "Filename", ""));
- motifs[num_motifs].music_fn = strdup(get_config_string("Blocks", "Music", ""));
- motifs[num_motifs].special = get_config_int("Blocks", "Special", -1);
- num_motifs++;
-
-#ifdef DO_GRAPHICS_LOG
- fprintf(tmp, " UID: %s  Title: %s\n Special: %d\n", motifs[num_motifs-1].uid, motifs[num_motifs-1].title, motifs[num_motifs-1].special);
- fprintf(tmp, " Filename: %s (Direct: %s)\n", motifs[num_motifs-1].gfx_fn, get_config_string("Blocks", "FN", ""));
- fclose(tmp);
-#endif
+	// update motifs table with appropriate details
+	motifs[num_motifs].uid[5] = 0;
+	motifs[num_motifs].title = strdup(get_config_string("Blocks", "Title", get_filename(fn)));
+	motifs[num_motifs].gfx_fn = strdup(get_config_string("Blocks", "Filename", ""));
+	motifs[num_motifs].music_fn = strdup(get_config_string("Blocks", "Music", ""));
+	motifs[num_motifs].special = get_config_int("Blocks", "Special", -1);
+	num_motifs++;
 }
 
 // not an init routine, but put in here because it's next to load graphics
@@ -190,16 +156,14 @@ void Initialise(void)
 	mod_last = f_no;
 	mod_track = 0;
 
-	// Use Blocks+-style music?
-	if (B2Music == 1)
+	// If we're not using the Blocks+-style music, we need to start playing the first track
+	// If we are, it'll be done automatically when we change motif
+	if (B2Music == 0)
 	{
-/*		set_config_file("blocks4.cfg");
-		music = load_mod(get_config_string("Blocks4", "InitialMusic", mod[mod_track].name));*/
-	}
-	else
 		music = load_mod(mod[mod_track].name);
+		play_mod(music, TRUE);
+	}
     
-	// Start music and change motif to default (Sunny)
-	play_mod(music, TRUE);
+	// Change motif to default (Sunny)
 	Change_Motif("SUNY");
 }
