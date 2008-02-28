@@ -323,6 +323,8 @@ void Del_Box(int b_no);
 void Add_Explode(int x, int y, int z);
 void Explode_Prime_Chain(int x, int y);
 void Explode_Prime(int x, int y, int z);
+void Bomb_Prime_Laser();
+void Draw_Explode(void);
 
 // box.c
 void Box_Push(int x, int y, int z, int dx, int dy);
@@ -356,6 +358,7 @@ void Clear(int l);
 void Clear_All(void);
 void Editor_Key_Put_Tile(int mx, int my);
 void Reset_Motifs(void);
+void Editor(void);
 
 // fall.c
 void Check_Fall(int p_no);
