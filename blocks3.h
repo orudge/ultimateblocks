@@ -1,3 +1,8 @@
+/*****************************************************/
+/* Ultimate Blocks                                   */
+/* Copyright (c) An Ly 2000, Owen Rudge 2001, 2008   */
+/*****************************************************/
+
 #define OLD_SOLID           1
 #define OLD_BOX             2
 #define OLD_TOKEN           3
