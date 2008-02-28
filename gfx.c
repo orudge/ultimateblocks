@@ -2,9 +2,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-void Draw_Block(int x, int y, int z, BITMAP *pic);
-void Draw_Status(void);
-
 //#define DO_GRAPHICS_LOG
 
 #ifdef DO_GRAPHICS_LOG

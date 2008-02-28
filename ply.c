@@ -2,9 +2,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-void Player_Teleport(int p_no);
-void Player_Pickup(int p_no, int x, int y);
-
 void Player2_Input(int p_no)
 {
   if (key[KEY_W]) ply[p_no].dir = 1;

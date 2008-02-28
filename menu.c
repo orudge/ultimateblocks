@@ -2,9 +2,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-void Music_Menu(void);
-void Options_Menu(void);
-
 void In_Game_Menu(void)
 {
  BITMAP *temp2 = create_bitmap(200, 300);

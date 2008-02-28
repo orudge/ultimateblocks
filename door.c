@@ -4,9 +4,6 @@
 
 int map_backup[20][15][2];
 
-void Open_Doors(int c);
-void Close_Doors(int c);
-
 void Door(void)
 {
  int i, j, k;

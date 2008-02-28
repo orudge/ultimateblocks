@@ -309,6 +309,151 @@ typedef struct MOTIF
 MOTIF motifs[20];
 int num_motifs;
 
+extern int B2Music;
+
+// functions
+
+// bomb.c
+void Del_Box(int b_no);
+void Add_Explode(int x, int y, int z);
+void Explode_Prime_Chain(int x, int y);
+void Explode_Prime(int x, int y, int z);
+
+// box.c
+void Box_Push(int x, int y, int z, int dx, int dy);
+void Box_Move(void);
+void Box_Fall(void);
+
+// cdplay.c
+void CD_Player(void);
+
+// door.c
+void Door(void);
+void Open_Doors(int c);
+void Close_Doors(int c);
+int Player_On(int x, int y, int p_no);
+
+// editor.c
+void Editor_Draw_Screen(void);
+void Editor_Draw_Menu(void);
+void Editor_Put_Block(int x, int y, int b);
+void Highlight_Menu(int x);
+void Drop_Down(void);
+void Open_Maps(void);
+void Save_Maps(void);
+void Map_to_Maps(int lev);
+void Maps_to_Map(int lev);
+void Copy_To_Buffer(int lev);
+void Copy_From_Buffer(int lev);
+void Editor_Draw_Tiles(void);
+void Editor_Change_Block_Type(int b);
+void Clear(int l);
+void Clear_All(void);
+void Editor_Key_Put_Tile(int mx, int my);
+void Reset_Motifs(void);
+
+// fall.c
+void Check_Fall(int p_no);
+void Check_Fall_Prime(void);
+int Player_On_Fall(int x, int y);
+
+// gfx.c
+void Draw_Block(int x, int y, int z, BITMAP *pic);
+void Draw_Status(void);
+void DirtyList(int x,int y, int z, int w, int h, BITMAP *pic);
+void Draw_Map(void);
+void Draw_Area(void);
+void Sort_Dirty(void);
+void Draw_Screen(void);
+void Map_Setup(void);
+
+// init.c
+void Remember_Mod_File(char *fn, int a, int b);
+void LoadGraphicsPack(char *fn, int a, int b);
+void UnloadGraphics();
+void Initialise(void);
+
+// laser.c
+void Start_XYZ(int b_x, int b_y, int b_z, int b_dx, int b_dy, int b_dir);
+void Track_Laser(void);
+void Laser(void);
+
+// levels.c
+void Change_Levels(void);
+
+// main.c
+void Full_Game(void);
+void Get_Ready(void);
+void Well_Done(void);
+void Init_Full_Game(void);
+void Save_Map_Done(void);
+void Finish_Game(void);
+void Init_Level(void);
+int Run_Level(void);
+int Token_Count(void);
+int Next_Level(void);
+
+// menu.c
+void Music_Menu(void);
+void Options_Menu(void);
+void In_Game_Menu(void);
+void Music_Menu(void);
+
+// mon.c
+void Monster(void);
+void Monster_Draw(int m_no);
+void Monster_Mon0(int m_no);
+void Monster_Mon1(int m_no);
+void Monster_Mon2(int m_no);
+void Monster_Mon3(int m_no);
+void Monster_Patrol(int m_no);
+void Monster_Track(int m_no);
+void Monster_Change_Dir_Track(int m_no, int p_no);
+void Monster_Die_Check(void);
+void Monster_Move(int m_no);
+int Monster_Sight(int x, int y, int z, int dir);
+void Del_Monster(int m_no);
+
+// motif.c
 void Change_Motif(char *m);
 
-extern int B2Music;
+// ply.c
+void Player_Fall(int p_no);
+void Player_Move(int p_no);
+void Player_Teleport(int p_no);
+void Player_Pickup(int p_no, int x, int y);
+void Player_Pickup_Check(int p_no);
+void Player_Input(int p_no);
+void Player_Draw(int p_no);
+void Player_Monster_Collision(int p_no);
+void Player_Laser_Collision(int p_no);
+void Player_Death(int p_no);
+void Player2_Input(int p_no);
+int Player_Frame(int f);
+int Player_Collision(int p_no, int dx, int dy);
+int Check_Can_Fall(int x, int y, int z);
+int Check_Map(int x, int y, int z, int b, int or_and, int equals_and);
+
+// sound.c
+void Add_Sound(int x, int s);
+void Play_Sound(void);
+
+// title.c
+char *GetMotifFromInt(int motif);
+void Log_In(void);
+void Presents(void);
+void Title(void);
+int Title_Menu(void);
+void Remember_File_Title(char *fn, int a, int b);
+int Open_Maps_Title(void);
+
+// trans.c
+void Transition_Out(BITMAP *pic, PALLETE pal);
+void Transition_In(BITMAP *pic, PALLETE pal);
+
+// undo.c
+void Move_Undo_Down(void);
+void Add_Undo(void);
+void Undo(void);
+void Move_Undo_Down(void);
+

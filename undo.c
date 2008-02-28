@@ -2,8 +2,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-void Move_Undo_Down(void);
-
 void Add_Undo(void)
 {
  int i, j, k;

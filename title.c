@@ -5,9 +5,6 @@
 
 int redraw_flag, title_menu_exit, f_no;
 
-char *GetMotifFromInt(int motif);
-void Log_In(void);
-
 void Presents(void)
 {
  clear(screen);

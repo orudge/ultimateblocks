@@ -2,15 +2,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-void Monster_Draw(int m_no);
-void Monster_Mon0(int m_no);
-void Monster_Mon1(int m_no);
-void Monster_Patrol(int m_no);
-void Monster_Track(int m_no);
-void Monster_Change_Dir_Track(int m_no, int p_no);
-void Monster_Die_Check(void);
-void Del_Monster(int m_no);
-
 void Monster(void)
 {
  int i, j, k;

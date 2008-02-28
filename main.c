@@ -6,13 +6,6 @@
 
 int i, j, full_exit;
 
-void Full_Game(void);
-void Get_Ready(void);
-void Well_Done(void);
-void Init_Full_Game(void);
-void Save_Map_Done(void);
-void Finish_Game(void);
-
 int main(void)
 {
  Initialise();
@@ -54,7 +47,7 @@ int main(void)
  allegro_exit();
 } END_OF_MAIN()
 
-void Init_Level(void)
+	void Init_Level(void)
 {
  int i, j, k;
 

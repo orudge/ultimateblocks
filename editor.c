@@ -3,24 +3,6 @@
 #include "blocks3.h"
 #include <string.h>
 
-void Editor_Draw_Screen(void);
-void Editor_Draw_Menu(void);
-void Editor_Put_Block(int x, int y, int b);
-void Highlight_Menu(int x);
-void Drop_Down(void);
-void Open_Maps(void);
-void Save_Maps(void);
-void Map_to_Maps(int lev);
-void Maps_to_Map(int lev);
-void Copy_To_Buffer(int lev);
-void Copy_From_Buffer(int lev);
-void Editor_Draw_Tiles(void);
-void Editor_Change_Block_Type(int b);
-void Clear(int l);
-void Clear_All(void);
-void Editor_Key_Put_Tile(int mx, int my);
-void Reset_Motifs(void);
-
 int redraw_flag, block_type, mb_flag, level_flag;
 int menu_hl, item_hl;
 int elev;

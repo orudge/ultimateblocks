@@ -2,11 +2,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-void Del_Box(int b_no);
-void Add_Explode(int x, int y, int z);
-void Explode_Prime_Chain(int x, int y);
-void Explode_Prime(int x, int y, int z);
-
 void Blow_Box(int b_no)
 {
  Add_Explode(box[b_no].x/32, box[b_no].y/32, box[b_no].z/8);
