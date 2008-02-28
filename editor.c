@@ -82,7 +82,7 @@ void Editor(void)
  }
  }
 
- set_pallete(pallete);
+ set_palette(palette);
 
  Clear_All();
 
@@ -138,7 +138,7 @@ void Editor(void)
 
    scare_mouse();
    Run_Level();
-   fade_in(pallete, 10);
+   fade_in(palette, 10);
    unscare_mouse();
 
    Maps_to_Map(elev);
@@ -277,7 +277,7 @@ void Editor(void)
 
  blit(screen, temp, 0, 0, 0, 0, 640, 480);
 
- Transition_Out(temp, pallete);
+ Transition_Out(temp, palette);
 }
 
 void Editor_Draw_Screen(void)

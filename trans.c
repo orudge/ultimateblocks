@@ -9,11 +9,11 @@
 
 #define OWEN_HIDE_TRANSITIONS  0
 
-void Transition_Out(BITMAP *pic, PALLETE pal)
+void Transition_Out(BITMAP *pic, PALETTE pal)
 {
 #if OWEN_HIDE_TRANSITIONS
  BITMAP *temp2 = create_bitmap(640, 480);
- PALLETE rgb;
+ PALETTE rgb;
  int i, j, k, l;
  int x, y;
 
@@ -36,7 +36,7 @@ void Transition_Out(BITMAP *pic, PALLETE pal)
   rgb[l].b = pal[l].b*(30-i)/30;
  }
 
-   set_pallete(rgb);
+   set_palette(rgb);
  while (time_count < 5);
  time_count = 0;
 /*  blit(temp2, screen, 0, 0, 0, 0, 640, 480);*/
@@ -44,11 +44,11 @@ void Transition_Out(BITMAP *pic, PALLETE pal)
 #endif
 }
 
-void Transition_In(BITMAP *pic, PALLETE pal)
+void Transition_In(BITMAP *pic, PALETTE pal)
 {
 #if OWEN_HIDE_TRANSITIONS
 BITMAP *temp2 = create_bitmap(640, 480);
- PALLETE rgb;
+ palette rgb;
  int i, j, k, l;
  int x, y;
 
@@ -59,7 +59,7 @@ BITMAP *temp2 = create_bitmap(640, 480);
   rgb[i].b = 0;
  }
 
- set_pallete(rgb);
+ set_palette(rgb);
 
  for (i = 30; i > 2; i-=2)
  {
@@ -81,7 +81,7 @@ BITMAP *temp2 = create_bitmap(640, 480);
   rgb[l].b = pal[l].b*(30-i)/30;
  }
 
-   set_pallete(rgb);
+   set_palette(rgb);
 
 /* while(!key[KEY_F1]);
  while(key[KEY_F1]);*/
@@ -90,7 +90,7 @@ BITMAP *temp2 = create_bitmap(640, 480);
 /*  blit(temp2, screen, 0, 0, 0, 0, 640, 480);*/
  }
 
- set_pallete(pal);
+ set_palette(pal);
  blit(pic, screen, 0, 0, 0, 0, 640, 480);
 #endif
 }

@@ -135,8 +135,8 @@ void Initialise(void)
 
 	// Create translucency and light tables
 
-	create_trans_table(&trans_table, pallete, 50, 50, 50, NULL);
-	create_light_table(&light_table, pallete, 0, 0, 0, NULL);
+	create_trans_table(&trans_table, palette, 50, 50, 50, NULL);
+	create_light_table(&light_table, palette, 0, 0, 0, NULL);
 	color_map = &light_table;
 
 	// Create bitmaps
@@ -166,7 +166,7 @@ void Initialise(void)
 
 	// Load fonts and title graphics
 	fonts = load_datafile("fonts.dat");
-	title_gfx = load_bitmap("title256.bmp", title_pallete);
+	title_gfx = load_bitmap("title256.bmp", title_palette);
 
 	// Setup sound
 	reserve_voices(20, -1);

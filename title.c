@@ -12,41 +12,41 @@ int redraw_flag, title_menu_exit, f_no;
 
 void Presents(void)
 {
- clear(screen);
- clear(temp);
+	clear(screen);
+	clear(temp);
 
- textprintf_centre(temp, fonts[0].dat, 320, 150, 7, "An Ly and Owen Rudge");
- textprintf_centre(temp, fonts[0].dat, 320, 200, 7, "Present");
+	textprintf_centre(temp, fonts[0].dat, 320, 150, 7, "An Ly and Owen Rudge");
+	textprintf_centre(temp, fonts[0].dat, 320, 200, 7, "Present");
 
- Transition_In(temp, pallete);
+	Transition_In(temp, palette);
 
- clear_keybuf();
- while(!keypressed());
+	clear_keybuf();
+	while (!keypressed());
 
- Transition_Out(temp, pallete);
+	Transition_Out(temp, palette);
 }
 
 void Title(void)
 {
- scare_mouse();
+	scare_mouse();
 
- clear(screen);
-/* set_pallete(black_pallete);
- blit(title_gfx, screen, 0, 0, 0, 0, 640, 480);
+	clear(screen);
+/*	set_palette(black_palette);
+	blit(title_gfx, screen, 0, 0, 0, 0, 640, 480);
 
- text_mode(-1);
- textprintf(screen, font, 600, 468, 7, "v0.5");
+	text_mode(-1);
+	textprintf(screen, font, 600, 468, 7, "v0.5");
 
- fade_in(title_pallete, 5);*/
+	fade_in(title_palette, 5);*/
 
- set_pallete(title_pallete);
- Transition_In(title_gfx, title_pallete);
- set_pallete(title_pallete); // just to be sure :-)
+	set_palette(title_palette);
+	Transition_In(title_gfx, title_palette);
+	set_palette(title_palette); // just to be sure :-)
 
- clear_keybuf();
- while(!keypressed());
- clear_keybuf();
- while(keypressed());
+	clear_keybuf();
+	while (!keypressed());
+	clear_keybuf();
+	while (keypressed());
 }
 
 int Title_Menu(void)

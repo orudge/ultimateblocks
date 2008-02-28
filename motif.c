@@ -32,10 +32,10 @@ void Change_Motif(char *m)
 
 /* if ((m < 1) || (m > 4)) m = SUNNY;
 
- if (m == SUNNY) gfx = load_bitmap("sunny256.bmp", pallete);
- if (m == CASTLE) gfx = load_bitmap("castl256.bmp", pallete);
- if (m == ROCKY) gfx = load_bitmap("rocky256.bmp", pallete);
- if (m == SNOWY) gfx = load_bitmap("snowy256.bmp", pallete);*/
+ if (m == SUNNY) gfx = load_bitmap("sunny256.bmp", palette);
+ if (m == CASTLE) gfx = load_bitmap("castl256.bmp", palette);
+ if (m == ROCKY) gfx = load_bitmap("rocky256.bmp", palette);
+ if (m == SNOWY) gfx = load_bitmap("snowy256.bmp", palette);*/
 
  for (i = 0; i < num_motifs; i++)
  {
@@ -49,9 +49,9 @@ void Change_Motif(char *m)
 #ifdef DO_GRAPHICS_LOG
        fprintf(tmp, " Motif %d is the same as %d\n", m, motifs[i].special);
 #endif
-       gfx = load_bitmap(motifs[i].gfx_fn, pallete); //motifs[i].gfx; //dat[0].dat;
+       gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
 //       palid = i;
-//       pallete = (PALETTE *) motifs[i].pal;
+//       palette = (PALETTE *) motifs[i].pal;
 
        break;
     }*/
@@ -61,7 +61,7 @@ void Change_Motif(char *m)
 #ifdef DO_GRAPHICS_LOG
        fprintf(tmp, "IT'S THE ONE! :-)\n");
 #endif
-       gfx = load_bitmap(motifs[i].gfx_fn, pallete); //motifs[i].gfx; //dat[0].dat;
+       gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
 
        if (B2Music == 1)
        {
@@ -77,7 +77,7 @@ void Change_Motif(char *m)
 
  if (gfx == NULL)
  {
-    gfx = load_bitmap("graphics/sunny.bmp", pallete);
+    gfx = load_bitmap("graphics/sunny.bmp", palette);
 
     if (B2Music == 1)
     {
@@ -278,7 +278,7 @@ void Change_Motif(char *m)
 #endif
 
  clear(screen);
- set_pallete(pallete);
+ set_palette(palette);
 }
 
 

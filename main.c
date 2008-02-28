@@ -30,7 +30,7 @@ int main(void)
 
 		if (full_exit == 1)
 		{
-			Transition_Out(title_gfx, title_pallete);
+			Transition_Out(title_gfx, title_palette);
 			//fade_out(10);
 			Editor();
 			Title();
@@ -38,13 +38,13 @@ int main(void)
 
 		if ((full_exit == 2) && (Open_Maps_Title() == 1))
 		{
-			Transition_Out(title_gfx, title_pallete);
+			Transition_Out(title_gfx, title_palette);
 			Full_Game();
 			Title();
 		}
 	}
 
-	Transition_Out(title_gfx, title_pallete);
+	Transition_Out(title_gfx, title_palette);
 
 	cd_stop();
 	cd_exit();
@@ -109,13 +109,13 @@ int Run_Level(void)
 	Init_Level();
 	Map_Setup();
 
-/*	set_pallete(black_pallete);
+/*	set_palette(black_palette);
 	blit(temp, screen, 0, 0, 0, 0, 640, 480);
-	fade_in(pallete, 10);*/
+	fade_in(palette, 10);*/
 
-	set_pallete(pallete);
+	set_palette(palette);
 
-	Transition_In(temp, pallete);
+	Transition_In(temp, palette);
 
 	Get_Ready();
 
@@ -228,7 +228,7 @@ int Run_Level(void)
 	{
 		Player_Death(0);
 		blit(screen, temp, 0, 0, 0, 0, 640, 480);
-		Transition_Out(temp, pallete);
+		Transition_Out(temp, palette);
 		return -1;
 	}
 	
@@ -236,7 +236,7 @@ int Run_Level(void)
 	{
 		Well_Done();
 		blit(screen, temp, 0, 0, 0, 0, 640, 480);
-		Transition_Out(temp, pallete);
+		Transition_Out(temp, palette);
 		return 1;
 	}
 
@@ -354,7 +354,7 @@ void Init_Full_Game(void)
 	PACKFILE *file;
 
 	clear(screen);
-	set_pallete(pallete);
+	set_palette(palette);
 
 	for (i = 0; i < 100; i++)
 	map_done[i] = 0;
@@ -456,7 +456,7 @@ void Finish_Game(void)
 {
 	clear(screen);
 
-	set_pallete(black_pallete);
+	set_palette(black_palette);
 
 	textprintf_centre(screen, fonts[0].dat, 320, 20, 7, "CONGRAGULATIONS!");
 	textprintf_centre(screen, fonts[0].dat, 320, 100, 7, "You have completed the");
@@ -464,7 +464,7 @@ void Finish_Game(void)
 	textprintf_centre(screen, fonts[0].dat, 320, 220, 7, "level set of Blocks 4: Ultimate");
 	textprintf_centre(screen, fonts[0].dat, 320, 280, 7, "Thank you for playing!");
 
-	fade_in(pallete, 10);
+	fade_in(palette, 10);
 
 	while(key[KEY_ENTER]);
 	while(!key[KEY_ENTER]);

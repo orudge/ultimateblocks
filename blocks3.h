@@ -139,7 +139,7 @@ BITMAP *ply_pic[2][12];
 BITMAP *mon_pic[5][12];
 
 BITMAP *title_gfx;
-PALLETE title_pallete;
+PALETTE title_palette;
 
 BITMAP *box_pic, *bomb_pic[3];
 BITMAP *token_pic;
@@ -162,7 +162,7 @@ BITMAP *fall_pic;
 
 BITMAP *dark[5];
 
-PALLETE pallete;
+PALETTE palette;
 
 COLOR_MAP trans_table;
 COLOR_MAP light_table;
@@ -456,8 +456,8 @@ void Remember_File_Title(char *fn, int a, int b);
 int Open_Maps_Title(void);
 
 // trans.c
-void Transition_Out(BITMAP *pic, PALLETE pal);
-void Transition_In(BITMAP *pic, PALLETE pal);
+void Transition_Out(BITMAP *pic, PALETTE pal);
+void Transition_In(BITMAP *pic, PALETTE pal);
 
 // undo.c
 void Move_Undo_Down(void);
