@@ -95,106 +95,111 @@ void LoadGraphicsPack(char *fn, int a, int b)
 #endif
 }
 
-void UnloadGraphics() // not an init routine, but put in here because it's next to load graphics
+// not an init routine, but put in here because it's next to load graphics
+void UnloadGraphics()
 {
-/*   int i;
+/*	int i;
 
-   for (i = 0; i < num_motifs+1; i++)
-   {
-      destroy_bitmap(motifs[num_motifs].gfx);
-//      unload_datafile(motifs[num_motifs].dat);
-   }*/
+	for (i = 0; i < num_motifs+1; i++)
+	{
+		destroy_bitmap(motifs[num_motifs].gfx);
+//		unload_datafile(motifs[num_motifs].dat);
+	}*/
 }
 
 void Initialise(void)
 {
- int i;
+	int i;
 
- allegro_init();
- install_keyboard();
- install_timer();
- install_mouse();
+	// Initialise Allegro
+	allegro_init();
+	install_keyboard();
+	install_timer();
+	install_mouse();
 
- cd_init();
+	// Initialise CD player
+	cd_init();
 
- set_config_file("BLOCKS4.CFG");
- B2Music = get_config_int("Blocks4", "B2Music", 1);
+	set_config_file("blocks4.cfg");
+	B2Music = get_config_int("Blocks4", "B2Music", 1);
 
- set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
+	// Change screen resolution
+	set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
 
- gfx = load_bitmap("gfx1.bmp", pallete);
+	// Install timer
 
- set_pallete(pallete);
+	LOCK_VARIABLE(time_count);
+	LOCK_FUNCTION(increment_time_counter);
 
- /** Timer Stuff **/
+	install_int_ex(increment_time_counter, BPS_TO_TIMER(200));
 
- LOCK_VARIABLE(time_count);
- LOCK_FUNCTION(increment_time_counter);
+	// Create translucency and light tables
 
- install_int_ex(increment_time_counter, BPS_TO_TIMER(200));
+	create_trans_table(&trans_table, pallete, 50, 50, 50, NULL);
+	create_light_table(&light_table, pallete, 0, 0, 0, NULL);
+	color_map = &light_table;
 
- /** Trans and Lit tables **/
+	// Create bitmaps
 
- create_trans_table(&trans_table, pallete, 50, 50, 50, NULL);
- create_light_table(&light_table, pallete, 0, 0, 0, NULL);
- color_map = &light_table;
+	for (i = 0; i < 12; i++)
+	{
+		ply_pic[0][i] = create_bitmap(32, 40);
+		ply_pic[1][i] = create_bitmap(32, 40);
+	}
 
+	box_pic = create_bitmap(32, 40);
+	clear(box_pic);
 
- /** Bitmap stuff **/
+	blank = create_bitmap(32, 40);
+	clear(blank);
 
- for (i = 0; i < 12; i++)
- {
-  ply_pic[0][i] = create_bitmap(32, 40);
-  ply_pic[1][i] = create_bitmap(32, 40);
- }
+	editor_icons = create_bitmap(1024, 32);
+	clear(editor_icons);
 
- box_pic = create_bitmap(32, 40);
- clear(box_pic);
+	temp = create_bitmap(640, 480);
+	back = create_bitmap(640, 480);
 
- blank = create_bitmap(32, 40);
- clear(blank);
+	// Iterate through motifs
 
- editor_icons = create_bitmap(1024, 32);
- clear(editor_icons);
+	num_motifs = 0;
+	for_each_file("./graphics/*.bgp", FA_RDONLY | FA_ARCH, LoadGraphicsPack, 0);
 
- temp = create_bitmap(640, 480);
- back = create_bitmap(640, 480);
+	// Load fonts and title graphics
+	fonts = load_datafile("fonts.dat");
+	title_gfx = load_bitmap("title256.bmp", title_pallete);
 
- num_motifs = 0;
- for_each_file("./graphics/*.bgp", FA_RDONLY | FA_ARCH, LoadGraphicsPack, 0);
+	// Setup sound
+	reserve_voices(20, -1);
+	install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
+	install_mod(24);
 
- fonts = load_datafile("fonts.dat");
- title_gfx = load_bitmap("title256.bmp", title_pallete);
+	set_mod_volume(255);
+	set_volume(255, 0);
+	sfx = load_datafile("sfx.dat");
 
- reserve_voices(20, -1);
- install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
- install_mod(24);
+	mus_vol = 255;
+	sfx_vol = 255;
+	cd_vol = 255;
 
- set_mod_volume(255);
- set_volume(255, 0);
- sfx = load_datafile("sfx.dat");
+	// Iterate through music
+	f_no = 0;
+	for_each_file("./music/*.mod", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
+	for_each_file("./music/*.s3m", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
+	for_each_file("./music/*.xm", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
 
- mus_vol = 255;
- sfx_vol = 255;
- cd_vol = 255;
+	mod_last = f_no;
+	mod_track = 0;
 
- f_no = 0;
- for_each_file("./music/*.mod", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
- for_each_file("./music/*.s3m", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
- for_each_file("./music/*.xm", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
-
- mod_last = f_no;
- mod_track = 0;
-
- if (B2Music == 1)
- {
-/*    set_config_file("BLOCKS4.CFG");
-    music = load_mod(get_config_string("Blocks4", "InitialMusic", mod[mod_track].name));*/
- }
- else
-    music = load_mod(mod[mod_track].name);
+	// Use Blocks+-style music?
+	if (B2Music == 1)
+	{
+/*		set_config_file("blocks4.cfg");
+		music = load_mod(get_config_string("Blocks4", "InitialMusic", mod[mod_track].name));*/
+	}
+	else
+		music = load_mod(mod[mod_track].name);
     
- play_mod(music, TRUE);
-
- Change_Motif("SUNY"); //SUNNY);
+	// Start music and change motif to default (Sunny)
+	play_mod(music, TRUE);
+	Change_Motif("SUNY");
 }

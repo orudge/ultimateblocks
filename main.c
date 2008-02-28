@@ -13,43 +13,44 @@ int i, j, full_exit;
 
 int main(void)
 {
- Initialise();
+	Initialise();
 
 /* play_mod (music, TRUE);*/
 
- Presents();
+	Presents();
 
- Title();
- Log_In();
+	Title();
+	Log_In();
 
- full_exit = 1;
+	full_exit = 1;
 
- while (full_exit)
- {
-  full_exit = Title_Menu();
+	while (full_exit)
+	{
+		full_exit = Title_Menu();
 
-  if (full_exit == 1)
-  {
-   Transition_Out(title_gfx, title_pallete);
-/*   fade_out(10);*/
-   Editor();
-   Title();
-  }
+		if (full_exit == 1)
+		{
+			Transition_Out(title_gfx, title_pallete);
+			//fade_out(10);
+			Editor();
+			Title();
+		}
 
-  if ((full_exit == 2) && (Open_Maps_Title() == 1))
-  {
-   Transition_Out(title_gfx, title_pallete);
-   Full_Game();
-   Title();
-  }
- }
- Transition_Out(title_gfx, title_pallete);
+		if ((full_exit == 2) && (Open_Maps_Title() == 1))
+		{
+			Transition_Out(title_gfx, title_pallete);
+			Full_Game();
+			Title();
+		}
+	}
 
- cd_stop();
- cd_exit();
+	Transition_Out(title_gfx, title_pallete);
 
- UnloadGraphics();
- allegro_exit();
+	cd_stop();
+	cd_exit();
+
+	UnloadGraphics();
+	allegro_exit();
 } END_OF_MAIN()
 
 	void Init_Level(void)
