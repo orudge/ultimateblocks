@@ -274,7 +274,9 @@ typedef struct SOUND_DEF
  int x, s;
 } SOUND_DEF;
 
-SOUND_DEF fx[40];
+#define MAX_SOUND_EFFECTS		40
+
+SOUND_DEF fx[MAX_SOUND_EFFECTS];
 
 int fx_count;
 

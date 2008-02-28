@@ -9,22 +9,25 @@
 
 void Add_Sound(int x, int s)
 {
- fx[fx_count].x = x*255/32;
- fx[fx_count].s = s;
+	if (fx_count < MAX_SOUND_EFFECTS)
+	{
+		fx[fx_count].x = x*255/32;
+		fx[fx_count].s = s;
 
- fx_count++;
+		fx_count++;
+	}
 }
 
 void Play_Sound(void)
 {
- int i;
+	int i;
 
- for (i = 0; i < fx_count; i++)
- {
-  play_sample(sfx[fx[i].s].dat, 255, fx[i].x, 1000, 0);
- }
+	for (i = 0; i < fx_count; i++)
+	{
+		play_sample(sfx[fx[i].s].dat, 255, fx[i].x, 1000, 0);
+	}
 
- fx_count = 0;
+	fx_count = 0;
 }
 
 

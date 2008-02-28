@@ -41,6 +41,9 @@ void Transition_Out(BITMAP *pic, PALETTE pal)
  time_count = 0;
 /*  blit(temp2, screen, 0, 0, 0, 0, 640, 480);*/
  }
+#else
+	blit(pic, screen, 0, 0, 0, 0, 640, 480);
+	fade_out(8);
 #endif
 }
 
@@ -92,5 +95,9 @@ BITMAP *temp2 = create_bitmap(640, 480);
 
  set_palette(pal);
  blit(pic, screen, 0, 0, 0, 0, 640, 480);
+#else
+	set_palette(black_palette);
+	blit(pic, screen, 0, 0, 0, 0, 640, 480);
+	fade_in(pal, 8);
 #endif
 }

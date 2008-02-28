@@ -20,222 +20,237 @@ char f[20];
 
 void Editor(void)
 {
- int mx, my, mb;
- int i, j;
+	int mx, my, mb;
+	int i, j;
 
- /** Editor Menus **/
+	/** Editor Menus **/
 
- menu[0].x = 12;
- menu[0].y = 10;
- menu[0].w = 128;
- menu[0].h = 50;
- menu[0].n = 3;
+	menu[0].x = 12;
+	menu[0].y = 10;
+	menu[0].w = 128;
+	menu[0].h = 50;
+	menu[0].n = 3;
 
- strcpy(menu[0].item[0].name, "Open        F3");
- strcpy(menu[0].item[1].name, "Save        F2");
- strcpy(menu[0].item[2].name, "Exit     Alt-X");
- menu[1].x = 72;
- menu[1].y = 10;
- menu[1].w = 184;
- menu[1].h = 70;
- menu[1].n = 5;
+	strcpy(menu[0].item[0].name, "Open        F3");
+	strcpy(menu[0].item[1].name, "Save        F2");
+	strcpy(menu[0].item[2].name, "Exit     Alt-X");
+	menu[1].x = 72;
+	menu[1].y = 10;
+	menu[1].w = 184;
+	menu[1].h = 70;
+	menu[1].n = 5;
 
- strcpy(menu[1].item[0].name, "Clear          Ctrl-N");
- strcpy(menu[1].item[1].name, "Clear All            ");
- strcpy(menu[1].item[2].name, "Copy         Ctrl-Ins");
- strcpy(menu[1].item[3].name, "Paste       Shift-Ins");
- strcpy(menu[1].item[4].name, "Arrange              ");
-
-
- menu[2].x = 132;
- menu[2].y = 10;
- menu[2].w = 64;
- menu[2].h = 70;
- menu[2].n = 5;
-
-/* strcpy(menu[2].item[0].name, "Sunny ");
- strcpy(menu[2].item[1].name, "Castle");
- strcpy(menu[2].item[2].name, "Rocky ");
- strcpy(menu[2].item[3].name, "Snowy ");
- strcpy(menu[2].item[4].name, "Jelly ");*/
-
- for (j = 0; j < num_motifs; j++)
-    strcpy(menu[2].item[j].name, motifs[j].title);
+	strcpy(menu[1].item[0].name, "Clear          Ctrl-N");
+	strcpy(menu[1].item[1].name, "Clear All            ");
+	strcpy(menu[1].item[2].name, "Copy         Ctrl-Ins");
+	strcpy(menu[1].item[3].name, "Paste       Shift-Ins");
+	strcpy(menu[1].item[4].name, "Arrange              ");
 
 
- for (j = 0; j < 100; j++)
- {
- for (i = 0; i < 20; i++)
- {
-  maps[i][0][0][j] = SOLID;
-  maps[i][14][0][j] = SOLID;
-  maps[i][0][1][j] = RESERVE;
-  maps[i][14][1][j] = RESERVE;
- }
+	menu[2].x = 132;
+	menu[2].y = 10;
+	menu[2].w = 64;
+	menu[2].h = 70;
+	menu[2].n = 5;
 
- for (i = 0; i < 15; i++)
- {
-  maps[0][i][0][j] = SOLID;
-  maps[19][i][0][j] = SOLID;
-  maps[0][i][1][j] = RESERVE;
-  maps[19][i][1][j] = RESERVE;
- }
- }
+/*	strcpy(menu[2].item[0].name, "Sunny ");
+	strcpy(menu[2].item[1].name, "Castle");
+	strcpy(menu[2].item[2].name, "Rocky ");
+	strcpy(menu[2].item[3].name, "Snowy ");
+	strcpy(menu[2].item[4].name, "Jelly ");*/
 
- set_palette(palette);
+	for (j = 0; j < num_motifs; j++)
+	    strcpy(menu[2].item[j].name, motifs[j].title);
 
- Clear_All();
+	for (j = 0; j < 100; j++)
+	{
+		for (i = 0; i < 20; i++)
+		{
+			maps[i][0][0][j] = SOLID;
+			maps[i][14][0][j] = SOLID;
+			maps[i][0][1][j] = RESERVE;
+			maps[i][14][1][j] = RESERVE;
+		}
 
- Maps_to_Map(0);
+		for (i = 0; i < 15; i++)
+		{
+			maps[0][i][0][j] = SOLID;
+			maps[19][i][0][j] = SOLID;
+			maps[0][i][1][j] = RESERVE;
+			maps[19][i][1][j] = RESERVE;
+		}
+	}
 
- block_type = BOX;
- level_flag = 0;
- exit_flag = 0;
+	set_palette(palette);
 
- show_mouse(screen);
+	Clear_All();
 
- scare_mouse();
- Editor_Draw_Screen();
- unscare_mouse();
+	Maps_to_Map(0);
 
- while (!exit_flag)
- {
-  mx = mouse_x;
-  my = mouse_y;
-  mb = mouse_b;
+	block_type = BOX;
+	level_flag = 0;
+	exit_flag = 0;
 
-  if ((mb & 1) && (mx > 32) && (my > 32) && (mx < 608) && (my < 448)) Editor_Put_Block(mx/32, my/32, block_type);
-  if ((mb & 2) && (mx > 32) && (my > 32) && (mx < 608) && (my < 448)) Editor_Put_Block(mx/32, my/32, 0);
+	show_mouse(screen);
 
-  if ((mb & 1) && (my > 448)) Editor_Change_Block_Type(mx/32);
+	scare_mouse();
+	Editor_Draw_Screen();
+	unscare_mouse();
 
-  if (my < 10) Highlight_Menu(mx);
-  else
-  if (menu_hl != -1)
-  {
-   Editor_Draw_Menu();
-   blit(temp, screen, 0, 0, 0, 0, 232, 10);
-   menu_hl = -1;
-  }
+	while (!exit_flag)
+	{
+		mx = mouse_x;
+		my = mouse_y;
+		mb = mouse_b;
 
-  if (key[KEY_TAB])
-  {
-   level_flag = 1 - level_flag;
-   while(key[KEY_TAB]);
+		if ((mb & 1) && (mx > 32) && (my > 32) && (mx < 608) && (my < 448))
+			Editor_Put_Block(mx/32, my/32, block_type);
 
-   scare_mouse();
-   if (level_flag) textprintf(screen, font, 480, 2, 0, "Top   ");
-   else textprintf(screen, font, 480, 2, 0, "Bottom");
-   unscare_mouse();
-  }
+		if ((mb & 2) && (mx > 32) && (my > 32) && (mx < 608) && (my < 448))
+			Editor_Put_Block(mx/32, my/32, 0);
 
-  if ((key[KEY_F9]) || ((mb & 1) && (menu_hl == 3)))
-  {
-   Map_to_Maps(elev);
+		if ((mb & 1) && (my > 448))
+			Editor_Change_Block_Type(mx/32);
 
-   game_type = EDITOR_GAME;
-   lev = elev;
+		if (my < 10)
+			Highlight_Menu(mx);
+		else
+		{
+			if (menu_hl != -1)
+			{
+				Editor_Draw_Menu();
+				blit(temp, screen, 0, 0, 0, 0, 232, 10);
+				menu_hl = -1;
+			}
+		}
 
-   scare_mouse();
-   Run_Level();
-   fade_in(palette, 10);
-   unscare_mouse();
+		if (key[KEY_TAB])
+		{
+			level_flag = 1 - level_flag;
+			while(key[KEY_TAB]);
 
-   Maps_to_Map(elev);
-   redraw_flag = 1;
-  }
+			scare_mouse();
 
-  if ((menu_hl != -1) && (mb & 1)) Drop_Down();
+			if (level_flag)
+				textprintf(screen, font, 480, 2, 0, "Top   ");
+			else
+				textprintf(screen, font, 480, 2, 0, "Bottom");
 
-  if (key[KEY_MINUS_PAD])
-  {
-   Map_to_Maps(elev);
+			unscare_mouse();
+		}
 
-   elev--;
-   if (elev == -1) elev = 99;
+		if ((key[KEY_F9]) || ((mb & 1) && (menu_hl == 3)))
+		{
+			Map_to_Maps(elev);
 
-   Maps_to_Map(elev);
+			game_type = EDITOR_GAME;
+			lev = elev;
 
-   Editor_Draw_Menu();
-   blit(temp, screen, 0, 0, 0, 0, 639, 10);
+			scare_mouse();
+			Run_Level();
+			fade_in(palette, 10);
+			unscare_mouse();
 
-   while (key[KEY_MINUS_PAD]);
-   redraw_flag = 1;
-  }
+			Maps_to_Map(elev);
+			redraw_flag = 1;
+		}
 
-  if (key[KEY_PLUS_PAD])
-  {
-   Map_to_Maps(elev);
+		if ((menu_hl != -1) && (mb & 1))
+			Drop_Down();
 
-   elev++;
-   if (elev == 100) elev = 0;
+		if (key[KEY_MINUS_PAD])
+		{
+			Map_to_Maps(elev);
 
-   Maps_to_Map(elev);
+			elev--;
+			if (elev == -1) 
+				elev = 99;
 
-   Editor_Draw_Menu();
-   blit(temp, screen, 0, 0, 0, 0, 639, 10);
+			Maps_to_Map(elev);
 
-   while (key[KEY_PLUS_PAD]);
-   redraw_flag = 1;
-  }
+			Editor_Draw_Menu();
+			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-  if (key[KEY_PGUP])
-  {
-   Map_to_Maps(elev);
+			while (key[KEY_MINUS_PAD]);
 
-   elev+=10;
-   if (elev > 99) elev -= 100;
+			redraw_flag = 1;
+		}
 
-   Maps_to_Map(elev);
+		if (key[KEY_PLUS_PAD])
+		{
+			Map_to_Maps(elev);
 
-   Editor_Draw_Menu();
-   blit(temp, screen, 0, 0, 0, 0, 639, 10);
+			elev++;
+			if (elev == 100) elev = 0;
 
-   while (key[KEY_PGUP]);
-   redraw_flag = 1;
-  }
+			Maps_to_Map(elev);
 
-  if (key[KEY_PGDN])
-  {
-   Map_to_Maps(elev);
+			Editor_Draw_Menu();
+			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-   elev-=10;
-   if (elev < 0) elev += 100;
+			while (key[KEY_PLUS_PAD]);
+			redraw_flag = 1;
+		}
 
-   Maps_to_Map(elev);
+		if (key[KEY_PGUP])
+		{
+			Map_to_Maps(elev);
 
-   Editor_Draw_Menu();
-   blit(temp, screen, 0, 0, 0, 0, 639, 10);
+			elev+=10;
+			if (elev > 99) elev -= 100;
 
-   while (key[KEY_PGDN]);
-   redraw_flag = 1;
-  }
+			Maps_to_Map(elev);
 
-  if (((key[KEY_LCONTROL]) || (key[KEY_RCONTROL])) && (key[KEY_INSERT]))
-  {
-   Map_to_Maps(elev);
-   Copy_To_Buffer(elev);
-   redraw_flag = 1;
-   while(key[KEY_INSERT]);
-  }
+			Editor_Draw_Menu();
+			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-  if (((key[KEY_LSHIFT]) || (key[KEY_RSHIFT])) && (key[KEY_INSERT]))
-  {
-   Copy_From_Buffer(elev);
-   Maps_to_Map(elev);
-   redraw_flag = 1;
-   while(key[KEY_INSERT]);
-  }
+			while (key[KEY_PGUP]);
+			redraw_flag = 1;
+		}
 
-  if ((key[KEY_RIGHT]) && (icon_start < 20))
-  {
-   icon_start++;
-   Editor_Draw_Tiles();
-   scare_mouse();
-   blit(temp, screen, 0, 448, 0, 448, 640, 32);
-   unscare_mouse();
-   while (key[KEY_RIGHT]);
-  }
+		if (key[KEY_PGDN])
+		{
+			Map_to_Maps(elev);
+
+			elev-=10;
+
+			if (elev < 0)
+				elev += 100;
+
+			Maps_to_Map(elev);
+
+			Editor_Draw_Menu();
+			blit(temp, screen, 0, 0, 0, 0, 639, 10);
+
+			while (key[KEY_PGDN]);
+			redraw_flag = 1;
+		}
+
+		if (((key[KEY_LCONTROL]) || (key[KEY_RCONTROL])) && (key[KEY_INSERT]))
+		{
+			Map_to_Maps(elev);
+			Copy_To_Buffer(elev);
+			redraw_flag = 1;
+			while(key[KEY_INSERT]);
+		}
+
+		if (((key[KEY_LSHIFT]) || (key[KEY_RSHIFT])) && (key[KEY_INSERT]))
+		{
+			Copy_From_Buffer(elev);
+			Maps_to_Map(elev);
+			redraw_flag = 1;
+			while(key[KEY_INSERT]);
+		}
+
+		if ((key[KEY_RIGHT]) && (icon_start < 20))
+		{
+			icon_start++;
+			Editor_Draw_Tiles();
+			scare_mouse();
+			blit(temp, screen, 0, 448, 0, 448, 640, 32);
+			unscare_mouse();
+			while (key[KEY_RIGHT]);
+		}
 
   if ((key[KEY_LEFT]) && (icon_start > 0))
   {
