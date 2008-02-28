@@ -171,7 +171,7 @@ void Mod_Music(void)
 	BITMAP *temp3 = create_bitmap(640, 480);
 
 	int cd_exit, item;
-	int first, last, i;
+	int i;
 
 	cd_exit = 0;
 	item = 0;

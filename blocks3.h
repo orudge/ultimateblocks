@@ -343,6 +343,7 @@ void Box_Fall(void);
 
 // cdplay.c
 void CD_Player(void);
+void Mod_Music(void);
 
 // door.c
 void Door(void);
@@ -431,6 +432,7 @@ void Monster_Die_Check(void);
 void Monster_Move(int m_no);
 int Monster_Sight(int x, int y, int z, int dir);
 void Del_Monster(int m_no);
+void Monster_Change_Dir(int m_no, int x, int y, int z);
 
 // motif.c
 void Change_Motif(char *m);

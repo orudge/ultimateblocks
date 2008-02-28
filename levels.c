@@ -9,7 +9,7 @@
 
 void Change_Levels(void)
 {
- int l, i, j, k;
+ int l, i, j;
  BITMAP *temp2 = create_bitmap(640, 480);
 
  blit(temp, temp2, 0, 0, 0, 0, 640, 480);

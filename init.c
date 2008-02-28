@@ -6,6 +6,7 @@
 #include <allegro.h>
 #include <jgmod.h>
 #include <libcda.h>
+#include <stdio.h>
 #include "blocks3.h"
 #include <string.h>
 
@@ -14,7 +15,7 @@ int B2Music;
 
 int f_no;
 
-void increment_time_counter()
+void increment_time_counter(void)
 {
 	time_count++;
 }
@@ -31,8 +32,6 @@ void Remember_Mod_File(char *fn, int a, int b)
 void LoadGraphicsPack(char *fn, int a, int b)
 {
 	char tmp_id[4];
-	char *tmp_fn;
-	char *tmp_ptr;
 	int ver;
 
 	if (num_motifs >= 9)
@@ -78,8 +77,6 @@ void UnloadGraphics()
 
 void Initialise(void)
 {
-	int i;
-
 	// Initialise Allegro
 	allegro_init();
 	install_keyboard();

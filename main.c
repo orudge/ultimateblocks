@@ -51,6 +51,8 @@ int main(void)
 
 	UnloadGraphics();
 	allegro_exit();
+
+	return(0);
 } END_OF_MAIN()
 
 /* Function: Init_Level
@@ -267,7 +269,7 @@ void Full_Game(void)
 			if (lev == 999)
 			{
 				for (lev = 0; lev < 100; lev++)
-				map_done[lev] = 0;
+					map_done[lev] = 0;
 
 				exit_full_game = 0;
 			}

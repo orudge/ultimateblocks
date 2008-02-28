@@ -58,6 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="jgmod.lib libcda.lib alld.lib winmm.lib"
+				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>

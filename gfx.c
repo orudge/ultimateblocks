@@ -7,12 +7,6 @@
 #include <jgmod.h>
 #include "blocks3.h"
 
-//#define DO_GRAPHICS_LOG
-
-#ifdef DO_GRAPHICS_LOG
-   #include <stdio.h>
-#endif
-
 void DirtyList(int x,int y, int z, int w, int h, BITMAP *pic)
 {
  dirty[dirty_count].x = x;
@@ -89,27 +83,13 @@ void DirtyList(int x,int y, int z, int w, int h, BITMAP *pic)
 
 void Draw_Map(void)
 {
- int i, j, k, l;
-#ifdef DO_GRAPHICS_LOG
- FILE *tmp;
-#endif
-
-#ifdef DO_GRAPHICS_LOG
- tmp = fopen("tmp.log", "at");
- fprintf(tmp, "\n\nDraw_Map\n-------\n");
- fclose(tmp);
-#endif
+ int i, j, k;
 
  for (j = 0; j < 15; j+=2)
  {
     for (i = 0; i < 20; i+=2)
     {
        blit(gfx, back, 0, 200, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
-#ifdef DO_GRAPHICS_LOG
-       tmp = fopen("tmp.log", "at");
-       fprintf(tmp, "Drawn background - [i=%d;j=%d] blit(gfx, back, 0, 200, %d, %d, 64, 64);\n", i,j,i*32, j*32);
-       fclose(tmp);
-#endif
     }
  }
 
@@ -127,7 +107,7 @@ void Draw_Map(void)
 
 void Draw_Area(void)
 {
- int i, j, k;
+ int i, j;
 
  for (i = 0; i < 20; i++)
  for (j = 0; j < 15; j++)
@@ -348,7 +328,7 @@ void Draw_Screen(void)
 }
 void Map_Setup(void)
 {
- int i, j, k, l;
+ int i, j, k;
 
  box_count = 0;
  mon_count = 0;

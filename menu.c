@@ -5,13 +5,14 @@
 
 #include <allegro.h>
 #include <jgmod.h>
+#include <libcda.h>
 #include "blocks3.h"
 
 void In_Game_Menu(void)
 {
  BITMAP *temp2 = create_bitmap(200, 300);
  int item, game_menu_exit;
- int i, j;
+ int i;
 
  blit(screen, temp, 0, 0, 0, 0, 640, 480);
 

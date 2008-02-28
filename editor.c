@@ -251,48 +251,50 @@ void Editor(void)
 			unscare_mouse();
 			while (key[KEY_RIGHT]);
 		}
+	
+		if ((key[KEY_LEFT]) && (icon_start > 0))
+		{
+			icon_start--;
+			Editor_Draw_Tiles();
+			scare_mouse();
+			blit(temp, screen, 0, 448, 0, 448, 640, 32);
+			unscare_mouse();
+			while (key[KEY_LEFT]);
+		}
 
-  if ((key[KEY_LEFT]) && (icon_start > 0))
-  {
-   icon_start--;
-   Editor_Draw_Tiles();
-   scare_mouse();
-   blit(temp, screen, 0, 448, 0, 448, 640, 32);
-   unscare_mouse();
-   while (key[KEY_LEFT]);
-  }
+		if (redraw_flag)
+		{
+			Editor_Draw_Screen();
+			redraw_flag = 0;
+		}
 
-  if (redraw_flag)
-  {
-   Editor_Draw_Screen();
-   redraw_flag = 0;
-  }
+		if (key[KEY_F2])
+		{
+			while (key[KEY_F2]);
+			Save_Maps();
 
-  if (key[KEY_F2])
-  {
-   while (key[KEY_F2]);
-   Save_Maps();
+			redraw_flag = 1;
+		}	
 
-   redraw_flag = 1;
-  }
+		if (key[KEY_F3])
+		{
+			while (key[KEY_F3]);
+			Open_Maps();
 
-  if (key[KEY_F3])
-  {
-   while (key[KEY_F3]);
-   Open_Maps();
+			redraw_flag = 1;
+		}
 
-   redraw_flag = 1;
-  }
+		if ((mx > _block_width) && (my > _block_height) && (mx < SCREEN_W-_block_width) && (my < SCREEN_H-_block_height))
+			Editor_Key_Put_Tile(mx/_block_width, my/_block_height);
 
-  if ((mx > _block_width) && (my > _block_height) && (mx < SCREEN_W-_block_width) && (my < SCREEN_H-_block_height)) Editor_Key_Put_Tile(mx/_block_width, my/_block_height);
+		if (mb & 1)
+			mb_flag = 1;
+		else
+			mb_flag = 0;
+	}
 
-  if (mb & 1) mb_flag = 1;
-  else mb_flag = 0;
- }
-
- blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-
- Transition_Out(temp, palette);
+	blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+	Transition_Out(temp, palette);
 }
 
 void Editor_Draw_Screen(void)
@@ -441,8 +443,8 @@ void Drop_Down(void)
  if (menu_hl == 0)
  {
   if (item_hl == 2) exit_flag = 1;
-  if (item_hl == 0) Open_Maps(13);
-  if (item_hl == 1) Save_Maps(13);
+  if (item_hl == 0) Open_Maps();
+  if (item_hl == 1) Save_Maps();
  }
  if (menu_hl == 1)
  {
@@ -473,7 +475,7 @@ void Drop_Down(void)
  }
 }
 
-void Remember_File(char *fn, int a, int b)
+void Remember_File(const char *fn, int a, int b)
 {
  strcpy(dir[f_no].name, get_filename(fn));
  f_no++;
@@ -493,7 +495,7 @@ void Directory(void)
  line(temp, 0, 468, 640, 468, 0);
 
  f_no = 0;
- for_each_file("./maps/*.map", FA_RDONLY | FA_ARCH, Remember_File, 0);
+ for_each_file((const char *) "./maps/*.map", FA_RDONLY | FA_ARCH, Remember_File, 0);
 
  text_mode(7);
  for (j = 0; j < f_no; j++)

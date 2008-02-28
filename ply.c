@@ -119,17 +119,17 @@ void Player_Move(int p_no)
 
 int Check_Can_Fall(int x, int y, int z)
 {
- if (!z) return 0;
+	if (z > 0)
+	{
+		if (map[x/_block_width][y/_block_height][0] & FULL) return 0;
+		if (map[(x + (_block_width-1))/_block_width][y/_block_height][0] & FULL) return 0;
+		if (map[x/_block_width][(y + (_block_height-1))/_block_height][0] & FULL) return 0;
+		if (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][0] & FULL) return 0;
 
- if (z > 0)
- {
-  if (map[x/_block_width][y/_block_height][0] & FULL) return 0;
-  if (map[(x + (_block_width-1))/_block_width][y/_block_height][0] & FULL) return 0;
-  if (map[x/_block_width][(y + (_block_height-1))/_block_height][0] & FULL) return 0;
-  if (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][0] & FULL) return 0;
+		return 1;
+	}
 
-  return 1;
- }
+	return 0;
 }
 
 void Player_Teleport(int p_no)
