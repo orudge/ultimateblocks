@@ -622,14 +622,15 @@ void Open_Maps(void)
  {
     for (l = 0; l < 100; l++)
     {
-       pack_fread(tmpbuf, 4, file);
-       strcpy(map_motif[l], tmpbuf);
+		pack_fread(&map_motif[l][0], 4, file);
     }
  }
  else
  {
     for (l = 0; l < 100; l++)
-       strcpy(map_motif[l], GetMotifFromInt(pack_igetw(file)));
+	{
+		strcpy(map_motif[l], GetMotifFromInt(pack_igetw(file)));
+	}
  }
 
  pack_fclose(file);

@@ -89,7 +89,8 @@ void Initialise(void)
 	set_config_file("blocks4.cfg");
 	B2Music = get_config_int("Blocks4", "B2Music", 1);
 
-	// Change screen resolution
+	// Change screen resolutions
+	set_window_title("Ultimate Blocks");
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
 
 	// Install timer
