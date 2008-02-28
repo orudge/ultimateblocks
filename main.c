@@ -105,6 +105,7 @@ int Run_Level(void)
 {
 	Change_Motif(map_motif[lev]);
 
+	Clear_Undo();
 	Draw_Map();
 	Init_Level();
 	Map_Setup();

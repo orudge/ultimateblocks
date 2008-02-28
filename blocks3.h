@@ -466,4 +466,4 @@ void Move_Undo_Down(void);
 void Add_Undo(void);
 void Undo(void);
 void Move_Undo_Down(void);
-
+void Clear_Undo(void);

@@ -334,4 +334,7 @@ void Move_Undo_Down(void)
  undo_count = 20;
 }
 
-
+void Clear_Undo(void)
+{
+	undo_count = 0;
+}
