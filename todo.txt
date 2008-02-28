@@ -1,0 +1,17 @@
+todo:
+
+- title screen
+- improve login mechanism
+- "about" menu
+- better map browsing, etc, support?
+- better font
+- score counter, etc, like blocks+ - configurable
+- get ready/good luck - zoom in like blocks+
+- help screen with keyboard shortcuts
+- make keyboard shortcuts configurable?
+- add some sort of yield command to OS
+- add stepping on blue "turn into raised bit" things to undo
+- some sort of a lives indicator?
+- widen motif menu in editor
+- menus broken after test run
+- remember volume levels
