@@ -169,9 +169,9 @@ void Initialise(void)
 	title_gfx = load_bitmap("title256.bmp", title_palette);
 
 	// Setup sound
-	reserve_voices(20, -1);
+	reserve_voices(64, -1);
 	install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
-	install_mod(24);
+	install_mod(40);
 
 	set_mod_volume(255);
 	set_volume(255, 0);
