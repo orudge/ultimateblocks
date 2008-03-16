@@ -134,10 +134,10 @@ void CD_Player(void)
 				textprintf(screen, font, 10, 10, 7, "%d ", cd_track);
 			}
 
-			play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
 		}
 		else
-			play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
 		if (key[KEY_UP])
 			item--;
@@ -246,10 +246,10 @@ void Mod_Music(void)
 			else
 				cd_exit = 1;
 
-			play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
 		}
 		else
-			play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
 		if (key[KEY_UP])
 			item--;

@@ -138,7 +138,7 @@ void Initialise(void)
 	install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
 	install_mod(40);
 
-	set_volume(sfx_vol, 0);
+	set_volume(255, 0);
 	set_mod_volume(mus_vol);
 	cd_set_volume(cd_vol, cd_vol);
 

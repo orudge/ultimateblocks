@@ -71,7 +71,7 @@ void In_Game_Menu(void)
 
   if (key[KEY_ESC])
   {
-   play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+   play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
    item = 0;
    game_menu_exit = 1;
   }
@@ -79,12 +79,12 @@ void In_Game_Menu(void)
   if (key[KEY_ENTER])
   {
    game_menu_exit = 1;
-   play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+   play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
   }
 
   if (key[KEY_UP]) item--;
   if (key[KEY_DOWN]) item++;
-  play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+  play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
   if (item < 0) item = 5;
   if (item > 5) item = 0;
@@ -135,6 +135,7 @@ void Options_Menu(void)
 {
  BITMAP *temp2 = create_bitmap(200, 230);
  int item = 0, options_exit = 0, i = 0;
+	int old_mus_vol, old_cd_vol;
 
  blit(screen, temp, 0, 0, 0, 0, 640, 480);
 
@@ -164,6 +165,9 @@ void Options_Menu(void)
  options_exit = 0;
  item = 0;
 
+	old_mus_vol = mus_vol;
+	old_cd_vol = cd_vol;
+
  while (!options_exit)
  {
   rectfill(temp2, 1, 1, 198, 228, 7);
@@ -188,7 +192,7 @@ void Options_Menu(void)
 
   if (key[KEY_ESC])
   {
-   play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+   play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
    item = 0;
    options_exit = 1;
   }
@@ -202,7 +206,7 @@ void Options_Menu(void)
    if (item == 3)
    {
     options_exit = 1;
-    play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+    play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
    }
 
    time_count = 0;
@@ -219,21 +223,29 @@ void Options_Menu(void)
    while (time_count < 10);
   }
 
-  if (mus_vol < 0) mus_vol = 0;
-  if (sfx_vol < 0) sfx_vol = 0;
-  if (cd_vol < 0) cd_vol = 0;
+	if (mus_vol < 0) mus_vol = 0;
+	if (sfx_vol < 0) sfx_vol = 0;
+	if (cd_vol < 0) cd_vol = 0;
 
-  if (mus_vol > 255) mus_vol = 255;
-  if (sfx_vol > 255) sfx_vol = 255;
-  if (cd_vol > 255) cd_vol = 255;
+	if (mus_vol > 255) mus_vol = 255;
+	if (sfx_vol > 255) sfx_vol = 255;
+	if (cd_vol > 255) cd_vol = 255;
+	
+	if (mus_vol != old_mus_vol)
+	{
+		set_mod_volume(mus_vol);
+		old_mus_vol = mus_vol;
+	}
 
-  set_volume(sfx_vol, 0);
-  set_mod_volume(mus_vol);
-  cd_set_volume(cd_vol, cd_vol);
+	if (cd_vol != old_cd_vol)
+	{
+		cd_set_volume(cd_vol, cd_vol);
+		old_cd_vol = cd_vol;
+	}
 
   if (key[KEY_UP]) item--;
   if (key[KEY_DOWN]) item++;
-  play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+  play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
   if (item < 0) item = 3;
   if (item > 3) item = 0;
@@ -305,7 +317,7 @@ void Music_Menu(void)
 
   if (key[KEY_ESC])
   {
-   play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+   play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
    item = -1;
    music_exit = 1;
   }
@@ -317,7 +329,7 @@ void Music_Menu(void)
 
   if (key[KEY_UP]) item--;
   if (key[KEY_DOWN]) item++;
-  play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+  play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
   if (item < 0) item = 2;
   if (item > 2) item = 0;

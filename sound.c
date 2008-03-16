@@ -24,7 +24,7 @@ void Play_Sound(void)
 
 	for (i = 0; i < fx_count; i++)
 	{
-		play_sample(sfx[fx[i].s].dat, 255, fx[i].x, 1000, 0);
+		play_sample(sfx[fx[i].s].dat, sfx_vol, fx[i].x, 1000, 0);
 	}
 
 	fx_count = 0;

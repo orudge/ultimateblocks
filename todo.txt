@@ -17,6 +17,5 @@ todo:
 - disallow testing in editor without character
 - keep track of number of undos
 - better way of keeping track of paths - look into OS-specific stuff, too
-- altering sfx volume should not alter music volume - keep track of separate variable and pass this to any play_sample type things
 
 - Internet-based multiplayer?

@@ -318,7 +318,7 @@ void Get_Ready(void)
 
 	blit(temp2, screen, 0, 0, 0, 0, 640, 480);
 
-	play_sample(sfx[SFX_GETRED].dat, 255, 128, 1000, 0);
+	play_sample(sfx[SFX_GETRED].dat, sfx_vol, 128, 1000, 0);
 
 	while(key[KEY_ENTER]);
 	while(!key[KEY_ENTER]);
@@ -347,7 +347,7 @@ void Well_Done(void)
 
 	blit(temp2, screen, 0, 0, 0, 0, 640, 480);
 
-	play_sample(sfx[SFX_WELLDONE].dat, 255, 128, 1000, 0);
+	play_sample(sfx[SFX_WELLDONE].dat, sfx_vol, 128, 1000, 0);
 
 	while(key[KEY_ENTER]);
 	while(!key[KEY_ENTER]);

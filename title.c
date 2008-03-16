@@ -122,14 +122,14 @@ int Title_Menu(void)
 
 		if (key[KEY_ESC])
 		{
-			play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
 			item = 4;
 		}
 
 		if (key[KEY_ENTER])
 		{
 			title_menu_exit = 1;
-			play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
 		}
 
 		if (key[KEY_UP])
@@ -144,7 +144,7 @@ int Title_Menu(void)
 		if (item > 5)
 			item = 0;
 
-		play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+		play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
 		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]));
 	}
@@ -198,7 +198,7 @@ void Log_In(void)
 
 	text_mode(-1);
 
-	play_sample(sfx[SFX_INQUIRY].dat, 255, 128, 1000, 0);
+	play_sample(sfx[SFX_INQUIRY].dat, sfx_vol, 128, 1000, 0);
 
 	textprintf_centre(temp2, fonts[0].dat, 100, 20, 0, "Log In");
 	textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "_", login);
@@ -230,7 +230,7 @@ void Log_In(void)
 			rectfill(temp2, 10, 70, 189, 120, 7);
 			textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "%s_", login);
 			blit(temp2, screen, 0, 0, 220, 100, 200, 150);
-			play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 		}
 
 		if ((key[KEY_BACKSPACE]) && (i > 0))
@@ -240,12 +240,12 @@ void Log_In(void)
 			rectfill(temp2, 10, 70, 189, 120, 7);
 			textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "%s_", login);
 			blit(temp2, screen, 0, 0, 220, 100, 200, 150);
-			play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 			while(key[KEY_BACKSPACE]);
 		}
 	}
 
-	play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+	play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
 
 	login[i] = '.';
 	login[i + 1] = 'l';
@@ -318,7 +318,7 @@ int Open_Maps_Title(void)
  {
   if ((key[KEY_DOWN]) || (key[KEY_UP]))
   {
-   play_sample(sfx[SFX_CLICK].dat, 255, 128, 1000, 0);
+   play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
    if (key[KEY_DOWN]) file_sel++;
    if (key[KEY_UP]) file_sel--;
 
@@ -338,7 +338,7 @@ int Open_Maps_Title(void)
   }
  }
 
- play_sample(sfx[SFX_FALL].dat, 255, 128, 1000, 0);
+ play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
 
  if (key[KEY_ESC]) l = 1;
  else l = 0;
