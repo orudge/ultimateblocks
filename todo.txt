@@ -15,3 +15,7 @@ todo:
 - widen motif menu in editor
 - menus broken after test run
 - remember volume levels
+- disallow testing in editor without character
+- keep track of number of undos
+
+- Internet-based multiplayer?

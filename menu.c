@@ -110,6 +110,7 @@ void In_Game_Menu(void)
    Draw_Map();
    Init_Level();
    Map_Setup();
+
    game_exit = 0;
   }
   blit(temp, screen, 0, 0, 0, 0, 640, 480);

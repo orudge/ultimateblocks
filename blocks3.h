@@ -138,6 +138,8 @@ extern BITMAP *gfx, *temp, *back;
 BITMAP *ply_pic[2][12];
 BITMAP *mon_pic[5][12];
 
+BITMAP *temp_particle;
+
 BITMAP *title_gfx;
 PALETTE title_palette;
 
@@ -205,7 +207,9 @@ typedef struct DIRTY_DEF
  BITMAP *pic;
 } DIRTY_DEF;
 
-DIRTY_DEF dirty[300], dirty_sort[300];
+#define MAX_DIRTY	300
+
+DIRTY_DEF dirty[MAX_DIRTY], dirty_sort[MAX_DIRTY];
 int dirty_count;
 
 typedef struct BOX_DEF
@@ -319,12 +323,48 @@ typedef struct MOTIF
 	int block_width;
 	int block_height;
 	int block_depth;
+	char particles;
 } MOTIF;
+
+char _particles;
 
 MOTIF motifs[20];
 int num_motifs;
 
 extern int B2Music;
+
+#define MAX_PARTICLES 1000
+
+typedef struct PARTICLE_DEF
+{
+	int x;
+	int y;
+	int dx;
+	int dy;
+	int col;
+} PARTICLE_DEF;
+
+PARTICLE_DEF part[MAX_PARTICLES];
+int part_count;
+
+// todo: new particles
+typedef struct particle
+{
+	double x, y;           // location of the particle on the screen
+	double dx, dy;         // speed and direction of movement
+	double rx,ry;          // the amount of randomness in the movement
+	double tx,ty;          // the location this particle was last at.
+	int colour;            // the particle's colour
+	int oldcol[5];         // colour of the old pixel
+	int type;              // the drawing type of the particle
+	int life;              // When the counter hits zero we remove the particle.
+	struct particle *next; // a link to the next particle.
+	char first_update;     // first time round?
+} particle;
+
+#define RAIN_PARTICLE  0  // here are just some types for the drawing types :)
+#define SNOW_PARTICLE1 1
+#define SNOW_PARTICLE2 2
 
 // functions
 
@@ -436,6 +476,12 @@ void Monster_Change_Dir(int m_no, int x, int y, int z);
 
 // motif.c
 void Change_Motif(char *m);
+
+// part.c
+void Add_Part(int x, int y, int dx, int dy, int col);
+void Del_Part(int p_no);
+void Particle(void);
+void Particle_Move(void);
 
 // ply.c
 void Player_Fall(int p_no);

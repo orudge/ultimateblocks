@@ -181,6 +181,7 @@ int Run_Level(void)
 		Draw_Explode();
 
 		Draw_Screen();
+
 		Play_Sound();
 
 /*		textprintf(screen, font, 10, 10, 7, "%d ", undo_count);

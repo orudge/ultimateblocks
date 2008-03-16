@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\part.c"
+				>
+			</File>
+			<File
 				RelativePath=".\ply.c"
 				>
 			</File>

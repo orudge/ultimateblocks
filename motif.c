@@ -31,6 +31,8 @@ void Change_Motif(char *m)
 	if (m == SNOWY)
 		gfx = load_bitmap("snowy256.bmp", palette); */
 
+	reset_particles();
+
  	old_block_width = _block_width;
 	old_block_height = _block_height;
 	old_block_depth = _block_depth;
@@ -51,6 +53,7 @@ void Change_Motif(char *m)
 			_block_width = motifs[i].block_width;
 			_block_height = motifs[i].block_height;
 			_block_depth = motifs[i].block_depth;
+			_particles = motifs[i].particles;
 
 			if (B2Music == 1)
 			{
@@ -71,6 +74,7 @@ void Change_Motif(char *m)
 		_block_width = motifs[i].block_width;
 		_block_height = motifs[i].block_height;
 		_block_depth = motifs[i].block_depth;
+		_particles = 0;
 
 		if (B2Music == 1)
 		{

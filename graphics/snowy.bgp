@@ -6,5 +6,6 @@ UID=SNWY
 BlockWidth=32
 BlockHeight=32
 BlockDepth=8
+Particles=1
 Filename=./graphics/SNOWY.BMP
 Music=./music/misthart.xm

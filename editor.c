@@ -552,7 +552,6 @@ void Open_Maps(void)
  int i, j, k, l;
  PACKFILE *file;
  int b4file = 0;
- char tmpbuf[4];
 
  Directory();
 

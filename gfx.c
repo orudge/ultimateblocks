@@ -9,14 +9,17 @@
 
 void DirtyList(int x,int y, int z, int w, int h, BITMAP *pic)
 {
- dirty[dirty_count].x = x;
- dirty[dirty_count].y = y;
- dirty[dirty_count].z = z;
- dirty[dirty_count].w = w;
- dirty[dirty_count].h = h;
- dirty[dirty_count].pic = pic;
+	if (dirty_count == MAX_DIRTY)
+		return;
 
- dirty_count++;
+	dirty[dirty_count].x = x;
+	dirty[dirty_count].y = y;
+	dirty[dirty_count].z = z;
+	dirty[dirty_count].w = w;
+	dirty[dirty_count].h = h;
+	dirty[dirty_count].pic = pic;
+
+	dirty_count++;
 }
 
 /*void Draw_Screen(void)
@@ -324,6 +327,8 @@ void Draw_Screen(void)
 
  dirty_count = 0;
 
+Particle_Move();
+
  Draw_Status();
 }
 void Map_Setup(void)
@@ -415,6 +420,9 @@ void Map_Setup(void)
    switches_count++;
   }
  }
+
+	if (_particles == 1)
+		Particle();
 }
 
 void Draw_Status(void)
