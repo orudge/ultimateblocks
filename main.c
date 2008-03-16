@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include <libcda.h>
 #include "blocks3.h"
 #include <string.h>
@@ -53,6 +52,7 @@ int main(void)
 
 	Save_Config();
 
+	dumb_exit();
 	allegro_exit();
 
 	return(0);
@@ -129,6 +129,8 @@ int Run_Level(void)
 
 	while (!game_exit)
 	{
+		Poll_Music();
+
 		Box_Move();
 		Box_Fall();
 
@@ -262,6 +264,8 @@ void Full_Game(void)
 
 	while (exit_full_game)
 	{
+		Poll_Music();
+
 		Maps_to_Map(lev);
 		exit_full_game = Run_Level();
 
@@ -320,10 +324,21 @@ void Get_Ready(void)
 
 	play_sample(sfx[SFX_GETRED].dat, sfx_vol, 128, 1000, 0);
 
-	while(key[KEY_ENTER]);
-	while(!key[KEY_ENTER]);
+	while(key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
+
+	while(!key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
+
 	blit(temp, screen, 0, 0, 0, 0, 640, 480);
-	while(key[KEY_ENTER]);
+	while(key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
 }
 
 void Well_Done(void)
@@ -349,9 +364,18 @@ void Well_Done(void)
 
 	play_sample(sfx[SFX_WELLDONE].dat, sfx_vol, 128, 1000, 0);
 
-	while(key[KEY_ENTER]);
-	while(!key[KEY_ENTER]);
-	while(key[KEY_ENTER]);
+	while(key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
+	while(!key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
+	while(key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
 }
 
 void Init_Full_Game(void)
@@ -473,8 +497,15 @@ void Finish_Game(void)
 
 	fade_in(palette, 10);
 
-	while(key[KEY_ENTER]);
-	while(!key[KEY_ENTER]);
+	while(key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
+
+	while(!key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
 }
 
 void Convert(void)

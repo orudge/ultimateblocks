@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include <libcda.h>
 #include <stdio.h>
 #include "blocks3.h"
@@ -22,11 +21,17 @@ void increment_time_counter(void)
 
 END_OF_FUNCTION(increment_time_counter);
 
-void Remember_Mod_File(char *fn, int a, int b)
+int Remember_Mod_File(char *fn, int a, void *b)
 {
+	if (f_no == MAX_MODS)
+		return -1;
+
 	strcpy(mod[f_no].name, "./music/");
 	strcat(mod[f_no].name, get_filename(fn));
+	mod[f_no].type = b;
 	f_no++;
+
+	return 0;
 }
 
 void LoadGraphicsPack(char *fn, int a, int b)
@@ -91,6 +96,9 @@ void Initialise(void)
 	// Initialise CD player
 	cd_init();
 
+	// Initialise DUMB
+	dumb_register_stdfiles();
+
 	set_config_file("blocks4.cfg");
 	B2Music = get_config_int("Sound", "B2Music", 1);
 
@@ -101,6 +109,7 @@ void Initialise(void)
 	// Change screen resolutions
 	set_window_title("Ultimate Blocks");
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
+	set_display_switch_mode(SWITCH_BACKGROUND); // todo: may need to alter for fullscreen
 
 	// Install timer
 
@@ -136,19 +145,20 @@ void Initialise(void)
 	// Setup sound
 	reserve_voices(64, -1);
 	install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
-	install_mod(40);
+	//install_mod(40);
 
 	set_volume(255, 0);
-	set_mod_volume(mus_vol);
+	//set_mod_volume(mus_vol);
 	cd_set_volume(cd_vol, cd_vol);
 
 	sfx = load_datafile("sfx.dat");
 
 	// Iterate through music
 	f_no = 0;
-	for_each_file("./music/*.mod", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
-	for_each_file("./music/*.s3m", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
-	for_each_file("./music/*.xm", FA_RDONLY | FA_ARCH, Remember_Mod_File, 0);
+	for_each_file_ex("./music/*.mod", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_MOD);
+	for_each_file_ex("./music/*.s3m", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_S3M);
+	for_each_file_ex("./music/*.xm", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_XM);
+	for_each_file_ex("./music/*.it", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_IT);
 
 	mod_last = f_no;
 	mod_track = 0;
@@ -156,10 +166,7 @@ void Initialise(void)
 	// If we're not using the Blocks+-style music, we need to start playing the first track
 	// If we are, it'll be done automatically when we change motif
 	if (B2Music == 0)
-	{
-		music = load_mod(mod[mod_track].name);
-		play_mod(music, TRUE);
-	}
+		Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 1);
     
 	// Change motif to default (Sunny)
 	Change_Motif("SUNY");

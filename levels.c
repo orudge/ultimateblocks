@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include "blocks3.h"
 
 void Change_Levels(void)
@@ -19,8 +18,15 @@ void Change_Levels(void)
 
  Map_to_Maps(100);
 
- while(key[KEY_ESC]);
- while(key[KEY_ENTER]);
+ while(key[KEY_ESC])
+ {
+	 Poll_Music();
+ }
+
+ while(key[KEY_ENTER])
+ {
+	 Poll_Music();
+ }
 
  while ((!key[KEY_ESC]) && (!key[KEY_ENTER]))
  {
@@ -43,11 +49,17 @@ void Change_Levels(void)
   blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
   while ((key[KEY_UP]) || (key[KEY_DOWN]) ||
-         (key[KEY_LEFT]) || (key[KEY_RIGHT]));
+         (key[KEY_LEFT]) || (key[KEY_RIGHT]))
+  {
+	  Poll_Music();
+  }
 
   while ((!key[KEY_UP]) && (!key[KEY_DOWN]) &&
          (!key[KEY_LEFT]) && (!key[KEY_RIGHT]) &&
-         (!key[KEY_ESC]) && (!key[KEY_ENTER]));
+         (!key[KEY_ESC]) && (!key[KEY_ENTER]))
+  {
+	  Poll_Music();
+  }
 
   if (key[KEY_ESC])
   {

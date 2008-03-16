@@ -4,8 +4,9 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
+#include <aldumb.h>
 #include <libcda.h>
+#include <string.h>
 #include "blocks3.h"
 
 int cd_track = -1;
@@ -220,7 +221,10 @@ void Mod_Music(void)
 
 		blit(temp2, screen, 0, 0, 220, 100, 200, 190);
 
-		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]));
+		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
+		{
+			Poll_Music();
+		}
 
 		if (key[KEY_ESC]) cd_exit = 1;
 
@@ -240,8 +244,7 @@ void Mod_Music(void)
 				if (mod_track > mod_last)
 					mod_track = 0;
 
-				music = load_mod(mod[mod_track].name);
-				play_mod(music, TRUE);
+				Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 1); // todo: specify whether should loop?
 			}
 			else
 				cd_exit = 1;
@@ -263,7 +266,10 @@ void Mod_Music(void)
 		if (item > 2)
 			item = 0;
 
-		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]));
+		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
+		{
+			Poll_Music();
+		}
 	}
 
 	for (i = 220; i < 650; i+=10)
@@ -275,4 +281,72 @@ void Mod_Music(void)
 	}
 
 	blit(temp3, screen, 0, 0, 0, 0, 640, 480);
+}
+
+char *mod_current_fn;
+int mod_current_type;
+char mod_current_loop;
+
+void Play_MOD_Track(char *filename, int type, char loop)
+{
+	al_stop_duh(mod_player);
+	mod_player = NULL;
+
+	unload_duh(music);
+
+	switch (type)
+	{
+		case MODTYPE_MOD:
+			music = dumb_load_mod_quick(filename);
+			break;
+
+		case MODTYPE_S3M:
+			music = dumb_load_s3m_quick(filename);
+			break;
+
+		case MODTYPE_XM:
+			music = dumb_load_xm_quick(filename);
+			break;
+
+		case MODTYPE_IT:
+			music = dumb_load_it_quick(filename);
+			break;
+
+		default:
+			{
+			char *lwr = strlwr(get_extension(filename));
+
+			if (strcmp(lwr, "mod") == 0)
+				music = dumb_load_mod_quick(filename);
+			else if (strcmp(lwr, "s3m") == 0)
+				music = dumb_load_s3m_quick(filename);
+			else if (strcmp(lwr, "xm") == 0)
+				music = dumb_load_xm_quick(filename);
+			else if (strcmp(lwr, "it") == 0)
+				music = dumb_load_it_quick(filename);
+			else
+				music = NULL;
+
+			break;
+			}
+
+	}
+
+	mod_player = al_start_duh(music, 2, 0, (mus_vol / 255.0), 4096, 44100);
+}
+
+void Poll_Music()
+{
+	if (al_poll_duh(mod_player) != 0)
+	{
+		if (mod_current_loop == 1)
+		{
+			al_stop_duh(music);
+			mod_player = al_start_duh(music, 2, 0, (mus_vol / 255.0), 4096, 44100);
+		}
+		else
+			al_stop_duh(music);
+	}
+
+	rest(0); // good opportunity to yield to other processes
 }

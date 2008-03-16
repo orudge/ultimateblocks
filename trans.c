@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include "blocks3.h"
 
 #define OWEN_HIDE_TRANSITIONS  0

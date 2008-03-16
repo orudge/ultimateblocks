@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include "blocks3.h"
 #include <string.h>
 
@@ -99,6 +98,8 @@ void Editor(void)
 
 	while (!exit_flag)
 	{
+		Poll_Music();
+
 		mx = mouse_x;
 		my = mouse_y;
 		mb = mouse_b;
@@ -127,7 +128,10 @@ void Editor(void)
 		if (key[KEY_TAB])
 		{
 			level_flag = 1 - level_flag;
-			while(key[KEY_TAB]);
+			while(key[KEY_TAB])
+			{
+				Poll_Music();
+			}
 
 			scare_mouse();
 
@@ -171,7 +175,10 @@ void Editor(void)
 			Editor_Draw_Menu();
 			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-			while (key[KEY_MINUS_PAD]);
+			while (key[KEY_MINUS_PAD])
+			{
+				Poll_Music();
+			}
 
 			redraw_flag = 1;
 		}
@@ -188,7 +195,11 @@ void Editor(void)
 			Editor_Draw_Menu();
 			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-			while (key[KEY_PLUS_PAD]);
+			while (key[KEY_PLUS_PAD])
+			{
+				Poll_Music();
+			}
+
 			redraw_flag = 1;
 		}
 
@@ -204,7 +215,11 @@ void Editor(void)
 			Editor_Draw_Menu();
 			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-			while (key[KEY_PGUP]);
+			while (key[KEY_PGUP])
+			{
+				Poll_Music();
+			}
+
 			redraw_flag = 1;
 		}
 
@@ -222,7 +237,11 @@ void Editor(void)
 			Editor_Draw_Menu();
 			blit(temp, screen, 0, 0, 0, 0, 639, 10);
 
-			while (key[KEY_PGDN]);
+			while (key[KEY_PGDN])
+			{
+				Poll_Music();
+			}
+
 			redraw_flag = 1;
 		}
 
@@ -231,7 +250,10 @@ void Editor(void)
 			Map_to_Maps(elev);
 			Copy_To_Buffer(elev);
 			redraw_flag = 1;
-			while(key[KEY_INSERT]);
+			while(key[KEY_INSERT])
+			{
+				Poll_Music();
+			}
 		}
 
 		if (((key[KEY_LSHIFT]) || (key[KEY_RSHIFT])) && (key[KEY_INSERT]))
@@ -239,7 +261,10 @@ void Editor(void)
 			Copy_From_Buffer(elev);
 			Maps_to_Map(elev);
 			redraw_flag = 1;
-			while(key[KEY_INSERT]);
+			while(key[KEY_INSERT])
+			{
+				Poll_Music();
+			}
 		}
 
 		if ((key[KEY_RIGHT]) && (icon_start < 20))
@@ -249,7 +274,10 @@ void Editor(void)
 			scare_mouse();
 			blit(temp, screen, 0, 448, 0, 448, 640, 32);
 			unscare_mouse();
-			while (key[KEY_RIGHT]);
+			while (key[KEY_RIGHT])
+			{
+				Poll_Music();
+			}
 		}
 	
 		if ((key[KEY_LEFT]) && (icon_start > 0))
@@ -259,7 +287,10 @@ void Editor(void)
 			scare_mouse();
 			blit(temp, screen, 0, 448, 0, 448, 640, 32);
 			unscare_mouse();
-			while (key[KEY_LEFT]);
+			while (key[KEY_LEFT])
+			{
+				Poll_Music();
+			}
 		}
 
 		if (redraw_flag)
@@ -270,7 +301,10 @@ void Editor(void)
 
 		if (key[KEY_F2])
 		{
-			while (key[KEY_F2]);
+			while (key[KEY_F2])
+			{
+				Poll_Music();
+			}
 			Save_Maps();
 
 			redraw_flag = 1;
@@ -278,7 +312,10 @@ void Editor(void)
 
 		if (key[KEY_F3])
 		{
-			while (key[KEY_F3]);
+			while (key[KEY_F3])
+			{
+				Poll_Music();
+			}
 			Open_Maps();
 
 			redraw_flag = 1;
@@ -421,12 +458,16 @@ void Drop_Down(void)
 
  old_item_hl = -1;
 
- while (mouse_b);
+ while (mouse_b)
+ {
+	 Poll_Music();
+ }
 
  while ((!(mouse_b & 1)) && (mouse_x > menu[menu_hl].x)
     && (mouse_x < menu[menu_hl].x + menu[menu_hl].w)
     && (mouse_y < menu[menu_hl].y + menu[menu_hl].h))
  {
+	 Poll_Music();
   old_item_hl = item_hl;
 
   item_hl = (mouse_y - menu[menu_hl].y - 10)/10;
@@ -438,7 +479,10 @@ void Drop_Down(void)
 
  if (!(mouse_b & 1)) return;
 
- while (mouse_b);
+ while (mouse_b)
+ {
+	 Poll_Music();
+ }
 
  if (menu_hl == 0)
  {
@@ -512,6 +556,8 @@ int Yes_Or_No(void)
  while ((!(mouse_b & 1)) && (!key[KEY_ESC])
        && (!key[KEY_Y]) && (!key[KEY_N]))
  {
+	 Poll_Music();
+
   mx = mouse_x;
   my = mouse_y;
   if ((my > 130) && (my < 140))
@@ -564,6 +610,8 @@ void Open_Maps(void)
 
  while ((!mouse_b & 1) && (!key[KEY_ESC]))
  {
+Poll_Music();
+
   mx = mouse_x;
   my = mouse_y;
 
@@ -665,6 +713,8 @@ void Save_Maps(void)
 
  while (!(mouse_b & 1) && (!key[KEY_ESC]) && (!key[KEY_ENTER]))
  {
+	 Poll_Music();
+
   mx = mouse_x;
   my = mouse_y;
 
@@ -767,8 +817,15 @@ void Save_Maps(void)
 
  pack_fclose(file);
 
- while(mouse_b & 1);
- while(key[KEY_ENTER]);
+ while(mouse_b & 1)
+ {
+	 Poll_Music();
+ }
+
+ while(key[KEY_ENTER])
+ {
+	 Poll_Music();
+ }
 }
 
 void Map_to_Maps(int lev)

@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include "blocks3.h"
 
 void Box_Push(int x, int y, int z, int dx, int dy)

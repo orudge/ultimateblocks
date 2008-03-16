@@ -1,5 +1,4 @@
 #include <allegro.h>
-#include <jgmod.h>
 #include <math.h>
 
 #include "blocks3.h"

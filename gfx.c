@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include "blocks3.h"
 
 void DirtyList(int x,int y, int z, int w, int h, BITMAP *pic)

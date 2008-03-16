@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include "blocks3.h"
 #include <string.h>
 
@@ -21,7 +20,11 @@ void Presents(void)
 	Transition_In(temp, palette);
 
 	clear_keybuf();
-	while (!keypressed());
+	
+	while (!keypressed())
+	{
+		Poll_Music();
+	}
 
 	Transition_Out(temp, palette);
 }
@@ -44,9 +47,16 @@ void Title(void)
 	set_palette(title_palette); // just to be sure :-)
 
 	clear_keybuf();
-	while (!keypressed());
+	while (!keypressed())
+	{
+		Poll_Music();
+	}
+
 	clear_keybuf();
-	while (keypressed());
+	while (keypressed())
+	{
+		Poll_Music();
+	}
 }
 
 int Title_Menu(void)
@@ -118,7 +128,10 @@ int Title_Menu(void)
 
 		blit(temp2, screen, 0, 0, 220, 100, 200, 300);
 
-		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]));
+		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
+		{
+			Poll_Music();
+		}
 
 		if (key[KEY_ESC])
 		{
@@ -146,7 +159,11 @@ int Title_Menu(void)
 
 		play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 
-		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]));
+		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
+		{
+			Poll_Music();
+		}
+
 	}
 
 	for (i = 220; i < 650; i+=10)
@@ -219,7 +236,10 @@ void Log_In(void)
 
 	while ((!key[KEY_ENTER]) || (i == 0))
 	{
-		while(!keypressed());
+		while(!keypressed())
+		{
+			Poll_Music();
+		}
 
 		j = readkey() & 0xff;
 
@@ -241,7 +261,10 @@ void Log_In(void)
 			textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "%s_", login);
 			blit(temp2, screen, 0, 0, 220, 100, 200, 150);
 			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
-			while(key[KEY_BACKSPACE]);
+			while(key[KEY_BACKSPACE])
+			{
+				Poll_Music();
+			}
 		}
 	}
 
@@ -265,7 +288,10 @@ void Log_In(void)
 	blit(title_gfx, screen, 550, 10, 550, 10, 90, 10);
 	textprintf(screen, font, 550, 11, 7, "%s", login);
 
-	while(key[KEY_ENTER]);
+	while(key[KEY_ENTER])
+	{
+		Poll_Music();
+	}
 }
 
 void Remember_File_Title(char *fn, int a, int b)
@@ -310,12 +336,17 @@ int Open_Maps_Title(void)
  {
   blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 300);
   blit(temp2, screen, 0, 0, i, 100, 400, 300);
-  while (time_count < 1);
+  while (time_count < 1)
+  {
+	  Poll_Music();
+  }
   time_count = 0;
  }
 
  while ((!key[KEY_ESC]) && (!key[KEY_ENTER]))
  {
+	 Poll_Music();
+
   if ((key[KEY_DOWN]) || (key[KEY_UP]))
   {
    play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
@@ -334,7 +365,10 @@ int Open_Maps_Title(void)
 
    blit(temp2, screen, 0, 0, 120, 100, 400, 300);
 
-   while ((key[KEY_UP]) || (key[KEY_DOWN]));
+   while ((key[KEY_UP]) || (key[KEY_DOWN]))
+   {
+	   Poll_Music();
+   }
   }
  }
 
@@ -347,13 +381,19 @@ int Open_Maps_Title(void)
  {
   blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 300);
   blit(temp2, screen, 0, 0, i, 100, 400, 300);
-  while (time_count < 1);
+  while (time_count < 1)
+  {
+	  Poll_Music();
+  }
   time_count = 0;
  }
 
  if (l == 1)
  {
-  while (key[KEY_ESC]);
+  while (key[KEY_ESC])
+  {
+	  Poll_Music();
+  }
   return 0;
  }
 
@@ -395,7 +435,10 @@ int Open_Maps_Title(void)
 
  pack_fclose(file);
 
- while(key[KEY_ENTER]);
+ while(key[KEY_ENTER])
+ {
+	 Poll_Music();
+ }
 
  return 1;
 }

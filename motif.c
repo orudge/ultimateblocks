@@ -5,7 +5,6 @@
 
 #include <allegro.h>
 #include <string.h>
-#include <jgmod.h>
 #include "blocks3.h"
 
 void Change_Motif(char *m)
@@ -56,12 +55,7 @@ void Change_Motif(char *m)
 			_particles = motifs[i].particles;
 
 			if (B2Music == 1)
-			{
-				destroy_mod(music);
-
-				music = load_mod(motifs[i].music_fn);
-				play_mod(music, TRUE);
-			}
+				Play_MOD_Track(motifs[i].music_fn, 0, 1);
 
 			break;
 		}
@@ -78,12 +72,8 @@ void Change_Motif(char *m)
 
 		if (B2Music == 1)
 		{
-			destroy_mod(music);
-
-			set_config_file("blocks4.cfg");
-			
-			music = load_mod(get_config_string("Sound", "InitialMusic", "music/deadlock.xm"));
-			play_mod(music, TRUE);
+			set_config_file("blocks4.cfg");		
+			Play_MOD_Track(get_config_string("Sound", "InitialMusic", "music/deadlock.xm"), 0, 1);
 		}
 	}
 

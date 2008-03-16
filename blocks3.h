@@ -3,6 +3,8 @@
 /* Copyright (c) An Ly 2000, Owen Rudge 2001, 2008   */
 /*****************************************************/
 
+#include <aldumb.h>
+
 #define OLD_SOLID           1
 #define OLD_BOX             2
 #define OLD_TOKEN           3
@@ -129,7 +131,14 @@
 #define ROCKY           3
 #define SNOWY           4
 
-JGMOD *music;
+#define MODTYPE_MOD		1
+#define MODTYPE_S3M		2
+#define MODTYPE_XM		3
+#define MODTYPE_IT		4
+
+DUH *music;
+AL_DUH_PLAYER *mod_player;
+
 DATAFILE *fonts, *sfx;
 
 char login[13];
@@ -246,9 +255,12 @@ MENU_DEF menu[4], menu_title[4];
 typedef struct DIR_DEF
 {
  char name[50];
+ char type;
 } DIR_DEF;
 
-DIR_DEF dir[500], mod[50];
+#define MAX_MODS		50
+
+DIR_DEF dir[500], mod[MAX_MODS];
 
 typedef struct MON_DEF
 {
@@ -381,9 +393,11 @@ void Box_Push(int x, int y, int z, int dx, int dy);
 void Box_Move(void);
 void Box_Fall(void);
 
-// cdplay.c
+// music.c
 void CD_Player(void);
 void Mod_Music(void);
+void Play_MOD_Track(char *filename, int type, char loop);
+void Poll_Music();
 
 // door.c
 void Door(void);
@@ -427,7 +441,7 @@ void Draw_Screen(void);
 void Map_Setup(void);
 
 // init.c
-void Remember_Mod_File(char *fn, int a, int b);
+int Remember_Mod_File(char *fn, int a, void *b);
 void LoadGraphicsPack(char *fn, int a, int b);
 void UnloadGraphics();
 void Initialise(void);

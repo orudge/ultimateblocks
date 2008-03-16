@@ -4,7 +4,6 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <jgmod.h>
 #include <libcda.h>
 #include "blocks3.h"
 
@@ -41,11 +40,18 @@ void In_Game_Menu(void)
  {
   blit(temp, screen, i - 10, 100, i-10, 100, 10, 300);
   blit(temp2, screen, 0, 0, i, 100, 200, 300);
-  while (time_count < 1);
+  while (time_count < 1)
+  {
+	  Poll_Music();
+  }
+
   time_count = 0;
  }
 
- while (key[KEY_ESC]);
+ while (key[KEY_ESC])
+ {
+	 Poll_Music();
+ }
 
  while(!game_menu_exit)
  {
@@ -67,7 +73,10 @@ void In_Game_Menu(void)
 
   blit(temp2, screen, 0, 0, 220, 100, 200, 300);
 
-  while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]));
+  while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
+  {
+	  Poll_Music();
+  }
 
   if (key[KEY_ESC])
   {
@@ -89,14 +98,20 @@ void In_Game_Menu(void)
   if (item < 0) item = 5;
   if (item > 5) item = 0;
 
-  while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]));
+  while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
+  {
+	  Poll_Music();
+  }
  }
 
  for (i = 220; i < 650; i+=10)
  {
   blit(temp, screen, i - 10, 100, i-10, 100, 10, 300);
   blit(temp2, screen, 0, 0, i, 100, 200, 300);
-  while (time_count < 1);
+  while (time_count < 1)
+  {
+	  Poll_Music();
+  }
   time_count = 0;
  }
 
@@ -186,9 +201,13 @@ void Options_Menu(void)
 
   blit(temp2, screen, 0, 0, 220, 100, 200, 230);
 
-  while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) &&
-         (!key[KEY_LEFT]) && (!key[KEY_RIGHT]) &&
-         (!key[KEY_ENTER]));
+	while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) &&
+			(!key[KEY_LEFT]) && (!key[KEY_RIGHT]) &&
+			(!key[KEY_ENTER]))
+	{
+		Poll_Music();
+	}
+
 
   if (key[KEY_ESC])
   {
@@ -210,7 +229,11 @@ void Options_Menu(void)
    }
 
    time_count = 0;
-   while (time_count < 10);
+	while (time_count < 10)
+	{
+		Poll_Music();
+	}
+
   }
 
   if (key[KEY_LEFT])
@@ -220,7 +243,10 @@ void Options_Menu(void)
    if (item == 2) sfx_vol-=3;
 
    time_count = 0;
-   while (time_count < 10);
+	while (time_count < 10)
+	{
+		Poll_Music();
+	}
   }
 
 	if (mus_vol < 0) mus_vol = 0;
@@ -233,7 +259,7 @@ void Options_Menu(void)
 	
 	if (mus_vol != old_mus_vol)
 	{
-		set_mod_volume(mus_vol);
+		al_duh_set_volume(mod_player, (mus_vol / 255.0));
 		old_mus_vol = mus_vol;
 	}
 
@@ -256,9 +282,13 @@ void Options_Menu(void)
 
  for (i = 220; i < 650; i+=10)
  {
-  blit(temp, screen, i - 10, 100, i-10, 100, 10, 230);
-  blit(temp2, screen, 0, 0, i, 100, 200, 230);
-  while (time_count < 1);
+	blit(temp, screen, i - 10, 100, i-10, 100, 10, 230);
+	blit(temp2, screen, 0, 0, i, 100, 200, 230);
+	while (time_count < 1)
+	{
+		Poll_Music();
+	}
+
   time_count = 0;
  }
 }
@@ -289,7 +319,11 @@ void Music_Menu(void)
  {
   blit(temp, screen, i - 10, 100, i-10, 100, 10, 190);
   blit(temp2, screen, 0, 0, i, 100, 200, 190);
-  while (time_count < 1);
+	while (time_count < 1)
+	{
+		Poll_Music();
+	}
+
   time_count = 0;
  }
 
@@ -313,7 +347,11 @@ void Music_Menu(void)
 
   blit(temp2, screen, 0, 0, 220, 100, 200, 300);
 
-  while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]));
+  while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
+  {
+		Poll_Music();
+  }
+
 
   if (key[KEY_ESC])
   {
@@ -334,14 +372,21 @@ void Music_Menu(void)
   if (item < 0) item = 2;
   if (item > 2) item = 0;
 
-  while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]));
+  while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
+  {
+		Poll_Music();
+  }
+
  }
 
  for (i = 220; i < 650; i+=10)
  {
   blit(temp, screen, i - 10, 100, i-10, 100, 10, 190);
   blit(temp2, screen, 0, 0, i, 100, 200, 190);
-  while (time_count < 1);
+  while (time_count < 1)
+  {
+	  Poll_Music();
+  }
   time_count = 0;
  }
 
