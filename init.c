@@ -92,7 +92,11 @@ void Initialise(void)
 	cd_init();
 
 	set_config_file("blocks4.cfg");
-	B2Music = get_config_int("Blocks4", "B2Music", 1);
+	B2Music = get_config_int("Sound", "B2Music", 1);
+
+	mus_vol = get_config_int("Sound", "Music", 255);
+	sfx_vol = get_config_int("Sound", "SFX", 255);
+	cd_vol = get_config_int("Sound", "CD", 255);
 
 	// Change screen resolutions
 	set_window_title("Ultimate Blocks");
@@ -134,13 +138,11 @@ void Initialise(void)
 	install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
 	install_mod(40);
 
-	set_mod_volume(255);
-	set_volume(255, 0);
-	sfx = load_datafile("sfx.dat");
+	set_volume(sfx_vol, 0);
+	set_mod_volume(mus_vol);
+	cd_set_volume(cd_vol, cd_vol);
 
-	mus_vol = 255;
-	sfx_vol = 255;
-	cd_vol = 255;
+	sfx = load_datafile("sfx.dat");
 
 	// Iterate through music
 	f_no = 0;
@@ -161,4 +163,14 @@ void Initialise(void)
     
 	// Change motif to default (Sunny)
 	Change_Motif("SUNY");
+}
+
+void Save_Config()
+{
+	// Save config file
+	set_config_file("blocks4.cfg");
+
+	set_config_int("Sound", "Music", mus_vol);
+	set_config_int("Sound", "SFX", sfx_vol);
+	set_config_int("Sound", "CD", cd_vol);
 }

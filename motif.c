@@ -80,7 +80,9 @@ void Change_Motif(char *m)
 		{
 			destroy_mod(music);
 
-			music = load_mod("music/deadlock.xm");
+			set_config_file("blocks4.cfg");
+			
+			music = load_mod(get_config_string("Sound", "InitialMusic", "music/deadlock.xm"));
 			play_mod(music, TRUE);
 		}
 	}

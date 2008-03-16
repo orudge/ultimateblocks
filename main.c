@@ -50,6 +50,9 @@ int main(void)
 	cd_exit();
 
 	UnloadGraphics();
+
+	Save_Config();
+
 	allegro_exit();
 
 	return(0);
