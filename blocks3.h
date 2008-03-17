@@ -525,7 +525,8 @@ enum {
 };
 
 enum {
-	MENU_NO_REDRAW = 1
+	MENU_NO_REDRAW = 1,
+	MENU_ALLOW_MANY_LR = 2
 };
 
 // mon.c

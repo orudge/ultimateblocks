@@ -148,9 +148,19 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 		if (item > (num_items - 1))
 			item = 0;
 
-		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
+		if ((flags & MENU_ALLOW_MANY_LR) && ((menu[item].options & MENUITEM_KEY_LEFT) || (menu[item].options & MENUITEM_KEY_RIGHT)))
 		{
-			Poll_Music();
+			while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
+			{
+				Poll_Music();
+			}
+		}
+		else
+		{
+			while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER])|| (key[KEY_LEFT]) || (key[KEY_RIGHT]))
+			{
+				Poll_Music();
+			}
 		}
 	}
 
@@ -241,7 +251,7 @@ void Options_Menu(void)
 {
 	int ret, retval = 0;
 	char display_menu = 1;
-	int flags = 0;
+	int flags = MENU_ALLOW_MANY_LR;
 	int def_item = 0;
 
 	char music_vol_str[MAX_VOL_LABEL_LEN];
@@ -298,7 +308,7 @@ void Options_Menu(void)
 					mus_vol += 3;
 
 				display_menu = 1;
-				flags = MENU_NO_REDRAW;
+				flags |= MENU_NO_REDRAW;
 				def_item = 0;
 
 				OPTIONS_DELAY_10();
@@ -312,7 +322,7 @@ void Options_Menu(void)
 					cd_vol += 3;
 
 				display_menu = 1;
-				flags = MENU_NO_REDRAW;
+				flags |= MENU_NO_REDRAW;
 				def_item = 1;
 
 				OPTIONS_DELAY_10();
@@ -325,7 +335,7 @@ void Options_Menu(void)
 					sfx_vol += 3;
 
 				display_menu = 1;
-				flags = MENU_NO_REDRAW;
+				flags |= MENU_NO_REDRAW;
 				def_item = 2;
 
 				OPTIONS_DELAY_10();
