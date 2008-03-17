@@ -426,4 +426,9 @@ void Map_Setup(void)
 
 void Draw_Status(void)
 {
+	rectfill(temp, 0, SCREEN_H - 32, SCREEN_W, SCREEN_H, makecol(0, 0, 0));
+	textprintf(temp, font, 25 + _block_width, SCREEN_H - 25, makecol(255, 255, 255), "%d  Undos: %d      Level: %d           %c", Num_Tokens(), _level_undos, lev+1, (map_done[lev] == 1) ? 'X' : ' ');
+
+	masked_blit(token_pic, temp, 10, 10, 25, SCREEN_H - 32, 15, 18); // todo: _block_width, _block_height);
+	blit(temp, screen, 0, SCREEN_H - 32, 0, SCREEN_H - 32, SCREEN_W, SCREEN_H);
 }

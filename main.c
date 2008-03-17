@@ -126,6 +126,7 @@ int Run_Level(void)
 	Get_Ready();
 
 	game_exit = 0;
+	_level_undos = 0;
 
 	while (!game_exit)
 	{
@@ -306,6 +307,26 @@ int Token_Count(void)
 		return 0;
 
 	return 1;
+}
+
+int Num_Tokens(void)
+{
+	int i, j, k;
+	int count = 0;
+
+	for (k = 0; k < 2; k++)
+	{
+		for (j = 0; j < 15; j++)
+		{
+			for (i = 0; i < 20; i++)
+			{
+				if (map[i][j][k] == TOKEN)
+					count++;
+			}
+		}
+	}
+
+	return count;
 }
 
 void Get_Ready(void)

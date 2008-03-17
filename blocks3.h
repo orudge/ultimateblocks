@@ -467,6 +467,7 @@ void Init_Level(void);
 int Run_Level(void);
 int Token_Count(void);
 int Next_Level(void);
+int Num_Tokens(void);
 
 // menu.c
 void Music_Menu(void);
@@ -539,3 +540,5 @@ void Add_Undo(void);
 void Undo(void);
 void Move_Undo_Down(void);
 void Clear_Undo(void);
+
+int _level_undos;

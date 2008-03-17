@@ -121,6 +121,7 @@ void Undo(void)
 
  if (undo_count == 0) return;
 
+ _level_undos++;
  undo_count--;
 
  box_count = undo[undo_count].box_count;
