@@ -5,6 +5,15 @@
 
 #include <aldumb.h>
 
+#if defined(_MSC_VER) || defined(__MINGW32__)
+	#ifndef WIN32	
+		#define WIN32
+	#endif
+
+	#define strdup	_strdup
+	#define strlwr	_strlwr
+#endif
+
 #define OLD_SOLID           1
 #define OLD_BOX             2
 #define OLD_TOKEN           3
@@ -136,6 +145,9 @@
 #define MODTYPE_XM		3
 #define MODTYPE_IT		4
 
+
+#define MOTIF_ID_LEN	5
+
 DUH *music;
 AL_DUH_PLAYER *mod_player;
 
@@ -191,14 +203,14 @@ int mus_vol, sfx_vol, cd_vol;
 
 int map[20][15][2];
 int maps[20][15][2][101];
-char map_motif[100][5];
+char map_motif[100][MOTIF_ID_LEN];
 int map2[20][15];
 int map_laser[20][15][2];
 int map_door[20][15][2];
 int map_done[100];
 int no_ply;
 int mod_track, mod_last;
-char motif[4];
+char motif[MOTIF_ID_LEN];
 
 char map_save[20];
 
@@ -239,9 +251,11 @@ EXPLODE_DEF explode[468];
 
 int explode_count;
 
+#define MENU_ITEM_NAME_LEN		50
+
 typedef struct MENU_ITEM
 {
- char name[50];
+ char name[MENU_ITEM_NAME_LEN];
 } MENU_ITEM;
 
 typedef struct MENU_DEF
@@ -252,15 +266,22 @@ typedef struct MENU_DEF
 
 MENU_DEF menu[4], menu_title[4];
 
+#define DIR_MAXNAME		50
+
+#ifndef MAX_PATH
+	#define MAX_PATH		200
+#endif
+
 typedef struct DIR_DEF
 {
- char name[50];
+ char name[DIR_MAXNAME];
  char type;
 } DIR_DEF;
 
 #define MAX_MODS		50
+#define MAX_DIRS		500
 
-DIR_DEF dir[500], mod[MAX_MODS];
+DIR_DEF dir[MAX_DIRS], mod[MAX_MODS];
 
 typedef struct MON_DEF
 {
@@ -329,7 +350,7 @@ typedef struct MOTIF
 	char *filename;
 	char *title;
 	int special;
-	char uid[5];
+	char uid[MOTIF_ID_LEN];
 	char *gfx_fn;
 	char *music_fn;
 	int block_width;
@@ -396,7 +417,7 @@ void Box_Fall(void);
 // music.c
 void CD_Player(void);
 void Mod_Music(void);
-void Play_MOD_Track(char *filename, int type, char loop);
+void Play_MOD_Track(const char *filename, int type, char loop);
 void Poll_Music();
 
 // door.c
@@ -441,10 +462,11 @@ void Draw_Screen(void);
 void Map_Setup(void);
 
 // init.c
-int Remember_Mod_File(char *fn, int a, void *b);
-void LoadGraphicsPack(char *fn, int a, int b);
+int Remember_Mod_File(const char *fn, int a, void *b);
+void LoadGraphicsPack(const char *fn, int a, int b);
 void UnloadGraphics();
 void Initialise(void);
+void Save_Config();
 void close_button_callback(void);
 
 volatile int close_button_pressed;
@@ -469,6 +491,9 @@ int Run_Level(void);
 int Token_Count(void);
 int Next_Level(void);
 int Num_Tokens(void);
+char *safe_strcpy(char *dest, const size_t dest_len, const char *src);
+char *safe_strcat(char *dest, const size_t dest_len, const char *src);
+char *safe_strncpy(char *dest, const size_t dest_len, const char *src, const size_t source_len);
 
 // menu.c
 void Music_Menu(void);
@@ -493,13 +518,14 @@ void Del_Monster(int m_no);
 void Monster_Change_Dir(int m_no, int x, int y, int z);
 
 // motif.c
-void Change_Motif(char *m);
+void Change_Motif(const char *m);
 
 // part.c
 void Add_Part(int x, int y, int dx, int dy, int col);
 void Del_Part(int p_no);
 void Particle(void);
 void Particle_Move(void);
+void Reset_Particles();
 
 // ply.c
 void Player_Fall(int p_no);
@@ -528,7 +554,7 @@ void Log_In(void);
 void Presents(void);
 void Title(void);
 int Title_Menu(void);
-void Remember_File_Title(char *fn, int a, int b);
+int Remember_File_Title(const char *fn, int a, void *b);
 int Open_Maps_Title(void);
 
 // trans.c

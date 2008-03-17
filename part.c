@@ -106,7 +106,7 @@ void Particle_Move(void)
 }
 
 
-void reset_particles()
+void Reset_Particles()
 {
 	part_count = 0; // old
 

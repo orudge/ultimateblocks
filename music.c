@@ -285,7 +285,7 @@ void Mod_Music(void)
 
 char mod_current_loop;
 
-void Play_MOD_Track(char *filename, int type, char loop)
+void Play_MOD_Track(const char *filename, int type, char loop)
 {
 	DUH_SIGRENDERER *sr;
 	DUMB_IT_SIGRENDERER *itsr;

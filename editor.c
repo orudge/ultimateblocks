@@ -15,7 +15,7 @@ int exit_flag;
 
 int f_no;
 
-char f[20];
+char f[MAX_PATH];
 
 void Editor(void)
 {
@@ -30,20 +30,20 @@ void Editor(void)
 	menu[0].h = 50;
 	menu[0].n = 3;
 
-	strcpy(menu[0].item[0].name, "Open        F3");
-	strcpy(menu[0].item[1].name, "Save        F2");
-	strcpy(menu[0].item[2].name, "Exit     Alt-X");
+	safe_strcpy(menu[0].item[0].name, MENU_ITEM_NAME_LEN, "Open        F3");
+	safe_strcpy(menu[0].item[1].name, MENU_ITEM_NAME_LEN, "Save        F2");
+	safe_strcpy(menu[0].item[2].name, MENU_ITEM_NAME_LEN, "Exit     Alt-X");
 	menu[1].x = 72;
 	menu[1].y = 10;
 	menu[1].w = 184;
 	menu[1].h = 70;
 	menu[1].n = 5;
 
-	strcpy(menu[1].item[0].name, "Clear          Ctrl-N");
-	strcpy(menu[1].item[1].name, "Clear All            ");
-	strcpy(menu[1].item[2].name, "Copy         Ctrl-Ins");
-	strcpy(menu[1].item[3].name, "Paste       Shift-Ins");
-	strcpy(menu[1].item[4].name, "Arrange              ");
+	safe_strcpy(menu[1].item[0].name, MENU_ITEM_NAME_LEN, "Clear          Ctrl-N");
+	safe_strcpy(menu[1].item[1].name, MENU_ITEM_NAME_LEN, "Clear All            ");
+	safe_strcpy(menu[1].item[2].name, MENU_ITEM_NAME_LEN, "Copy         Ctrl-Ins");
+	safe_strcpy(menu[1].item[3].name, MENU_ITEM_NAME_LEN, "Paste       Shift-Ins");
+	safe_strcpy(menu[1].item[4].name, MENU_ITEM_NAME_LEN, "Arrange              ");
 
 
 	menu[2].x = 132;
@@ -59,7 +59,7 @@ void Editor(void)
 	strcpy(menu[2].item[4].name, "Jelly ");*/
 
 	for (j = 0; j < num_motifs; j++)
-	    strcpy(menu[2].item[j].name, motifs[j].title);
+	    safe_strcpy(menu[2].item[j].name, MENU_ITEM_NAME_LEN, motifs[j].title);
 
 	for (j = 0; j < 100; j++)
 	{
@@ -515,14 +515,19 @@ void Drop_Down(void)
   if (item_hl == 3) Change_Motif(SNOWY);
   map_motif[elev] = motif;*/
   Change_Motif(motifs[item_hl].uid);
-  strcpy(map_motif[elev], motifs[item_hl].uid);
+  safe_strcpy(map_motif[elev], MOTIF_ID_LEN, motifs[item_hl].uid);
  }
 }
 
-void Remember_File(const char *fn, int a, int b)
+int Remember_File(const char *fn, int a, void *b)
 {
- strcpy(dir[f_no].name, get_filename(fn));
- f_no++;
+	if (f_no == MAX_DIRS)
+		return(1);
+
+	safe_strcpy(dir[f_no].name, DIR_MAXNAME, get_filename(fn));
+	f_no++;
+
+	return(0);
 }
 
 void Directory(void)
@@ -539,7 +544,7 @@ void Directory(void)
  line(temp, 0, 468, 640, 468, 0);
 
  f_no = 0;
- for_each_file((const char *) "./maps/*.map", FA_RDONLY | FA_ARCH, Remember_File, 0);
+ for_each_file_ex((const char *) "./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File, 0);
 
  text_mode(7);
  for (j = 0; j < f_no; j++)
@@ -594,7 +599,7 @@ void Open_Maps(void)
 {
  int mx, my;
  int file_sel = 0;
- char fn[20];
+ char fn[MAX_PATH];
  int i, j, k, l;
  PACKFILE *file;
  int b4file = 0;
@@ -645,8 +650,8 @@ Poll_Music();
 
  if (Yes_Or_No() == 0) return;
 
- strcpy(fn, "./maps/");
- strcat(fn, dir[file_sel].name);
+ safe_strcpy(fn, MAX_PATH, "./maps/");
+ safe_strcat(fn, MAX_PATH, dir[file_sel].name);
 
  file = pack_fopen(fn, "rp");
 
@@ -676,7 +681,7 @@ Poll_Music();
  {
     for (l = 0; l < 100; l++)
 	{
-		strcpy(map_motif[l], GetMotifFromInt(pack_igetw(file)));
+		safe_strcpy(map_motif[l], MOTIF_ID_LEN, GetMotifFromInt(pack_igetw(file)));
 	}
  }
 
@@ -691,7 +696,7 @@ Poll_Music();
 void Save_Maps(void)
 {
  int file_sel = 0;
- char fn[20];
+ char fn[MAX_PATH];
  int i, j, k, l, mx, my;
  PACKFILE *file;
 
@@ -759,7 +764,7 @@ void Save_Maps(void)
   f[k] = 109;
   f[k + 1] = 97;
   f[k + 2] = 112;
-  f[k + 3] = NULL;
+  f[k + 3] = (char) NULL;
  }
 
  if (key[KEY_ESC])
@@ -772,10 +777,11 @@ void Save_Maps(void)
 
  /** Save File **/
 
- if (mouse_b & 1) strcpy(f, dir[file_sel].name);
+ if (mouse_b & 1)
+	 safe_strcpy(f, MAX_PATH, dir[file_sel].name);
 
- strcpy(fn, "./maps/");
- strcat(fn, f);
+ safe_strcpy(fn, MAX_PATH, "./maps/");
+ safe_strcat(fn, MAX_PATH, f);
 
  if (exists(fn))
  {
@@ -982,6 +988,6 @@ void Reset_Motifs(void)
  int i;
 
  for (i = 0; i < 100; i++)
-    strcpy(map_motif[i], "SUNY");
+    safe_strcpy(map_motif[i], MOTIF_ID_LEN, "SUNY");
  //map_motif[i] = SUNNY;
 }

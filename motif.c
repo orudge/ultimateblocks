@@ -7,7 +7,7 @@
 #include <string.h>
 #include "blocks3.h"
 
-void Change_Motif(char *m)
+void Change_Motif(const char *m)
 {
 	int i;
 	int old_block_width = 0, old_block_height = 0, old_block_depth = 0;
@@ -30,7 +30,7 @@ void Change_Motif(char *m)
 	if (m == SNOWY)
 		gfx = load_bitmap("snowy256.bmp", palette); */
 
-	reset_particles();
+	Reset_Particles();
 
  	old_block_width = _block_width;
 	old_block_height = _block_height;
@@ -77,7 +77,7 @@ void Change_Motif(char *m)
 		}
 	}
 
-	strcpy(motif, m);
+	safe_strcpy(motif, MOTIF_ID_LEN, m);
 
  	// Recreate bitmaps if necessary
 

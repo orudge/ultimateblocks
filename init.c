@@ -29,22 +29,23 @@ void close_button_callback(void)
 END_OF_FUNCTION(close_button_handler)
 #endif
 
-int Remember_Mod_File(char *fn, int a, void *b)
+int Remember_Mod_File(const char *fn, int a, void *b)
 {
 	if (f_no == MAX_MODS)
 		return -1;
 
-	strcpy(mod[f_no].name, "./music/");
-	strcat(mod[f_no].name, get_filename(fn));
-	mod[f_no].type = b;
+	safe_strcpy(mod[f_no].name, DIR_MAXNAME, "./music/");
+	safe_strcat(mod[f_no].name, DIR_MAXNAME, get_filename(fn));
+	mod[f_no].type = (char) b;
 	f_no++;
 
 	return 0;
 }
 
-void LoadGraphicsPack(char *fn, int a, int b)
+void LoadGraphicsPack(const char *fn, int a, int b)
 {
-	char tmp_id[4];
+	char tmp_id_max[11];
+	char tmp_id[MOTIF_ID_LEN];
 	int ver;
 
 	if (num_motifs >= 9)
@@ -61,8 +62,10 @@ void LoadGraphicsPack(char *fn, int a, int b)
 		return;
 
 	// allocate a temporary ID, but try to retrieve the real one from the config file
-	sprintf(tmp_id, "%d", num_motifs);
-	strncpy(motifs[num_motifs].uid, get_config_string("Blocks", "UID", tmp_id), 4);
+	sprintf(tmp_id_max, "%d", num_motifs);
+	safe_strncpy(tmp_id, MOTIF_ID_LEN, tmp_id_max, MOTIF_ID_LEN);
+
+	safe_strncpy(motifs[num_motifs].uid, MOTIF_ID_LEN, get_config_string("Blocks", "UID", tmp_id), 4);
 
 	// update motifs table with appropriate details
 	motifs[num_motifs].uid[5] = 0;
@@ -175,10 +178,10 @@ void Initialise(void)
 
 	// Iterate through music
 	f_no = 0;
-	for_each_file_ex("./music/*.mod", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_MOD);
-	for_each_file_ex("./music/*.s3m", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_S3M);
-	for_each_file_ex("./music/*.xm", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_XM);
-	for_each_file_ex("./music/*.it", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, MODTYPE_IT);
+	for_each_file_ex("./music/*.mod", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_MOD);
+	for_each_file_ex("./music/*.s3m", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_S3M);
+	for_each_file_ex("./music/*.xm", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_XM);
+	for_each_file_ex("./music/*.it", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_IT);
 
 	mod_last = f_no;
 	mod_track = 0;

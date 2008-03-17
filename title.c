@@ -7,6 +7,10 @@
 #include "blocks3.h"
 #include <string.h>
 
+#ifdef WIN32
+	#include <direct.h>
+#endif
+
 int redraw_flag, title_menu_exit, f_no;
 
 void Presents(void)
@@ -275,8 +279,8 @@ void Log_In(void)
 	login[i + 2] = 'o';
 	login[i + 3] = 'g';
 
-#ifdef __MINGW32__
-	mkdir(login);
+#ifdef WIN32
+	_mkdir(login);
 #else
 	mkdir(login, 0755);
 #endif
@@ -298,23 +302,28 @@ void Log_In(void)
 	}
 }
 
-void Remember_File_Title(char *fn, int a, int b)
+int Remember_File_Title(const char *fn, int a, void *b)
 {
- strcpy(dir[f_no].name, get_filename(fn));
- f_no++;
+	if (f_no == MAX_DIRS)
+		return(1);
+
+	safe_strcpy(dir[f_no].name, DIR_MAXNAME, get_filename(fn));
+	f_no++;
+
+	return(0);
 }
 
 int Open_Maps_Title(void)
 {
  int file_sel = 0;
- char fn[20];
+ char fn[MAX_PATH];
  int i, j, k, l;
  PACKFILE *file;
  BITMAP *temp2 = create_bitmap(400, 300);
  int b4file = 0;
 
- f_no = 0;
- for_each_file("./maps/*.map", FA_RDONLY | FA_ARCH, Remember_File_Title, 0);
+	f_no = 0;
+	for_each_file_ex("./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File_Title, 0);
 
  /** draw File Box **/
 
@@ -401,9 +410,9 @@ int Open_Maps_Title(void)
   return 0;
  }
 
- strcpy(fn, "./maps/");
- strcat(fn, dir[file_sel].name);
- strcpy(map_save, dir[file_sel].name);
+ safe_strcpy(fn, MAX_PATH, "./maps/");
+ safe_strcat(fn, MAX_PATH, dir[file_sel].name);
+ safe_strcpy(map_save, MAX_PATH, dir[file_sel].name);
 
  file = pack_fopen(fn, "rp");
  
@@ -433,7 +442,7 @@ int Open_Maps_Title(void)
  {
     for (l = 0; l < 100; l++)
 	{
-		strcpy(map_motif[l], GetMotifFromInt(pack_igetw(file)));
+		safe_strcpy(map_motif[l], MOTIF_ID_LEN, GetMotifFromInt(pack_igetw(file)));
 	}
  }
 

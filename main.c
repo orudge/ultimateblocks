@@ -409,7 +409,7 @@ void Well_Done(void)
 void Init_Full_Game(void)
 {
 	int i;
-	char fn[100];
+	char fn[MAX_PATH];
 	PACKFILE *file;
 
 	clear(screen);
@@ -418,10 +418,10 @@ void Init_Full_Game(void)
 	for (i = 0; i < 100; i++)
 	map_done[i] = 0;
 
-	strcpy(fn, "./");
-	strcat(fn, login);
-	strcat(fn, "/");
-	strcat(fn, map_save);
+	safe_strcpy(fn, MAX_PATH, "./");
+	safe_strcat(fn, MAX_PATH, login);
+	safe_strcat(fn, MAX_PATH, "/");
+	safe_strcat(fn, MAX_PATH, map_save);
 
 	if (!exists(fn))
 		return;
@@ -429,7 +429,7 @@ void Init_Full_Game(void)
 	file = pack_fopen(fn, "rp");
 
 	for (i = 0; i < 100; i++)
-	map_done[i] = pack_igetw(file);
+		map_done[i] = pack_igetw(file);
 
 	pack_fclose(file);
 
@@ -441,13 +441,13 @@ void Init_Full_Game(void)
 void Save_Map_Done(void)
 {
 	int i;
-	char fn[100];
+	char fn[MAX_PATH];
 	PACKFILE *file;
 
-	strcpy(fn, "./");
-	strcat(fn, login);
-	strcat(fn, "/");
-	strcat(fn, map_save);
+	safe_strcpy(fn, MAX_PATH, "./");
+	safe_strcat(fn, MAX_PATH, login);
+	safe_strcat(fn, MAX_PATH, "/");
+	safe_strcat(fn, MAX_PATH, map_save);
 
 	file = pack_fopen(fn, "wp");
 
@@ -636,4 +636,47 @@ void Convert(void)
 	}
 
 	pack_fclose(file);
+}
+
+char *safe_strcpy(char *dest, const size_t dest_len, const char *src)
+{
+	if ((!dest) || (!src))
+		return NULL;
+
+	if (strlen(src) > dest_len)
+		strncpy(dest, src, dest_len);
+	else
+		strcpy(dest, src);
+
+	return(dest);
+}
+
+char *safe_strncpy(char *dest, const size_t dest_len, const char *src, const size_t source_len)
+{
+	if ((!dest) || (!src))
+		return NULL;
+
+	if (source_len > dest_len)
+		strncpy(dest, src, dest_len);
+	else
+		strncpy(dest, src, source_len);
+
+	return(dest);
+}
+
+char *safe_strcat(char *dest, const size_t dest_len, const char *src)
+{
+	size_t real_dest_len = 0;
+
+	if ((!dest) || (!src))
+		return NULL;
+
+	real_dest_len = strlen(dest);
+
+	if (strlen(src) + real_dest_len > dest_len)
+		strncat(dest, src, dest_len - real_dest_len);
+	else
+		strcat(dest, src);
+
+	return(dest);
 }
