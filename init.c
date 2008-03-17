@@ -178,7 +178,7 @@ void Initialise(void)
 	// If we're not using the Blocks+-style music, we need to start playing the first track
 	// If we are, it'll be done automatically when we change motif
 	if (B2Music == 0)
-		Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 1);
+		Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 0);
     
 	// Change motif to default (Sunny)
 	Change_Motif("SUNY");

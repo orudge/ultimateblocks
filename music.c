@@ -244,7 +244,7 @@ void Mod_Music(void)
 				if (mod_track > mod_last)
 					mod_track = 0;
 
-				Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 1); // todo: specify whether should loop?
+				Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, B2Music);
 			}
 			else
 				cd_exit = 1;
@@ -283,14 +283,16 @@ void Mod_Music(void)
 	blit(temp3, screen, 0, 0, 0, 0, 640, 480);
 }
 
-char *mod_current_fn;
-int mod_current_type;
 char mod_current_loop;
 
 void Play_MOD_Track(char *filename, int type, char loop)
 {
+	DUH_SIGRENDERER *sr;
+	DUMB_IT_SIGRENDERER *itsr;
+
 	al_stop_duh(mod_player);
 	mod_player = NULL;
+	mod_current_loop = loop;
 
 	unload_duh(music);
 
@@ -333,6 +335,12 @@ void Play_MOD_Track(char *filename, int type, char loop)
 	}
 
 	mod_player = al_start_duh(music, 2, 0, (mus_vol / 255.0), 4096, 44100);
+
+	sr = al_duh_get_sigrenderer(mod_player);
+	itsr = duh_get_it_sigrenderer(sr);
+
+	dumb_it_set_loop_callback(itsr, dumb_it_callback_terminate, NULL);
+	dumb_it_set_xm_speed_zero_callback(itsr, dumb_it_callback_terminate, NULL);
 }
 
 void Poll_Music()
@@ -341,12 +349,26 @@ void Poll_Music()
 	{
 		if (mod_current_loop == 1)
 		{
-			al_stop_duh(music);
+			//al_stop_duh(mod_player);
 			mod_player = al_start_duh(music, 2, 0, (mus_vol / 255.0), 4096, 44100);
 		}
 		else
-			al_stop_duh(music);
+		{
+			mod_player = NULL;
+			//al_stop_duh(mod_player);
+
+			// play the next track, if not using Blocks+-style music
+			if (B2Music == 0)
+			{
+				mod_track++;
+
+				if (mod_track > mod_last)
+					mod_track = 0;
+
+				Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 0);
+			}
+		}
 	}
 
-	rest(1); // good opportunity to yield to other processes - todo: implement properly (http://www.allegro.cc/forums/thread/592422)
+	rest(0); // good opportunity to yield to other processes - todo: implement properly (http://www.allegro.cc/forums/thread/592422)
 }
