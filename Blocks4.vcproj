@@ -112,7 +112,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="ALLEGRO_STATICLINK;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="ALLEGRO_STATICLINK;_CRT_SECURE_NO_WARNINGS;ENABLE_CDA"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"

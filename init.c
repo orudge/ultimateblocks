@@ -4,7 +4,11 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <libcda.h>
+
+#ifdef ENABLE_CDA
+	#include <libcda.h>
+#endif
+
 #include <stdio.h>
 #include "blocks3.h"
 #include <string.h>
@@ -104,8 +108,10 @@ void Initialise(void)
 	install_timer();
 	install_mouse();
 
+#ifdef ENABLE_CDA
 	// Initialise CD player
 	cd_init();
+#endif
 
 	// Initialise DUMB
 	dumb_register_stdfiles();
@@ -172,7 +178,9 @@ void Initialise(void)
 
 	set_volume(255, 0);
 	//set_mod_volume(mus_vol);
+#ifdef ENABLE_CDA
 	cd_set_volume(cd_vol, cd_vol);
+#endif
 
 	sfx = load_datafile("sfx.dat");
 

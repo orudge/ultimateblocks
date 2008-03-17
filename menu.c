@@ -301,7 +301,9 @@ void Options_Menu(void)
 
 		if (cd_vol != old_cd_vol)
 		{
+#ifdef ENABLE_CDA
 			cd_set_volume(cd_vol, cd_vol);
+#endif
 			old_cd_vol = cd_vol;
 		}
 

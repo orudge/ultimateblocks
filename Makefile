@@ -28,13 +28,14 @@ LDFLAGS  =
 endif
 
 ifeq ($(PLATFORM),djgpp )
+CFLAGS   += -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg
 RES      =
 endif
 
 
 ifeq ($(PLATFORM),mingw )
-CFLAGS   += -DALLEGRO_STATICLINK
+CFLAGS   += -DALLEGRO_STATICLINK -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -ldsound
 RES      = res.o
 endif

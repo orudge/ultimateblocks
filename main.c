@@ -4,7 +4,11 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <libcda.h>
+
+#ifdef ENABLE_CDA
+	#include <libcda.h>
+#endif
+
 #include "blocks3.h"
 #include <string.h>
 
@@ -45,8 +49,10 @@ int main(void)
 
 	Transition_Out(title_gfx, title_palette);
 
+#ifdef ENABLE_CDA
 	cd_stop();
 	cd_exit();
+#endif
 
 	UnloadGraphics();
 
