@@ -4,7 +4,11 @@
 /*****************************************************/
 
 #include <allegro.h>
-#include <libcda.h>
+
+#ifdef ENABLE_CDA
+	#include <libcda.h>
+#endif
+
 #include <stdio.h>
 #include "blocks3.h"
 
