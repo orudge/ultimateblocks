@@ -496,10 +496,37 @@ char *safe_strcat(char *dest, const size_t dest_len, const char *src);
 char *safe_strncpy(char *dest, const size_t dest_len, const char *src, const size_t source_len);
 
 // menu.c
+typedef struct {
+	char *title;
+	int id;
+	char options;
+} Menu;
+
 void Music_Menu(void);
 void Options_Menu(void);
 void In_Game_Menu(void);
 void Music_Menu(void);
+int Display_Menu(const Menu *menu, int *ret, int flags, int def_item);
+
+#define END_OF_MENU  NULL, NULL, NULL
+
+enum {
+	MENUITEM_KEY_LEFT  = 1,
+	MENUITEM_KEY_RIGHT = 2,
+	MENUITEM_CLOSE = 4
+};
+
+enum {
+	MENU_KEY_ENTER = 1,
+	MENU_KEY_ESC   = 2,
+	MENU_KEY_SPACE = 4,
+	MENU_KEY_LEFT  = 8,
+	MENU_KEY_RIGHT = 16
+};
+
+enum {
+	MENU_NO_REDRAW = 1
+};
 
 // mon.c
 void Monster(void);

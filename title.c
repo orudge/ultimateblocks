@@ -63,166 +63,64 @@ void Title(void)
 	}
 }
 
+static Menu main_menu[] = {
+	{"Start", 1, MENUITEM_CLOSE},
+	{"Editor", 2, MENUITEM_CLOSE},
+	{"Options", 3, MENUITEM_CLOSE},
+	{"Music", 4, MENUITEM_CLOSE},
+	{"Logout", 5, MENUITEM_CLOSE},
+	{"Exit", 6, MENUITEM_CLOSE},
+	{END_OF_MENU}
+};
+
 int Title_Menu(void)
 {
-	BITMAP *temp2 = create_bitmap(200, 300);
-	int item, i;
-
-/*	for (i = 0; i < 640; i+=2)
+	switch (Display_Menu(&main_menu, NULL, 0, 0))
 	{
-		for (j = 0; j < 480; j+=2)
-		{
-			putpixel(screen, i, j, 0);
-			putpixel(screen, i + 1, j + 1, 0);
-		}
-	}
-*/
-
-	rect(temp2, 0, 0, 199, 299, 0);
-
-	title_menu_exit = 0;
-	item = 0;
-
-	/** Come on Down!! (menu) **/
-
-	rectfill(temp2, 1, 1, 198, 298, 7);
-	rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-	rectfill(temp2, 10, 279, 189, 289, makecol(128, 128, 128));
-	rect(temp2, 10, 10, 189, 20, 0);
-	rect(temp2, 10, 279, 189, 289, 0);
-
-	rectfill(temp2, 10, item*40 + 35, 190, item*40 + 65, makecol(180, 180, 255));
-	text_mode(-1);
-
-	textprintf_centre(temp2, fonts[0].dat, 100, 35,  0, "Start");
-	textprintf_centre(temp2, fonts[0].dat, 100, 75, 0, "Editor");
-	textprintf_centre(temp2, fonts[0].dat, 100, 115, 0, "Options");
-	textprintf_centre(temp2, fonts[0].dat, 100, 155, 0, "Music");
-	textprintf_centre(temp2, fonts[0].dat, 100, 195, 0, "Logout");
-	textprintf_centre(temp2, fonts[0].dat, 100, 235, 0, "Exit");
-
-	blit(title_gfx, screen, 520, 10, 520, 10, 120, 10);
-	textprintf(screen, font, 520, 11, 7, "%s", login);
-
-	for (i = -200; i < 230; i+=10)
-	{
-		blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 300);
-		blit(temp2, screen, 0, 0, i, 100, 200, 300);
-		while (time_count < 1);
-		time_count = 0;
-	}
-
-	while(!title_menu_exit)
-	{
-		rectfill(temp2, 1, 1, 198, 298, 7);
-		rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-		rectfill(temp2, 10, 279, 189, 289, makecol(128, 128, 128));
-		rect(temp2, 10, 10, 189, 20, 0);
-		rect(temp2, 10, 279, 189, 289, 0);
-
-		rectfill(temp2, 10, item*40 + 35, 190, item*40 + 65, makecol(180, 180, 255));
-		text_mode(-1);
-
-		textprintf_centre(temp2, fonts[0].dat, 100, 35,  0, "Start");
-		textprintf_centre(temp2, fonts[0].dat, 100, 75, 0, "Editor");
-		textprintf_centre(temp2, fonts[0].dat, 100, 115, 0, "Options");
-		textprintf_centre(temp2, fonts[0].dat, 100, 155, 0, "Music");
-		textprintf_centre(temp2, fonts[0].dat, 100, 195, 0, "Logout");
-		textprintf_centre(temp2, fonts[0].dat, 100, 235, 0, "Exit");
-
-		blit(temp2, screen, 0, 0, 220, 100, 200, 300);
-
-		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
-		{
-			Poll_Music();
-		}
-
-		if (key[KEY_ESC])
-		{
-			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
-			item = 4;
-		}
-
-		if (key[KEY_ENTER])
-		{
-			title_menu_exit = 1;
-			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
-		}
-
-		if (key[KEY_UP])
-			item--;
-
-		if (key[KEY_DOWN])
-			item++;
-
-		if (item < 0)
-			item = 5;
-
-		if (item > 5)
-			item = 0;
-
-		play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
-
-		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
-		{
-			Poll_Music();
-		}
-
-	}
-
-	for (i = 220; i < 650; i+=10)
-	{
-		blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 300);
-		blit(temp2, screen, 0, 0, i, 100, 200, 300);
-		while (time_count < 1);
-		time_count = 0;
-	}
-
-	switch (item)
-	{
-		case 0:
-			return 2;
-
 		case 1:
-			return 1;
+			return(2);
 
 		case 2:
+			return(1);
+
+		case 3:
 			Options_Menu();
 			return -1;
 
-		case 3:
+		case 4:
 			Music_Menu();
 			return -1;
 
-		case 4:
+		case 5:
 			Log_In();
 			return -1;
-		
+
 		default:
 			return 0;
 	}
 }
+
 
 void Log_In(void)
 {
 	BITMAP *temp2 = create_bitmap(200, 150);
 	int i, j;
 
-	rectfill(temp2, 0, 0, 199, 149, 7);
-	rect(temp2, 0, 0, 199, 149, 0);
+	rectfill(temp2, 0, 0, 199, 149, makecol(255, 255, 255));
+	rect(temp2, 0, 0, 199, 149, makecol(0, 0, 0));
 
 	rectfill(temp2, 10, 10, 189, 18, makecol(180, 180, 255));
-	rect(temp2, 10, 10, 189, 18, 0);
+	rect(temp2, 10, 10, 189, 18, makecol(0, 0, 0));
 
 	rectfill(temp2, 10, 131, 189, 139, makecol(180, 180, 255));
-	rect(temp2, 10, 131, 189, 139, 0);
+	rect(temp2, 10, 131, 189, 139, makecol(0, 0, 0));
 
 	text_mode(-1);
 
 	play_sample(sfx[SFX_INQUIRY].dat, sfx_vol, 128, 1000, 0);
 
-	textprintf_centre(temp2, fonts[0].dat, 100, 20, 0, "Log In");
-	textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "_", login);
+	textprintf_centre(temp2, fonts[0].dat, 100, 20, makecol(0, 0, 0), "Log In");
+	textprintf_centre(temp2, fonts[0].dat, 100, 70, makecol(0, 0, 0), "_", login);
 
 	for (i = 0; i < 13; i++)
 		login[i] = 0;
@@ -231,7 +129,12 @@ void Log_In(void)
 	{
 		blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 150);
 		blit(temp2, screen, 0, 0, i, 100, 200, 150);
-		while (time_count < 1);
+		
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
+
 		time_count = 0;
 	}
 
@@ -251,8 +154,8 @@ void Log_In(void)
 		{
 			login[i] = j;
 			i++;
-			rectfill(temp2, 10, 70, 189, 120, 7);
-			textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "%s_", login);
+			rectfill(temp2, 10, 70, 189, 120, makecol(255, 255, 255));
+			textprintf_centre(temp2, fonts[0].dat, 100, 70, makecol(0, 0, 0), "%s_", login);
 			blit(temp2, screen, 0, 0, 220, 100, 200, 150);
 			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 		}
@@ -261,8 +164,8 @@ void Log_In(void)
 		{
 			i--;
 			login[i] = 0;
-			rectfill(temp2, 10, 70, 189, 120, 7);
-			textprintf_centre(temp2, fonts[0].dat, 100, 70, 0, "%s_", login);
+			rectfill(temp2, 10, 70, 189, 120, makecol(255, 255, 255));
+			textprintf_centre(temp2, fonts[0].dat, 100, 70, makecol(0, 0, 0), "%s_", login);
 			blit(temp2, screen, 0, 0, 220, 100, 200, 150);
 			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
 			while(key[KEY_BACKSPACE])
@@ -289,12 +192,17 @@ void Log_In(void)
 	{
 		blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 150);
 		blit(temp2, screen, 0, 0, i, 100, 200, 150);
-		while (time_count < 1);
+		
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
+
 		time_count = 0;
 	}
 
 	blit(title_gfx, screen, 550, 10, 550, 10, 90, 10);
-	textprintf(screen, font, 550, 11, 7, "%s", login);
+	textprintf(screen, font, 550, 11, makecol(255, 255, 255), "%s", login);
 
 	while(key[KEY_ENTER])
 	{
