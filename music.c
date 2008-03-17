@@ -348,5 +348,5 @@ void Poll_Music()
 			al_stop_duh(music);
 	}
 
-	rest(0); // good opportunity to yield to other processes
+	rest(1); // good opportunity to yield to other processes - todo: implement properly (http://www.allegro.cc/forums/thread/592422)
 }

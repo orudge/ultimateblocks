@@ -21,6 +21,12 @@ void increment_time_counter(void)
 
 END_OF_FUNCTION(increment_time_counter);
 
+void close_button_callback(void)
+{
+	close_button_pressed = TRUE;
+}
+END_OF_FUNCTION(close_button_handler)
+
 int Remember_Mod_File(char *fn, int a, void *b)
 {
 	if (f_no == MAX_MODS)
@@ -110,6 +116,12 @@ void Initialise(void)
 	set_window_title("Ultimate Blocks");
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
 	set_display_switch_mode(SWITCH_BACKGROUND); // todo: may need to alter for fullscreen
+
+	// Add close button handler
+
+	close_button_pressed = FALSE;
+	LOCK_FUNCTION(close_button_callback);
+	set_close_button_callback(close_button_callback);
 
 	// Install timer
 

@@ -446,6 +446,8 @@ void LoadGraphicsPack(char *fn, int a, int b);
 void UnloadGraphics();
 void Initialise(void);
 
+volatile int close_button_pressed;
+
 // laser.c
 void Start_XYZ(int b_x, int b_y, int b_z, int b_dx, int b_dy, int b_dir);
 void Track_Laser(void);

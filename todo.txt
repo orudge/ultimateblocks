@@ -19,6 +19,8 @@ todo:
 - better way of keeping track of paths - look into OS-specific stuff, too
 - drawing problems with lasers and undo
 - improve music system (looping/repeats/whatever), provide better UI
+- finish close button callback
+- icon
+- windows resource script
 
 - Internet-based multiplayer?
-

@@ -215,6 +215,13 @@ int Run_Level(void)
 		if ((key[KEY_ESC]) && (game_type == PLAYER_GAME))
 			In_Game_Menu();
 
+		// TODO: better implementation - should display a proper message
+		if (close_button_pressed)
+		{
+			close_button_pressed = FALSE;
+			In_Game_Menu();
+		}
+
 		if (key[KEY_F2])
 		{
 			while (key[KEY_F2]);
