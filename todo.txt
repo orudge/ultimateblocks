@@ -22,5 +22,16 @@ todo:
 - finish close button callback
 - icon
 - windows resource script
+- reset undos when changing level
 
 - Internet-based multiplayer?
+
+from Blocks3.doc:
+
+- Ending and Intro sequence
+- Arrange levels for editor
+- More monsters
+- More levels
+- More motifs
+- Death sequence
+- Moving lasers

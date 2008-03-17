@@ -22,8 +22,8 @@ CFLAGS   = -g
 CPPFLAGS = -g
 LDFLAGS  =
 else
-CFLAGS   = -s
-CPPFLAGS = -s
+CFLAGS   = -s -O3
+CPPFLAGS = -s -O3
 LDFLAGS  =
 endif
 

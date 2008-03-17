@@ -13,8 +13,9 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 	const Menu *mptr;
 	int num_items = 0;
 	int game_menu_exit;
+	int menu_height = 0;
 
-	BITMAP *temp2 = create_bitmap(200, 300);
+	BITMAP *temp2;
 	int item, i;
 
 	mptr = menu;
@@ -33,6 +34,15 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 	if (num_items == 0)
 		return 0;
 
+	menu_height = (num_items*40) + 70; //35    50 * num_items;
+
+	#define MENU_WIDTH	200
+	#define MENU_HEIGHT menu_height
+	#define MENU_X   ((SCREEN_W - MENU_WIDTH) / 2)
+	#define MENU_Y	 ((SCREEN_H - MENU_HEIGHT) / 2)
+
+	temp2 = create_bitmap(MENU_WIDTH, MENU_HEIGHT); // 200, 300
+
 	if (def_item > num_items)
 		def_item = num_items - 1;
 
@@ -47,15 +57,15 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 		// save the screen
 		blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
-		rect(temp2, 0, 0, 199, 299, makecol(0, 0, 0));
+		rect(temp2, 0, 0, MENU_WIDTH - 1, MENU_HEIGHT - 1, makecol(0, 0, 0));
 
-		rectfill(temp2, 1, 1, 198, 298, makecol(255, 255, 255));
-		rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-		rectfill(temp2, 10, 279, 189, 289, makecol(128, 128, 128));
-		rect(temp2, 10, 10, 189, 20, makecol(0, 0, 0));
-		rect(temp2, 10, 279, 189, 289, makecol(0, 0, 0));
+		rectfill(temp2, 1, 1, MENU_WIDTH - 2, MENU_HEIGHT - 2, makecol(255, 255, 255));
+		rectfill(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(128, 128, 128));
+		rectfill(temp2, 10, MENU_HEIGHT - 21, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(128, 128, 128));
+		rect(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(0, 0, 0));
+		rect(temp2, 10, MENU_HEIGHT - 11, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(0, 0, 0));
 
-		rectfill(temp2, 10, item*40 + 35, 190, item*40 + 65, makecol(180, 180, 255));
+		rectfill(temp2, 10, item*40 + 35, MENU_WIDTH - 10, item*40 + 65, makecol(180, 180, 255));
 		text_mode(-1);
 
 		for (i = 0; i < num_items; i++)
@@ -63,10 +73,10 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 			textprintf_centre(temp2, fonts[0].dat, 100, 35 + (40 * i), makecol(0, 0, 0), menu[i].title);
 		}
 
-		for (i = -200; i < 230; i+=10)
+		for (i = -MENU_WIDTH; i < MENU_X+10; i+=10)
 		{
-			blit(temp, screen, i - 10, 100, i-10, 100, 10, 300);
-			blit(temp2, screen, 0, 0, i, 100, 200, 300);
+			blit(temp, screen, i - 10, MENU_Y, i-10, MENU_Y, 10, MENU_HEIGHT);
+			blit(temp2, screen, 0, 0, i, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
 		
 			while (time_count < 1)
 			{
@@ -84,13 +94,13 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 	while (!game_menu_exit)
 	{
-		rectfill(temp2, 1, 1, 198, 298, makecol(255, 255, 255));
-		rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-		rectfill(temp2, 10, 279, 189, 289, makecol(128, 128, 128));
-		rect(temp2, 10, 10, 189, 20, makecol(0, 0, 0));
-		rect(temp2, 10, 279, 189, 289, makecol(0, 0, 0));
+		rectfill(temp2, 1, 1, MENU_WIDTH - 2, MENU_HEIGHT - 2, makecol(255, 255, 255));
+		rectfill(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(128, 128, 128));
+		rectfill(temp2, 10, MENU_HEIGHT - 21, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(128, 128, 128));
+		rect(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(0, 0, 0));
+		rect(temp2, 10, MENU_HEIGHT - 11, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(0, 0, 0));
 
-		rectfill(temp2, 10, item*40 + 35, 190, item*40 + 65, makecol(180, 180, 255));
+		rectfill(temp2, 10, item*40 + 35, MENU_WIDTH - 10, item*40 + 65, makecol(180, 180, 255));
 		text_mode(-1);
 
 		for (i = 0; i < num_items; i++)
@@ -98,7 +108,7 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 			textprintf_centre(temp2, fonts[0].dat, 100, 35 + (40 * i),  makecol(0, 0, 0), menu[i].title);
 		}
 
-		blit(temp2, screen, 0, 0, 220, 100, 200, 300);
+		blit(temp2, screen, 0, 0, MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
 
 		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]) && (!key[KEY_LEFT]) && (!key[KEY_RIGHT]))
 		{
@@ -166,10 +176,10 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 	if (menu[item].options & MENUITEM_CLOSE)
 	{
-		for (i = 220; i < 650; i+=10)
+		for (i = MENU_X; i < SCREEN_W + 10; i+=10)
 		{
-			blit(temp, screen, i - 10, 100, i-10, 100, 10, 300);
-			blit(temp2, screen, 0, 0, i, 100, 200, 300);
+			blit(temp, screen, i - 10, MENU_Y, i-10, MENU_Y, 10, MENU_HEIGHT);
+			blit(temp2, screen, 0, 0, i, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
 
 			while (time_count < 1)
 			{
@@ -180,6 +190,8 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 		blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 	}
+
+	destroy_bitmap(temp2);
 
 	if (item == -1)
 		return(NULL);
@@ -348,252 +360,23 @@ void Options_Menu(void)
 	}
 }
 
-/*void Options_Menu(void)
-{
- BITMAP *temp2 = create_bitmap(200, 230);
- int item = 0, options_exit = 0, i = 0;
-	int old_mus_vol, old_cd_vol;
-
- blit(screen, temp, 0, 0, 0, 0, 640, 480);
-
- rect(temp2, 0, 0, 199, 229, 0);
-
- rectfill(temp2, 1, 1, 198, 228, 7);
- rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
- rectfill(temp2, 10, 210, 189, 220, makecol(128, 128, 128));
- rect(temp2, 10, 10, 189, 20, 0);
- rect(temp2, 10, 210, 189, 220, 0);
-
- rectfill(temp2, 10, item*40 + 40, 190, item*40 + 70, makecol(180, 180, 255));
- text_mode(-1);
-
- textprintf_centre(temp2, fonts[0].dat, 100, 40,  0, "Music Vol");
- textprintf_centre(temp2, fonts[0].dat, 100, 80, 0, "SFX Vol");
- textprintf_centre(temp2, fonts[0].dat, 100, 120, 0, "Return");
-
- for (i = -200; i < 230; i+=10)
- {
-  blit(temp, screen, i - 10, 100, i-10, 100, 10, 230);
-  blit(temp2, screen, 0, 0, i, 100, 200, 230);
-  while (time_count < 1);
-  time_count = 0;
- }
-
- options_exit = 0;
- item = 0;
-
-	old_mus_vol = mus_vol;
-	old_cd_vol = cd_vol;
-
- while (!options_exit)
- {
-  rectfill(temp2, 1, 1, 198, 228, 7);
-  rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-  rectfill(temp2, 10, 210, 189, 220, makecol(128, 128, 128));
-  rect(temp2, 10, 10, 189, 20, 0);
-  rect(temp2, 10, 210, 189, 220, 0);
-
-  rectfill(temp2, 10, item*40 + 40, 190, item*40 + 70, makecol(180, 180, 255));
-  text_mode(-1);
-
-  textprintf_centre(temp2, fonts[0].dat, 100, 40,  0, "Music: %d", mus_vol*100/255);
-  textprintf_centre(temp2, fonts[0].dat, 100, 80, 0, "CD: %d", cd_vol*100/255);
-  textprintf_centre(temp2, fonts[0].dat, 100, 120, 0, "SFX: %d", sfx_vol*100/255);
-  textprintf_centre(temp2, fonts[0].dat, 100, 160, 0, "Return");
-
-  blit(temp2, screen, 0, 0, 220, 100, 200, 230);
-
-	while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) &&
-			(!key[KEY_LEFT]) && (!key[KEY_RIGHT]) &&
-			(!key[KEY_ENTER]))
-	{
-		Poll_Music();
-	}
-
-
-  if (key[KEY_ESC])
-  {
-   play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
-   item = 0;
-   options_exit = 1;
-  }
-
-  if ((key[KEY_ENTER]) || (key[KEY_RIGHT]))
-  {
-   if (item == 0) mus_vol+=3;
-   if (item == 1) cd_vol+=3;
-   if (item == 2) sfx_vol+=3;
-
-   if (item == 3)
-   {
-    options_exit = 1;
-    play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
-   }
-
-   time_count = 0;
-	while (time_count < 10)
-	{
-		Poll_Music();
-	}
-
-  }
-
-  if (key[KEY_LEFT])
-  {
-   if (item == 0) mus_vol-=3;
-   if (item == 1) cd_vol-=3;
-   if (item == 2) sfx_vol-=3;
-
-   time_count = 0;
-	while (time_count < 10)
-	{
-		Poll_Music();
-	}
-  }
-
-	if (mus_vol < 0) mus_vol = 0;
-	if (sfx_vol < 0) sfx_vol = 0;
-	if (cd_vol < 0) cd_vol = 0;
-
-	if (mus_vol > 255) mus_vol = 255;
-	if (sfx_vol > 255) sfx_vol = 255;
-	if (cd_vol > 255) cd_vol = 255;
-	
-	if (mus_vol != old_mus_vol)
-	{
-		al_duh_set_volume(mod_player, (mus_vol / 255.0));
-		old_mus_vol = mus_vol;
-	}
-
-	if (cd_vol != old_cd_vol)
-	{
-		cd_set_volume(cd_vol, cd_vol);
-		old_cd_vol = cd_vol;
-	}
-
-  if (key[KEY_UP]) item--;
-  if (key[KEY_DOWN]) item++;
-  play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
-
-  if (item < 0) item = 3;
-  if (item > 3) item = 0;
-
-  while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) ||
-         (key[KEY_ENTER]));
- }
-
- for (i = 220; i < 650; i+=10)
- {
-	blit(temp, screen, i - 10, 100, i-10, 100, 10, 230);
-	blit(temp2, screen, 0, 0, i, 100, 200, 230);
-	while (time_count < 1)
-	{
-		Poll_Music();
-	}
-
-  time_count = 0;
- }
-}*/
+static const Menu music_menu[] = {
+	{"CD Player", 1, MENUITEM_CLOSE},
+	{"MOD Music", 2, MENUITEM_CLOSE},
+	{"Return", 3, MENUITEM_CLOSE},
+	{END_OF_MENU}
+};
 
 void Music_Menu(void)
 {
- BITMAP *temp2 = create_bitmap(200, 190);
- int item = 0, music_exit = 0, i = 0;
-
- blit(screen, temp, 0, 0, 0, 0, 640, 480);
-
- rect(temp2, 0, 0, 199, 189, 0);
-
- rectfill(temp2, 1, 1, 198, 188, 7);
- rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
- rectfill(temp2, 10, 170, 189, 180, makecol(128, 128, 128));
- rect(temp2, 10, 10, 189, 20, 0);
- rect(temp2, 10, 170, 189, 180, 0);
-
- rectfill(temp2, 10, item*40 + 40, 190, item*40 + 70, makecol(180, 180, 255));
- text_mode(-1);
-
- textprintf_centre(temp2, fonts[0].dat, 100, 40,  0, "CD Player", mus_vol*100/255);
- textprintf_centre(temp2, fonts[0].dat, 100, 80, 0, "MOD Music", sfx_vol*100/255);
- textprintf_centre(temp2, fonts[0].dat, 100, 120, 0, "Return");
-
- for (i = -200; i < 230; i+=10)
- {
-  blit(temp, screen, i - 10, 100, i-10, 100, 10, 190);
-  blit(temp2, screen, 0, 0, i, 100, 200, 190);
-	while (time_count < 1)
+	switch (Display_Menu(&music_menu, NULL, 0, 0))
 	{
-		Poll_Music();
+		case 1:
+			CD_Player();
+			break;
+
+		case 2:
+			Mod_Music();
+			break;
 	}
-
-  time_count = 0;
- }
-
- music_exit = 0;
- item = 0;
-
- while (!music_exit)
- {
-  rectfill(temp2, 1, 1, 198, 188, 7);
-  rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-  rectfill(temp2, 10, 170, 189, 180, makecol(128, 128, 128));
-  rect(temp2, 10, 10, 189, 20, 0);
-  rect(temp2, 10, 170, 189, 180, 0);
-
-  rectfill(temp2, 10, item*40 + 40, 190, item*40 + 70, makecol(180, 180, 255));
-  text_mode(-1);
-
-  textprintf_centre(temp2, fonts[0].dat, 100, 40,  0, "CD Player", mus_vol*100/255);
-  textprintf_centre(temp2, fonts[0].dat, 100, 80, 0, "MOD Music", sfx_vol*100/255);
-  textprintf_centre(temp2, fonts[0].dat, 100, 120, 0, "Return");
-
-  blit(temp2, screen, 0, 0, 220, 100, 200, 300);
-
-  while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
-  {
-		Poll_Music();
-  }
-
-
-  if (key[KEY_ESC])
-  {
-   play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
-   item = -1;
-   music_exit = 1;
-  }
-
-  if (key[KEY_ENTER])
-  {
-   music_exit = 1;
-  }
-
-  if (key[KEY_UP]) item--;
-  if (key[KEY_DOWN]) item++;
-  play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
-
-  if (item < 0) item = 2;
-  if (item > 2) item = 0;
-
-  while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
-  {
-		Poll_Music();
-  }
-
- }
-
- for (i = 220; i < 650; i+=10)
- {
-  blit(temp, screen, i - 10, 100, i-10, 100, 10, 190);
-  blit(temp2, screen, 0, 0, i, 100, 200, 190);
-  while (time_count < 1)
-  {
-	  Poll_Music();
-  }
-  time_count = 0;
- }
-
- if (item == 0) CD_Player();
- if (item == 1) Mod_Music();
 }
-
-

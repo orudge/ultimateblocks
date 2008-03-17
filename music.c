@@ -11,7 +11,113 @@
 
 int cd_track = -1;
 
+#define CDPLAYER_PLAYSTOP_LEN		5
+
+static char cdplayer_playstop[CDPLAYER_PLAYSTOP_LEN];
+
+static const Menu cdplayer_menu[] = {
+	{&cdplayer_playstop, 1, 0},
+	{"Next", 2, 0},
+	{"Previous", 3, 0},
+	{"Eject", 4, 0},
+	{"Exit", 5, MENUITEM_CLOSE},
+	{END_OF_MENU}
+};
+
 void CD_Player(void)
+{
+	int ret, retval = 0;
+	char display_menu = 1;
+	int flags = 0;
+	int def_item = 0;
+	int first, last;
+
+	while (display_menu)
+	{
+		if (cd_track == -1)
+			safe_strcpy(&cdplayer_playstop, CDPLAYER_PLAYSTOP_LEN, "Play");
+		else
+			safe_strcpy(&cdplayer_playstop, CDPLAYER_PLAYSTOP_LEN, "Stop");
+
+		ret = Display_Menu(&cdplayer_menu, NULL, flags, def_item);
+
+		switch (ret)
+		{
+			case 1:
+				if (cd_track != -1)
+				{
+					cd_stop();
+					cd_track = -1;
+				}
+				else
+				{
+					if (cd_play_from(1) != -1)
+						cd_track = 1;
+				}
+
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 0;
+
+				break;
+
+			case 2:
+				cd_get_tracks(&first, &last);
+				cd_track = cd_current_track();
+
+				cd_track++;
+
+				if (cd_track > last)
+					cd_track = first;
+
+				if (cd_play_from(cd_track) == -1)
+					cd_track = -1;
+
+				textprintf_ex(screen, font, 10, 10, makecol(255, 255, 255), makecol(0, 0, 0), "%d ", cd_track);
+
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 1;
+
+				break;
+			
+			case 3:
+				cd_get_tracks(&first, &last);
+				cd_track = cd_current_track();
+
+				cd_track--;
+
+				if (cd_play_from(cd_track) == -1)
+					cd_track = -1;
+
+				text_mode(0);
+				textprintf_ex(screen, font, 10, 10, makecol(255, 255, 255), makecol(0, 0, 0), "%d ", cd_track);
+
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 2;
+
+				break;
+
+			case 4:
+				cd_eject();
+				cd_track = -1;
+
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 3;
+
+				break;
+
+			case 5:
+				display_menu = 0;
+				break;
+		}
+	}
+}
+
+
+void CD_Player_Old(void)
 {
 	BITMAP *temp2 = create_bitmap(200, 300);
 	BITMAP *temp3 = create_bitmap(640, 480);
@@ -48,7 +154,10 @@ void CD_Player(void)
 	{
 		blit(temp3, screen, i - 10, 100, i-10, 100, 10, 300);
 		blit(temp2, screen, 0, 0, i, 100, 200, 300);
-		while (time_count < 1);
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
 		time_count = 0;
 	}
 
@@ -159,7 +268,10 @@ void CD_Player(void)
 	{
 		blit(temp3, screen, i - 10, 100, i-10, 100, 10, 300);
 		blit(temp2, screen, 0, 0, i, 100, 200, 300);
-		while (time_count < 1);
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
 		time_count = 0;
 	}
 
@@ -197,7 +309,10 @@ void Mod_Music(void)
 	{
 		blit(temp, screen, i - 10, 100, i-10, 100, 10, 190);
 		blit(temp2, screen, 0, 0, i, 100, 200, 190);
-		while (time_count < 1);
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
 		time_count = 0;
 	}
 
@@ -276,7 +391,10 @@ void Mod_Music(void)
 	{
 		blit(temp3, screen, i - 10, 100, i-10, 100, 10, 190);
 		blit(temp2, screen, 0, 0, i, 100, 200, 190);
-		while (time_count < 1);
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
 		time_count = 0;
 	}
 

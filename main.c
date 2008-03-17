@@ -206,7 +206,10 @@ int Run_Level(void)
 		if (Token_Count())
 			game_exit = 3;
 
-		while (time_count < 1);
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
 		
 		time_count = 0;
 
