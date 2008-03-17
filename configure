@@ -10,7 +10,7 @@ case "$1" in
      echo "Configuration complete. Now run \`make'."
      ;;
   macosx)
-     echo "PLATFORM=macosx" > makefile.cfg    
+     echo "PLATFORM=macosx " > makefile.cfg    
      echo "Configuration complete. Now run \`make'."
      ;;
   mingw)

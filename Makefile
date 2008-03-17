@@ -27,6 +27,8 @@ CPPFLAGS = -s -O3
 LDFLAGS  =
 endif
 
+CC       = gcc
+
 ifeq ($(PLATFORM),djgpp )
 CFLAGS   += -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg
@@ -41,12 +43,12 @@ RES      = res.o
 endif
 
 ifeq ($(PLATFORM),macosx )
+CC       = ./gcc-uni.sh
 CFLAGS   += -DALLEGRO_STATICLINK
-LDFLAGS  += -laldmb -ldumb `allegro-config --libs`
+LDFLAGS  += -laldmb -ldumb `allegro-config --static`
 RES      =
 endif
 
-CC = gcc
 WINDRES = windres
 
 RM = rm -f
@@ -61,7 +63,7 @@ blocks4: $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
 res.o : blocks4.rc
 	$(WINDRES) $< $@
