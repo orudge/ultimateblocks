@@ -1,0 +1,38 @@
+#!/bin/sh
+
+case "$1" in
+  djgpp)
+     echo "PLATFORM=djgpp " > makefile.cfg    
+     echo "Configuration complete. Now run \`make'."    
+     ;;
+  linux)
+     echo "PLATFORM=linux" > makefile.cfg    
+     echo "Configuration complete. Now run \`make'."
+     ;;
+  macosx)
+     echo "PLATFORM=macosx" > makefile.cfg    
+     echo "Configuration complete. Now run \`make'."
+     ;;
+  mingw)
+     echo "PLATFORM=mingw " > makefile.cfg
+     echo "Configuration complete. Now run \`make'."
+     ;;
+  *)
+	echo "Usage: configure target"
+echo 
+echo "You did not specify a platform to configure Ultimate Blocks for."
+echo 
+echo Possible targets:
+echo 
+echo "    djgpp"
+echo "    linux"
+echo "    macosx"
+echo "    mingw"
+echo 
+echo "Allegro, DUMB and aldumb must be installed on all platforms. Static libraries"
+echo "will be used for Mac OS X and MinGW targets."
+echo 
+echo "All options are case-sensitive."
+	;;
+esac;
+	

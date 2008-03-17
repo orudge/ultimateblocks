@@ -445,6 +445,7 @@ int Remember_Mod_File(char *fn, int a, void *b);
 void LoadGraphicsPack(char *fn, int a, int b);
 void UnloadGraphics();
 void Initialise(void);
+void close_button_callback(void);
 
 volatile int close_button_pressed;
 

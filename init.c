@@ -21,11 +21,13 @@ void increment_time_counter(void)
 
 END_OF_FUNCTION(increment_time_counter);
 
+#ifndef DJGPP
 void close_button_callback(void)
 {
 	close_button_pressed = TRUE;
 }
 END_OF_FUNCTION(close_button_handler)
+#endif
 
 int Remember_Mod_File(char *fn, int a, void *b)
 {
@@ -114,14 +116,20 @@ void Initialise(void)
 
 	// Change screen resolutions
 	set_window_title("Ultimate Blocks");
+#ifdef DJGPP
+	set_gfx_mode(GFX_AUTODETECT, 640, 480, 0, 0);
+#else
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
+#endif
 	set_display_switch_mode(SWITCH_BACKGROUND); // todo: may need to alter for fullscreen
 
 	// Add close button handler
 
 	close_button_pressed = FALSE;
+#ifndef DJGPP
 	LOCK_FUNCTION(close_button_callback);
 	set_close_button_callback(close_button_callback);
+#endif
 
 	// Install timer
 

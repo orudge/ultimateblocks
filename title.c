@@ -275,7 +275,11 @@ void Log_In(void)
 	login[i + 2] = 'o';
 	login[i + 3] = 'g';
 
-	mkdir(login, 0);
+#ifdef __MINGW32__
+	mkdir(login);
+#else
+	mkdir(login, 0755);
+#endif
 
 	for (i = 200; i < 650; i+=10)
 	{
