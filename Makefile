@@ -33,6 +33,7 @@ ifeq ($(PLATFORM),djgpp )
 CFLAGS   += -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg
 RES      =
+EXE      = blocks4.exe
 endif
 
 
@@ -40,6 +41,7 @@ ifeq ($(PLATFORM),mingw )
 CFLAGS   += -DALLEGRO_STATICLINK -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -ldsound
 RES      = res.o
+EXE      = blocks4.exe
 
 SVNVERSION = $(shell svnversion -n)
 endif
@@ -49,6 +51,7 @@ CC       = ./gcc-uni.sh
 CFLAGS   += -DALLEGRO_STATICLINK
 LDFLAGS  += -laldmb -ldumb `allegro-config --static`
 RES      =
+EXE      = blocks4
 endif
 
 WINDRES = windres
@@ -59,9 +62,10 @@ OBJECTS = bomb.o   editor.o init.o   main.o   motif.o  ply.o    trans.o \
 box.o    fall.o   laser.o  menu.o   music.o  sound.o  undo.o \
 door.o   gfx.o    levels.o mon.o    part.o   title.o $(RES)
 
-all: blocks4
+all: $(EXE)
+	@echo "Ultimate Blocks has been built."
 
-blocks4: $(OBJECTS)
+$(EXE): $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS)
 
 %.o : %.c
@@ -76,4 +80,4 @@ clean:
 	$(RM) *.o *~
 
 vclean: clean
-	$(RM) blocks4
+	$(RM) $(EXE)
