@@ -39,15 +39,15 @@ OSX_TARGET=10.2
 
 # which SDK to use (unused with PPC because gcc-3.3 doesn't know about it))
 SDK_i386=/Developer/SDKs/MacOSX10.4u.sdk
-SDK_PPC=
+SDK_PPC=/Developer/SDKs/MacOSX10.3.9.sdk
 
 # i386 flags
 CFLAGS_i386=" -isysroot $SDK_i386 -I/usr/local/include"
 LDFLAGS_i386=" -isysroot $SDK_i386 -Wl,-syslibroot,$SDK_i386 -L/usr/local/lib"
 
 # ppc flags
-CFLAGS_PPC="-I/Developer/SDKs/MacOSX10.3.9.sdk/usr/include"
-LDFLAGS_PPC="-L/Developer/SDKs/MacOSX10.3.9.sdk/usr/lib"
+CFLAGS_PPC="-I$(SDK_PPC)/usr/include"
+LDFLAGS_PPC="-L$(SDK_PPC)/usr/lib"
 
 # Parse options:
 #   -arch switches are ignored

@@ -23,6 +23,7 @@ todo:
 - icon
 - windows resource script
 - reset undos when changing level
+- check endianness
 
 - Internet-based multiplayer?
 
