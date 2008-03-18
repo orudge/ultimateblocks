@@ -234,7 +234,7 @@ void Display_Info_Window(const InfoWindow *menu)
 			break;
 
 		width = MAX(width, text_length(fonts[mptr->font].dat, mptr->title));
-		line_height = MAX(line_height, text_height(fonts[mptr->font].dat, mptr->title));
+		line_height = MAX(line_height, text_height(fonts[mptr->font].dat));
 	}
 
 	if (num_items == 0)
