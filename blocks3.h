@@ -148,6 +148,13 @@
 
 #define MOTIF_ID_LEN	5
 
+#define FONT_OCR20		0
+#define FONT_OCR72		1
+#define FONT_HELV12		2
+#define FONT_HELV12B	3
+#define FONT_HNEUE20	4
+#define FONT_HELV10		5
+
 DUH *music;
 AL_DUH_PLAYER *mod_player;
 
@@ -502,13 +509,21 @@ typedef struct {
 	char options;
 } Menu;
 
+typedef struct {
+	char *title;
+	int font;
+} InfoWindow;
+
 void Music_Menu(void);
 void Options_Menu(void);
 void In_Game_Menu(void);
 void Music_Menu(void);
 int Display_Menu(const Menu *menu, int *ret, int flags, int def_item);
+void Display_Info_Window(const InfoWindow *menu);
+void About_Box(void);
 
 #define END_OF_MENU  (char *) NULL, (int) NULL, (char) NULL
+#define END_OF_INFOWINDOW   (char *) NULL, (int) NULL
 
 enum {
 	MENUITEM_KEY_LEFT  = 1,

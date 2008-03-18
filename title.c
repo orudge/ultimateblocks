@@ -69,7 +69,8 @@ static const Menu main_menu[] = {
 	{"Options", 3, MENUITEM_CLOSE},
 	{"Music", 4, MENUITEM_CLOSE},
 	{"Logout", 5, MENUITEM_CLOSE},
-	{"Exit", 6, MENUITEM_CLOSE},
+	{"About", 6, MENUITEM_CLOSE},
+	{"Exit", 7, MENUITEM_CLOSE},
 	{END_OF_MENU}
 };
 
@@ -93,6 +94,10 @@ int Title_Menu(void)
 
 		case 5:
 			Log_In();
+			return -1;
+
+		case 6:
+			About_Box();
 			return -1;
 
 		default:
@@ -229,9 +234,12 @@ int Open_Maps_Title(void)
  PACKFILE *file;
  BITMAP *temp2 = create_bitmap(400, 300);
  int b4file = 0;
+ int font_height = 0;
 
 	f_no = 0;
 	for_each_file_ex("./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File_Title, 0);
+
+ font_height = text_height(fonts[FONT_HELV10].dat);
 
  /** draw File Box **/
 
@@ -244,14 +252,14 @@ int Open_Maps_Title(void)
  rectfill(temp2, 10, 279, 389, 289, makecol(180, 180, 255));
  rect(temp2, 10, 279, 389, 289, makecol(0, 0, 0));
 
- textprintf_centre(temp2, fonts[0].dat, 200, 20, makecol(0, 0, 0), "Choose Map");
+ textprintf_centre(temp2, fonts[FONT_HELV12B].dat, 200, 20, makecol(0, 0, 0), "Choose Map");
 
  text_mode(makecol(255, 255, 255));
  for (i = 0; i < f_no; i++)
- textprintf(temp2, font, 35 + (i/20)*120, 70 + i%20*10, makecol(0, 0, 0), "%s", dir[i].name);
+ textprintf(temp2, fonts[FONT_HELV10].dat, 35 + (i/20)*120, 70 + i%20*(font_height), makecol(0, 0, 0), "%s", dir[i].name); // was 10
 
  text_mode(makecol(180, 180, 255));
- textprintf(temp2, font, 35 + (file_sel/20)*120, 70 + file_sel%20*10, makecol(0, 0, 0), "%s", dir[file_sel].name);
+ textprintf(temp2, fonts[FONT_HELV10].dat, 35 + (file_sel/20)*120, 70 + file_sel%20*(font_height), makecol(0, 0, 0), "%s", dir[file_sel].name); // was 10
 
  for (i = -400; i < 130; i+=10)
  {
@@ -279,10 +287,10 @@ int Open_Maps_Title(void)
 
    text_mode(makecol(255, 255, 255));
    for (i = 0; i < f_no; i++)
-   textprintf(temp2, font, 35 + (i/20)*120, 70 + i%20*10, makecol(0, 0, 0), "%s", dir[i].name);
+   textprintf(temp2, fonts[FONT_HELV10].dat, 35 + (i/20)*120, 70 + i%20*(font_height), makecol(0, 0, 0), "%s", dir[i].name); // was 10
 
    text_mode(makecol(180, 180, 255));
-   textprintf(temp2, font, 35 + (file_sel/20)*120, 70 + file_sel%20*10, makecol(0, 0, 0), "%s", dir[file_sel].name);
+   textprintf(temp2, fonts[FONT_HELV10].dat, 35 + (file_sel/20)*120, 70 + file_sel%20*font_height, makecol(0, 0, 0), "%s", dir[file_sel].name); // was 10
 
    blit(temp2, screen, 0, 0, 120, 100, 400, 300);
 

@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "blocks3.h"
 
+#define MENU_FONT		FONT_HNEUE20
+
 int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 {
 	const Menu *mptr;
@@ -74,7 +76,7 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 		for (i = 0; i < num_items; i++)
 		{
-			textprintf_centre(temp2, fonts[0].dat, 100, 35 + (40 * i), makecol(0, 0, 0), menu[i].title);
+			textprintf_centre(temp2, fonts[MENU_FONT].dat, 100, 35 + (40 * i), makecol(0, 0, 0), menu[i].title);
 		}
 
 		for (i = -MENU_WIDTH; i < MENU_X+10; i+=10)
@@ -109,7 +111,7 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 		for (i = 0; i < num_items; i++)
 		{
-			textprintf_centre(temp2, fonts[0].dat, 100, 35 + (40 * i),  makecol(0, 0, 0), menu[i].title);
+			textprintf_centre(temp2, fonts[MENU_FONT].dat, 100, 35 + (40 * i),  makecol(0, 0, 0), menu[i].title);
 		}
 
 		blit(temp2, screen, 0, 0, MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
@@ -201,6 +203,159 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 		return(NULL);
 	else
 		return(menu[item].id);
+
+	#undef MENU_WIDTH
+	#undef MENU_HEIGHT
+	#undef MENU_X
+	#undef MENU_Y
+}
+
+void Display_Info_Window(const InfoWindow *menu)
+{
+	const InfoWindow *mptr;
+	int num_items = 0;
+	int menu_height = 0;
+	int menu_width = 0;
+	int line_height = 0;
+	int game_menu_exit;
+
+	BITMAP *temp2;
+	int i;
+
+	int width = 0;
+
+	mptr = menu;
+
+	while (mptr++)
+	{
+		num_items++;
+
+		if (mptr->title == NULL)
+			break;
+
+		width = MAX(width, text_length(fonts[mptr->font].dat, mptr->title));
+		line_height = MAX(line_height, text_height(fonts[mptr->font].dat, mptr->title));
+	}
+
+	if (num_items == 0)
+		return 0;
+
+	menu_height = (num_items*(line_height+10)) + 70; //35    50 * num_items;
+	menu_width = (width + (10 - (width % 10)) + 100);
+
+	#define MENU_WIDTH	menu_width //200
+	#define MENU_HEIGHT menu_height
+	#define MENU_X   ((SCREEN_W - MENU_WIDTH) / 2)
+	#define MENU_Y	 ((SCREEN_H - MENU_HEIGHT) / 2)
+
+	temp2 = create_bitmap(MENU_WIDTH, MENU_HEIGHT); // 200, 300
+
+	game_menu_exit = 0;
+
+	rect(temp2, 0, 0, MENU_WIDTH - 1, MENU_HEIGHT - 1, makecol(0, 0, 0));
+
+	// save the screen
+	blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+
+	rectfill(temp2, 1, 1, MENU_WIDTH - 2, MENU_HEIGHT - 2, makecol(255, 255, 255));
+	rectfill(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(128, 128, 128));
+	rectfill(temp2, 10, MENU_HEIGHT - 21, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(128, 128, 128));
+	rect(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(0, 0, 0));
+	rect(temp2, 10, MENU_HEIGHT - 11, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(0, 0, 0));
+
+//	rectfill(temp2, 10, item*40 + 35, MENU_WIDTH - 10, item*40 + 65, makecol(180, 180, 255));
+	text_mode(-1);
+
+	for (i = 0; i < num_items; i++)
+	{
+		textprintf_centre(temp2, fonts[menu[i].font].dat, MENU_WIDTH / 2, 35 + ((line_height+10) * i), makecol(0, 0, 0), menu[i].title);
+	}
+
+	for (i = -MENU_WIDTH; i < MENU_X; i+=10)
+	{
+		blit(temp, screen, i - 10, MENU_Y, i-10, MENU_Y, 10, MENU_HEIGHT);
+		blit(temp2, screen, 0, 0, i, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
+	
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
+
+		time_count = 0;
+	}
+
+	if (i != MENU_X)
+		blit(temp, screen, i - 10, MENU_Y, i-10, MENU_Y, 10, MENU_HEIGHT);
+
+	while (key[KEY_ESC])
+	{
+		Poll_Music();
+	}
+
+	while (!game_menu_exit)
+	{
+		rectfill(temp2, 1, 1, MENU_WIDTH - 2, MENU_HEIGHT - 2, makecol(255, 255, 255));
+		rectfill(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(128, 128, 128));
+		rectfill(temp2, 10, MENU_HEIGHT - 21, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(128, 128, 128));
+		rect(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(0, 0, 0));
+		rect(temp2, 10, MENU_HEIGHT - 11, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(0, 0, 0));
+
+//		rectfill(temp2, 10, item*40 + 35, MENU_WIDTH - 10, item*40 + 65, makecol(180, 180, 255));
+		text_mode(-1);
+
+		for (i = 0; i < num_items; i++)
+		{
+			textprintf_centre(temp2, fonts[menu[i].font].dat, MENU_WIDTH / 2, 35 + ((line_height+10) * i),  makecol(0, 0, 0), menu[i].title);
+		}
+
+		blit(temp2, screen, 0, 0, MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
+
+		while ((!key[KEY_ESC]) && /*(!key[KEY_UP]) && (!key[KEY_DOWN]) &&*/ (!key[KEY_ENTER]))
+		{
+			Poll_Music();
+		}
+
+		if (key[KEY_ESC])
+		{
+			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
+//			item = -1;
+			game_menu_exit = 1;
+		}
+
+		if (key[KEY_ENTER])
+		{
+			game_menu_exit = 1;
+			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
+		}
+
+//		if (key[KEY_UP])
+			//item--;
+
+		//if (key[KEY_DOWN])
+			//item++;
+
+		play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
+
+		while ((key[KEY_ESC]) || /*(key[KEY_UP]) || (key[KEY_DOWN]) ||*/ (key[KEY_ENTER]))
+		{
+			Poll_Music();
+		}
+	}
+
+	for (i = MENU_X; i < SCREEN_W + 10; i+=10)
+	{
+		blit(temp, screen, i - 10, MENU_Y, i-10, MENU_Y, 10, MENU_HEIGHT);
+		blit(temp2, screen, 0, 0, i, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
+
+		while (time_count < 1)
+		{
+			Poll_Music();
+		}
+		time_count = 0;
+	}
+
+	blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+	destroy_bitmap(temp2);
 }
 
 static const Menu in_game_menu[] = {
@@ -385,4 +540,20 @@ void Music_Menu(void)
 			Mod_Music();
 			break;
 	}
+}
+
+static const InfoWindow about_box[] = {
+	{"About Ultimate Blocks", FONT_HELV12B},
+	{"Version 4.0", FONT_HELV12},
+	{"", FONT_HELV12},
+	{"Copyright \xC2\xA9 Owen Rudge 2001, 2008,", FONT_HELV12},
+	{"An Ly 1999-2001", FONT_HELV12},
+	{"", FONT_HELV12},
+	{"www.ultimateblocks.com", FONT_HELV12},
+	{END_OF_INFOWINDOW}
+};
+
+void About_Box(void)
+{
+	Display_Info_Window(&about_box);
 }
