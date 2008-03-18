@@ -18,11 +18,11 @@ int cd_track = -1;
 static char cdplayer_playstop[CDPLAYER_PLAYSTOP_LEN];
 
 static const Menu cdplayer_menu[] = {
-	{&cdplayer_playstop, 1, 0},
+	{(char *) &cdplayer_playstop, 1, 0},
 	{"Next", 2, 0},
 	{"Previous", 3, 0},
 	{"Eject", 4, 0},
-	{"Exit", 5, MENUITEM_CLOSE},
+	{"Return", 5, MENUITEM_CLOSE},
 	{END_OF_MENU}
 };
 
@@ -38,11 +38,11 @@ void CD_Player(void)
 	while (display_menu)
 	{
 		if (cd_track == -1)
-			safe_strcpy(&cdplayer_playstop, CDPLAYER_PLAYSTOP_LEN, "Play");
+			safe_strcpy((char *) &cdplayer_playstop, CDPLAYER_PLAYSTOP_LEN, "Play");
 		else
-			safe_strcpy(&cdplayer_playstop, CDPLAYER_PLAYSTOP_LEN, "Stop");
+			safe_strcpy((char *) &cdplayer_playstop, CDPLAYER_PLAYSTOP_LEN, "Stop");
 
-		ret = Display_Menu(&cdplayer_menu, NULL, flags, def_item);
+		ret = Display_Menu((const Menu *) &cdplayer_menu, NULL, flags, def_item);
 
 		switch (ret)
 		{
@@ -120,127 +120,62 @@ void CD_Player(void)
 #endif
 }
 
+static const Menu mod_menu[] = {
+	{"Next", 1, 0},
+	{"Previous", 2, 0},
+	{"Return", 3, MENUITEM_CLOSE},
+	{END_OF_MENU}
+};
+
 void Mod_Music(void)
 {
-	BITMAP *temp2 = create_bitmap(200, 300);
-	BITMAP *temp3 = create_bitmap(640, 480);
+	int ret, retval = 0;
+	char display_menu = 1;
+	int flags = 0;
+	int def_item = 0;
+	int mod_track_last = mod_track;
 
-	int cd_exit, item;
-	int i;
-
-	cd_exit = 0;
-	item = 0;
-
-	blit(screen, temp3, 0, 0, 0, 0, 640, 480);
-	rect(temp2, 0, 0, 199, 189, 0);
-
-	rectfill(temp2, 1, 1, 198, 188, 7);
-	rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-	rectfill(temp2, 10, 170, 189, 180, makecol(128, 128, 128));
-	rect(temp2, 10, 10, 189, 20, 0);
-	rect(temp2, 10, 170, 189, 180, 0);
-
-	rectfill(temp2, 10, item*40 + 40, 190, item*40 + 70, makecol(180, 180, 255));
-	text_mode(-1);
-
-	textprintf_centre(temp2, fonts[0].dat, 100, 40, 0, "Next");
-	textprintf_centre(temp2, fonts[0].dat, 100, 80, 0, "Previous");
-	textprintf_centre(temp2, fonts[0].dat, 100, 120, 0, "Return");
-
-	for (i = -200; i < 230; i+=10)
+	while (display_menu)
 	{
-		blit(temp, screen, i - 10, 100, i-10, 100, 10, 190);
-		blit(temp2, screen, 0, 0, i, 100, 200, 190);
-		while (time_count < 1)
+		if (mod_track > mod_last)
+			mod_track = 0;
+
+		if (mod_track < 0)
+			mod_track = mod_last;
+
+		if (mod_track_last != mod_track)
 		{
-			Poll_Music();
-		}
-		time_count = 0;
-	}
-
-	cd_exit = 0;
-	item = 0;
-
-	while (!cd_exit)
-	{
-		rectfill(temp2, 1, 1, 198, 188, 7);
-		rectfill(temp2, 10, 10, 189, 20, makecol(128, 128, 128));
-		rectfill(temp2, 10, 170, 189, 180, makecol(128, 128, 128));
-		rect(temp2, 10, 10, 189, 20, 0);
-		rect(temp2, 10, 170, 189, 180, 0);
-
-		rectfill(temp2, 10, item*40 + 40, 190, item*40 + 70, makecol(180, 180, 255));
-		text_mode(-1);
-
-		textprintf_centre(temp2, fonts[0].dat, 100, 40,  0, "Next");
-		textprintf_centre(temp2, fonts[0].dat, 100, 80, 0, "Previous");
-		textprintf_centre(temp2, fonts[0].dat, 100, 120, 0, "Return");
-
-		blit(temp2, screen, 0, 0, 220, 100, 200, 190);
-
-		while ((!key[KEY_ESC]) && (!key[KEY_UP]) && (!key[KEY_DOWN]) && (!key[KEY_ENTER]))
-		{
-			Poll_Music();
+			mod_track_last = mod_track;
+			Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, B2Music);
 		}
 
-		if (key[KEY_ESC]) cd_exit = 1;
+		ret = Display_Menu((const Menu *) &mod_menu, NULL, flags, def_item);
 
-		if (key[KEY_ENTER])
+		switch (ret)
 		{
-			if (item != 2)
-			{
-				if (item == 0)
-					mod_track++;
+			case 1:
+				mod_track++;
 
-				if (item == 1)
-					mod_track--;
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 0;
 
-				if (mod_track < 0)
-					mod_track = mod_last;
+				break;
 
-				if (mod_track > mod_last)
-					mod_track = 0;
+			case 2:
+				mod_track--;
 
-				Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, B2Music);
-			}
-			else
-				cd_exit = 1;
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 1;
 
-			play_sample(sfx[SFX_FALL].dat, sfx_vol, 128, 1000, 0);
-		}
-		else
-			play_sample(sfx[SFX_CLICK].dat, sfx_vol, 128, 1000, 0);
+				break;
 
-		if (key[KEY_UP])
-			item--;
-
-		if (key[KEY_DOWN])
-			item++;
-
-		if (item < 0)
-			item = 2;
-
-		if (item > 2)
-			item = 0;
-
-		while ((key[KEY_ESC]) || (key[KEY_UP]) || (key[KEY_DOWN]) || (key[KEY_ENTER]))
-		{
-			Poll_Music();
+			case 3:
+				display_menu = 0;
+				break;
 		}
 	}
-
-	for (i = 220; i < 650; i+=10)
-	{
-		blit(temp3, screen, i - 10, 100, i-10, 100, 10, 190);
-		blit(temp2, screen, 0, 0, i, 100, 200, 190);
-		while (time_count < 1)
-		{
-			Poll_Music();
-		}
-		time_count = 0;
-	}
-
-	blit(temp3, screen, 0, 0, 0, 0, 640, 480);
 }
 
 char mod_current_loop;

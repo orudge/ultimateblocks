@@ -1,5 +1,13 @@
 "allegro_icon"            ICON                    "blocks4.ico"
 
+#ifdef WITH_REV
+	#include "res_rev.tmp"
+#endif
+
+#ifndef SVN_VERSION
+	#define SVN_VERSION	"Release build"
+#endif
+
 1 VERSIONINFO
  FILEVERSION 4,0,0,0
  PRODUCTVERSION 4,0,0,0
@@ -24,6 +32,7 @@ BEGIN
             VALUE "OriginalFilename", "Blocks4.exe"
             VALUE "ProductName", "Ultimate Blocks"
             VALUE "ProductVersion", "4.0"
+            VALUE "Comments", SVN_VERSION
         END
     END
     BLOCK "VarFileInfo"

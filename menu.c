@@ -56,12 +56,12 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 	game_menu_exit = 0;
 	item = def_item;
 
+	rect(temp2, 0, 0, MENU_WIDTH - 1, MENU_HEIGHT - 1, makecol(0, 0, 0));
+
 	if (!(flags & MENU_NO_REDRAW))
 	{
 		// save the screen
 		blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-
-		rect(temp2, 0, 0, MENU_WIDTH - 1, MENU_HEIGHT - 1, makecol(0, 0, 0));
 
 		rectfill(temp2, 1, 1, MENU_WIDTH - 2, MENU_HEIGHT - 2, makecol(255, 255, 255));
 		rectfill(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(128, 128, 128));
@@ -217,7 +217,7 @@ void In_Game_Menu(void)
 {
 	int ret;
 
-	ret = Display_Menu(&in_game_menu, NULL, 0, 0);
+	ret = Display_Menu((const Menu *) &in_game_menu, NULL, 0, 0);
 
 	switch (ret)
 	{
@@ -275,9 +275,9 @@ void Options_Menu(void)
 	char sfx_vol_str[MAX_VOL_LABEL_LEN];
 
 	const Menu options_menu[] = {
-		{&music_vol_str, 1, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{&cd_vol_str, 2, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{&sfx_vol_str, 3, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &music_vol_str, 1, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &cd_vol_str, 2, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &sfx_vol_str, 3, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
 		{"Return", 4, MENUITEM_CLOSE},
 		{END_OF_MENU}
 	};
@@ -311,11 +311,11 @@ void Options_Menu(void)
 			old_cd_vol = cd_vol;
 		}
 
-		sprintf(&music_vol_str, "Music: %d", mus_vol*100/255);
-		sprintf(&cd_vol_str, "CD: %d", cd_vol*100/255);
-		sprintf(&sfx_vol_str, "SFX: %d", sfx_vol*100/255);
+		sprintf((char *) &music_vol_str, "Music: %d", mus_vol*100/255);
+		sprintf((char *) &cd_vol_str, "CD: %d", cd_vol*100/255);
+		sprintf((char *) &sfx_vol_str, "SFX: %d", sfx_vol*100/255);
 
-		ret = Display_Menu(&options_menu, &retval, flags, def_item);
+		ret = Display_Menu((const Menu *) &options_menu, &retval, flags, def_item);
 
 		switch (ret)
 		{
@@ -367,15 +367,15 @@ void Options_Menu(void)
 }
 
 static const Menu music_menu[] = {
-	{"CD Player", 1, MENUITEM_CLOSE},
-	{"MOD Music", 2, MENUITEM_CLOSE},
-	{"Return", 3, MENUITEM_CLOSE},
+	{(char *) "CD Player", 1, MENUITEM_CLOSE},
+	{(char *) "MOD Music", 2, MENUITEM_CLOSE},
+	{(char *) "Return", 3, MENUITEM_CLOSE},
 	{END_OF_MENU}
 };
 
 void Music_Menu(void)
 {
-	switch (Display_Menu(&music_menu, NULL, 0, 0))
+	switch (Display_Menu((const Menu *) &music_menu, NULL, 0, 0))
 	{
 		case 1:
 			CD_Player();

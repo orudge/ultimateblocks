@@ -40,6 +40,8 @@ ifeq ($(PLATFORM),mingw )
 CFLAGS   += -DALLEGRO_STATICLINK -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -ldsound
 RES      = res.o
+
+SVNVERSION = $(shell svnversion -n)
 endif
 
 ifeq ($(PLATFORM),macosx )
@@ -66,7 +68,9 @@ blocks4: $(OBJECTS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 res.o : blocks4.rc
-	$(WINDRES) $< $@
+	echo "#define SVN_VERSION \"SVN revision $(SVNVERSION)\"" > res_rev.tmp
+	$(WINDRES) $< $@ -DWITH_REV
+	rm -f res_rev.tmp
 
 clean:
 	$(RM) *.o *~

@@ -63,7 +63,7 @@ void Title(void)
 	}
 }
 
-static Menu main_menu[] = {
+static const Menu main_menu[] = {
 	{"Start", 1, MENUITEM_CLOSE},
 	{"Editor", 2, MENUITEM_CLOSE},
 	{"Options", 3, MENUITEM_CLOSE},
@@ -75,7 +75,7 @@ static Menu main_menu[] = {
 
 int Title_Menu(void)
 {
-	switch (Display_Menu(&main_menu, NULL, 0, 0))
+	switch (Display_Menu((const Menu *) &main_menu, NULL, 0, 0))
 	{
 		case 1:
 			return(2);

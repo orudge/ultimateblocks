@@ -24,7 +24,8 @@ todo:
 - windows resource script
 - reset undos when changing level
 - check endianness
-
+- tutorial
+- flickering at bottom of screen with status bar
 - Internet-based multiplayer?
 
 from Blocks3.doc:

@@ -508,7 +508,7 @@ void In_Game_Menu(void);
 void Music_Menu(void);
 int Display_Menu(const Menu *menu, int *ret, int flags, int def_item);
 
-#define END_OF_MENU  NULL, NULL, NULL
+#define END_OF_MENU  (char *) NULL, (int) NULL, (char) NULL
 
 enum {
 	MENUITEM_KEY_LEFT  = 1,
