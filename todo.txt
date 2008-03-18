@@ -27,6 +27,7 @@ todo:
 - tutorial
 - flickering at bottom of screen with status bar
 - Internet-based multiplayer?
+- gun turrets?
 
 from Blocks3.doc:
 

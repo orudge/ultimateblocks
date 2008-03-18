@@ -354,7 +354,7 @@ void Editor_Draw_Menu(void)
  rectfill(temp, 0, 0, 639, 12, 7);
  rect(temp, 0, 0, 639, 12, 0);
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
 
  textprintf(temp, font, 12, 2, 0, " File ");
  textprintf(temp, font, 72, 2, 0, " Edit ");
@@ -383,7 +383,7 @@ void Highlight_Menu(int x)
 
  old_menu_hl = menu_hl;
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
 
  textprintf(temp, font, 12, 2, 0, " File ");
  textprintf(temp, font, 72, 2, 0, " Edit ");
@@ -432,7 +432,7 @@ void Draw_Drop_Down(int item)
           menu[menu_hl].x + menu[menu_hl].w - 1,
           menu[menu_hl].y + menu[menu_hl].h - 1, 0);
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
 
  for (i = 0; i < menu[menu_hl].n; i++)
  textprintf(temp, font, menu[menu_hl].x + 8, menu[menu_hl].y + 10 + i*10, 0, "%s", menu[menu_hl].item[i].name);
@@ -546,7 +546,7 @@ void Directory(void)
  f_no = 0;
  for_each_file_ex((const char *) "./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File, 0);
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
  for (j = 0; j < f_no; j++)
  textprintf(temp, font, j/37*128 + 10, (j % 37) * 12 + 20, 0, "%s", dir[j].name);
 }
@@ -571,7 +571,7 @@ int Yes_Or_No(void)
    {
     m = 1;
     scare_mouse();
-    text_mode(7);
+    text_mode(makecol(255, 255, 255));
     textprintf(screen, font, 268, 130, 0, " YES      NO ");
     text_mode(makecol(180, 180, 255));
     textprintf(screen, font, 268, 130, 0, " YES ");
@@ -581,7 +581,7 @@ int Yes_Or_No(void)
    {
     m = 2;
     scare_mouse();
-    text_mode(7);
+    text_mode(makecol(255, 255, 255));
     textprintf(screen, font, 268, 130, 0, " YES      NO ");
     text_mode(makecol(180, 180, 255));
     textprintf(screen, font, 340, 130, 0, " NO ");
@@ -623,7 +623,7 @@ Poll_Music();
   if ((file_sel != mx/128 * 37 + (my-20)/12) && (my > 12) && (my < 460)
   && (mx/128 * 37 + (my-20)/12 < f_no))
   {
-   text_mode(7);
+   text_mode(makecol(255, 255, 255));
    scare_mouse();
    textprintf(screen, font, file_sel/37*128 + 10, (file_sel % 37) * 12 + 20, 0, "%s", dir[file_sel].name);
    file_sel = mx/128 * 37 + (my-20)/12;
@@ -640,7 +640,7 @@ Poll_Music();
  rectfill(screen, 192, 90, 448, 140, 7);
  rect(screen, 192, 90, 448, 140, 0);
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
 
  scare_mouse();
  textprintf_centre(screen, font, 320, 100, 0, "WARNING: Loading file will");
@@ -705,7 +705,7 @@ void Save_Maps(void)
  text_mode(makecol(180, 180, 255));
  textprintf_centre(temp, font, 320, 2, 0, "Save Maps...");
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
  textprintf(temp, font, 10, 470, 0, "Filename:");
 
  k = 0;
@@ -726,7 +726,7 @@ void Save_Maps(void)
   if ((file_sel != mx/128 * 37 + (my-20)/12) && (my > 12) && (my < 460)
   && (mx/128 * 37 + (my-20)/12 < f_no))
   {
-   text_mode(7);
+   text_mode(makecol(255, 255, 255));
    scare_mouse();
    textprintf(screen, font, file_sel/37*128 + 10, (file_sel % 37) * 12 + 20, 0, "%s", dir[file_sel].name);
    file_sel = mx/128 * 37 + (my-20)/12;
@@ -742,14 +742,14 @@ void Save_Maps(void)
     if (k > 0)
     {
      k--;
-     text_mode(7);
+     text_mode(makecol(255, 255, 255));
      textprintf(screen, font, 85 + k*8, 470, 0, "  ");
     }
    }
    else
    {
     if (k == 8) k = 7;
-    text_mode(7);
+    text_mode(makecol(255, 255, 255));
     textprintf(screen, font, 85 + k*8, 470, 0, " ");
     textprintf(screen, font, 85 + k*8, 470, 0, "%c", j & 0xff);
     f[k] = j & 0xff;
@@ -788,7 +788,7 @@ void Save_Maps(void)
   rectfill(screen, 220, 90, 420, 140, 7);
   rect(screen, 220, 90, 420, 140, 0);
 
-  text_mode(7);
+  text_mode(makecol(255, 255, 255));
 
   scare_mouse();
   textprintf_centre(screen, font, 320, 100, 0, "Are you sure you want");

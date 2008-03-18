@@ -93,7 +93,7 @@ void CD_Player(void)
 				if (cd_play_from(cd_track) == -1)
 					cd_track = -1;
 
-				text_mode(0);
+				text_mode(makecol(0, 0, 0));
 				textprintf_ex(screen, font, 10, 10, makecol(255, 255, 255), makecol(0, 0, 0), "%d ", cd_track);
 
 				display_menu = 1;

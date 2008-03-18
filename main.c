@@ -198,7 +198,7 @@ int Run_Level(void)
 
 /*		textprintf(screen, font, 10, 10, 7, "%d ", undo_count);
 
-		text_mode(0);
+		text_mode(makecol(0, 0, 0));
 
 		for (i = 0; i < 20; i++)
 		{

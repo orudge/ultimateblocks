@@ -235,23 +235,23 @@ int Open_Maps_Title(void)
 
  /** draw File Box **/
 
- rectfill(temp2, 0, 0, 399, 299, 7);
- rect(temp2, 0, 0, 399, 299, 0);
+ rectfill(temp2, 0, 0, 399, 299, makecol(255, 255, 255));
+ rect(temp2, 0, 0, 399, 299, makecol(0, 0, 0));
 
  rectfill(temp2, 10, 10, 389, 20, makecol(180, 180, 255));
- rect(temp2, 10, 10, 389, 20, 0);
+ rect(temp2, 10, 10, 389, 20, makecol(0, 0, 0));
 
  rectfill(temp2, 10, 279, 389, 289, makecol(180, 180, 255));
- rect(temp2, 10, 279, 389, 289, 0);
+ rect(temp2, 10, 279, 389, 289, makecol(0, 0, 0));
 
- textprintf_centre(temp2, fonts[0].dat, 200, 20, 0, "Choose Map");
+ textprintf_centre(temp2, fonts[0].dat, 200, 20, makecol(0, 0, 0), "Choose Map");
 
- text_mode(7);
+ text_mode(makecol(255, 255, 255));
  for (i = 0; i < f_no; i++)
- textprintf(temp2, font, 35 + (i/20)*120, 70 + i%20*10, 0, "%s", dir[i].name);
+ textprintf(temp2, font, 35 + (i/20)*120, 70 + i%20*10, makecol(0, 0, 0), "%s", dir[i].name);
 
  text_mode(makecol(180, 180, 255));
- textprintf(temp2, font, 35 + (file_sel/20)*120, 70 + file_sel%20*10, 0, "%s", dir[file_sel].name);
+ textprintf(temp2, font, 35 + (file_sel/20)*120, 70 + file_sel%20*10, makecol(0, 0, 0), "%s", dir[file_sel].name);
 
  for (i = -400; i < 130; i+=10)
  {
@@ -277,12 +277,12 @@ int Open_Maps_Title(void)
    if (file_sel < 0) file_sel = f_no - 1;
    if (file_sel > f_no - 1) file_sel = 0;
 
-   text_mode(7);
+   text_mode(makecol(255, 255, 255));
    for (i = 0; i < f_no; i++)
-   textprintf(temp2, font, 35 + (i/20)*120, 70 + i%20*10, 0, "%s", dir[i].name);
+   textprintf(temp2, font, 35 + (i/20)*120, 70 + i%20*10, makecol(0, 0, 0), "%s", dir[i].name);
 
    text_mode(makecol(180, 180, 255));
-   textprintf(temp2, font, 35 + (file_sel/20)*120, 70 + file_sel%20*10, 0, "%s", dir[file_sel].name);
+   textprintf(temp2, font, 35 + (file_sel/20)*120, 70 + file_sel%20*10, makecol(0, 0, 0), "%s", dir[file_sel].name);
 
    blit(temp2, screen, 0, 0, 120, 100, 400, 300);
 
