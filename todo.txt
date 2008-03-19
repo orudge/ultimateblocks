@@ -2,7 +2,6 @@ todo:
 
 - title screen
 - improve login mechanism
-- "about" menu
 - better map browsing, etc, support?
 - better font
 - score counter, etc, like blocks+ - configurable

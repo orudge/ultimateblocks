@@ -521,6 +521,7 @@ void Music_Menu(void);
 int Display_Menu(const Menu *menu, int *ret, int flags, int def_item);
 void Display_Info_Window(const InfoWindow *menu);
 void About_Box(void);
+void Keyboard_Menu(void);
 
 #define END_OF_MENU  (char *) NULL, (int) NULL, (char) NULL
 #define END_OF_INFOWINDOW   (char *) NULL, (int) NULL
@@ -528,7 +529,9 @@ void About_Box(void);
 enum {
 	MENUITEM_KEY_LEFT  = 1,
 	MENUITEM_KEY_RIGHT = 2,
-	MENUITEM_CLOSE = 4
+	MENUITEM_CLOSE = 4,
+	MENUITEM_TITLE = 8,
+	MENUITEM_DRAWLINES = 16
 };
 
 enum {
@@ -541,7 +544,8 @@ enum {
 
 enum {
 	MENU_NO_REDRAW = 1,
-	MENU_ALLOW_MANY_LR = 2
+	MENU_ALLOW_MANY_LR = 2,
+	MENU_SMALL_FONT = 4
 };
 
 // mon.c

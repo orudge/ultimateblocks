@@ -12,14 +12,15 @@
 #include <stdio.h>
 #include "blocks3.h"
 
-#define MENU_FONT		FONT_HNEUE20
-
 int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 {
 	const Menu *mptr;
 	int num_items = 0;
 	int game_menu_exit;
 	int menu_height = 0;
+	int menu_font = FONT_HNEUE20;
+	int font_height = 0;
+	int actual_font_height = 0;
 
 	BITMAP *temp2;
 	int item, i;
@@ -40,7 +41,13 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 	if (num_items == 0)
 		return 0;
 
-	menu_height = (num_items*40) + 70; //35    50 * num_items;
+	if (flags & MENU_SMALL_FONT)
+		menu_font = FONT_HELV12B;
+
+	actual_font_height = text_height(fonts[menu_font].dat);
+	font_height = actual_font_height + 10;
+
+	menu_height = (num_items*font_height) + 70; //35    50 * num_items;
 
 	#define MENU_WIDTH	200
 	#define MENU_HEIGHT menu_height
@@ -71,12 +78,12 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 		rect(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(0, 0, 0));
 		rect(temp2, 10, MENU_HEIGHT - 11, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(0, 0, 0));
 
-		rectfill(temp2, 10, item*40 + 35, MENU_WIDTH - 10, item*40 + 65, makecol(180, 180, 255));
+		rectfill(temp2, 10, item*font_height + (font_height), MENU_WIDTH - 10, item*font_height + ((font_height*2)), makecol(180, 180, 255));
 		text_mode(-1);
 
 		for (i = 0; i < num_items; i++)
 		{
-			textprintf_centre(temp2, fonts[MENU_FONT].dat, 100, 35 + (40 * i), makecol(0, 0, 0), menu[i].title);
+			textprintf_centre(temp2, fonts[menu_font].dat, 100, font_height + (font_height * i) + ((font_height - actual_font_height) / 2), makecol(0, 0, 0), menu[i].title);
 		}
 
 		for (i = -MENU_WIDTH; i < MENU_X+10; i+=10)
@@ -106,12 +113,18 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 		rect(temp2, 10, 10, MENU_WIDTH - 11, 20, makecol(0, 0, 0));
 		rect(temp2, 10, MENU_HEIGHT - 11, MENU_WIDTH - 11, MENU_HEIGHT - 11, makecol(0, 0, 0));
 
-		rectfill(temp2, 10, item*40 + 35, MENU_WIDTH - 10, item*40 + 65, makecol(180, 180, 255));
+		rectfill(temp2, 10, item*font_height + (font_height), MENU_WIDTH - 10, item*font_height + ((font_height*2)), makecol(180, 180, 255));
 		text_mode(-1);
 
 		for (i = 0; i < num_items; i++)
 		{
-			textprintf_centre(temp2, fonts[MENU_FONT].dat, 100, 35 + (40 * i),  makecol(0, 0, 0), menu[i].title);
+			if ((menu[i].options & MENUITEM_TITLE) || (menu[i].options & MENUITEM_DRAWLINES))
+			{
+				line(temp2, 10, font_height + (font_height * i), MENU_WIDTH - 11, font_height + (font_height * i), makecol(0, 0, 0));
+				line(temp2, 10, (2*font_height) + (font_height * i), MENU_WIDTH - 11, (2*font_height) + (font_height * i), makecol(0, 0, 0));
+			}
+
+			textprintf_centre(temp2, fonts[menu_font].dat, 100, font_height + (font_height * i) + ((font_height - actual_font_height) / 2), makecol(0, 0, 0), menu[i].title);
 		}
 
 		blit(temp2, screen, 0, 0, MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
@@ -150,6 +163,8 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 			game_menu_exit = 1;
 		}
 
+redo_key: ;
+
 		if (key[KEY_UP])
 			item--;
 
@@ -163,6 +178,9 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 		if (item > (num_items - 1))
 			item = 0;
+
+		if (menu[item].options & MENUITEM_TITLE)
+			goto redo_key; // I'm sorry.
 
 		if ((flags & MENU_ALLOW_MANY_LR) && ((menu[item].options & MENUITEM_KEY_LEFT) || (menu[item].options & MENUITEM_KEY_RIGHT)))
 		{
@@ -430,10 +448,11 @@ void Options_Menu(void)
 	char sfx_vol_str[MAX_VOL_LABEL_LEN];
 
 	const Menu options_menu[] = {
-		{(char *) &music_vol_str, 1, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{(char *) &cd_vol_str, 2, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{(char *) &sfx_vol_str, 3, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{"Return", 4, MENUITEM_CLOSE},
+		{"Keyboard", 1, MENUITEM_CLOSE},
+		{(char *) &music_vol_str, 2, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &cd_vol_str, 3, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &sfx_vol_str, 4, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{"Return", 5, MENUITEM_CLOSE},
 		{END_OF_MENU}
 	};
 
@@ -475,6 +494,10 @@ void Options_Menu(void)
 		switch (ret)
 		{
 			case 1:
+				Keyboard_Menu();
+				break;
+
+			case 2:
 				if (retval == MENU_KEY_LEFT)
 					mus_vol -= 3;
 				else if (retval == MENU_KEY_RIGHT)
@@ -482,13 +505,13 @@ void Options_Menu(void)
 
 				display_menu = 1;
 				flags |= MENU_NO_REDRAW;
-				def_item = 0;
+				def_item = 1;
 
 				OPTIONS_DELAY_10();
 
 				break;
 
-			case 2:
+			case 3:
 				if (retval == MENU_KEY_LEFT)
 					cd_vol -= 3;
 				else if (retval == MENU_KEY_RIGHT)
@@ -496,12 +519,12 @@ void Options_Menu(void)
 
 				display_menu = 1;
 				flags |= MENU_NO_REDRAW;
-				def_item = 1;
+				def_item = 2;
 
 				OPTIONS_DELAY_10();
 				break;
 			
-			case 3:
+			case 4:
 				if (retval == MENU_KEY_LEFT)
 					sfx_vol -= 3;
 				else if (retval == MENU_KEY_RIGHT)
@@ -509,12 +532,78 @@ void Options_Menu(void)
 
 				display_menu = 1;
 				flags |= MENU_NO_REDRAW;
-				def_item = 2;
+				def_item = 3;
 
 				OPTIONS_DELAY_10();
 				break;
 
+			case 5:
+				display_menu = 0;
+				break;
+		}
+	}
+}
+
+void Keyboard_Menu(void)
+{
+	int ret, retval = 0;
+	char display_menu = 1;
+	int flags = MENU_SMALL_FONT;
+	int def_item = 1;
+
+	char p1_up_str[MAX_VOL_LABEL_LEN];
+	char p1_down_str[MAX_VOL_LABEL_LEN];
+	char p1_left_str[MAX_VOL_LABEL_LEN];
+	char p1_right_str[MAX_VOL_LABEL_LEN];
+	char p2_up_str[MAX_VOL_LABEL_LEN];
+	char p2_down_str[MAX_VOL_LABEL_LEN];
+	char p2_left_str[MAX_VOL_LABEL_LEN];
+	char p2_right_str[MAX_VOL_LABEL_LEN];
+
+	const Menu options_menu[] = {
+		{"Player 1", 1, MENUITEM_TITLE},
+		{(char *) &p1_up_str, 2, MENUITEM_CLOSE},
+		{(char *) &p1_down_str, 3, MENUITEM_CLOSE},
+		{(char *) &p1_left_str, 4, MENUITEM_CLOSE},
+		{(char *) &p1_right_str, 5, MENUITEM_CLOSE},
+		{"Player 2", 6, MENUITEM_TITLE},
+		{(char *) &p2_up_str, 7, MENUITEM_CLOSE},
+		{(char *) &p2_down_str, 8, MENUITEM_CLOSE},
+		{(char *) &p2_left_str, 9, MENUITEM_CLOSE},
+		{(char *) &p2_right_str, 10, MENUITEM_CLOSE},
+		{"Return", 11, MENUITEM_CLOSE | MENUITEM_DRAWLINES},
+		{END_OF_MENU}
+	};
+
+	while (display_menu)
+	{
+		sprintf((char *) &p1_up_str, "Up: UP");
+		sprintf((char *) &p1_down_str, "Down: DOWN");
+		sprintf((char *) &p1_left_str, "Left: LEFT");
+		sprintf((char *) &p1_right_str, "Right: RIGHT");
+
+		sprintf((char *) &p2_up_str, "Up: W");
+		sprintf((char *) &p2_down_str, "Down: S");
+		sprintf((char *) &p2_left_str, "Left: A");
+		sprintf((char *) &p2_right_str, "Right: D");
+
+		ret = Display_Menu((const Menu *) &options_menu, &retval, flags, def_item);
+
+		switch (ret)
+		{
+			case 2:
+			case 3:
 			case 4:
+			case 5:
+				break;
+
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+				break;
+
+			case 11:
 				display_menu = 0;
 				break;
 		}
