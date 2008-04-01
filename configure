@@ -6,7 +6,7 @@ case "$1" in
      echo "Configuration complete. Now run \`make'."    
      ;;
   linux)
-     echo "PLATFORM=linux" > makefile.cfg    
+     echo "PLATFORM=linux " > makefile.cfg    
      echo "Configuration complete. Now run \`make'."
      ;;
   macosx)

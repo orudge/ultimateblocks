@@ -54,6 +54,14 @@ RES      =
 EXE      = blocks4
 endif
 
+ifeq ($(PLATFORM),linux )
+CC       = gcc
+CFLAGS   += -DENABLE_CDA
+LDFLAGS  += -laldmb -ldumb `allegro-config --libs` -lcda
+RES      =
+EXE      = blocks4
+endif
+
 WINDRES = windres
 
 RM = rm -f
