@@ -28,6 +28,10 @@ todo:
 - Internet-based multiplayer?
 - gun turrets?
 
+keyboard stuff:
+
+- implement F2, backspace, etc
+
 from Blocks3.doc:
 
 - Ending and Intro sequence
