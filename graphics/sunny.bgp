@@ -7,4 +7,4 @@ BlockWidth=32
 BlockHeight=32
 BlockDepth=8
 Filename=./graphics/SUNNY.BMP
-Music=./music/deadlock.xm
+Music=deadlock.xm

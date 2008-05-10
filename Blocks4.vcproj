@@ -406,7 +406,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\b3types.h"
+				>
+			</File>
+			<File
 				RelativePath=".\blocks3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\musicdat.h"
 				>
 			</File>
 		</Filter>

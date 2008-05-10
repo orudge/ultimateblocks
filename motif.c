@@ -73,7 +73,7 @@ void Change_Motif(const char *m)
 		if (B2Music == 1)
 		{
 			set_config_file("blocks4.cfg");		
-			Play_MOD_Track(get_config_string("Sound", "InitialMusic", "music/deadlock.xm"), 0, 1);
+			Play_MOD_Track(get_config_string("Sound", "InitialMusic", "deadlock.xm"), 0, 1);
 		}
 	}
 

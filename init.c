@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "blocks3.h"
+#include "musicdat.h"
 #include <string.h>
 
 BITMAP *gfx, *back, *temp;
@@ -45,6 +46,20 @@ int Remember_Mod_File(const char *fn, int a, void *b)
 
 	return 0;
 }
+
+void Add_Datafile_Mod(const char *fn, const char id, const char type)
+{
+	if (f_no == MAX_MODS)
+		return -1;
+
+	safe_strcpy(mod[f_no].name, DIR_MAXNAME, fn);
+	mod[f_no].type = type;
+	mod[f_no].id = id;
+	f_no++;
+
+	return;
+}
+
 
 void LoadGraphicsPack(const char *fn, int a, int b)
 {
@@ -168,7 +183,7 @@ void Initialise(void)
 	for_each_file("./graphics/*.bgp", FA_RDONLY | FA_ARCH, LoadGraphicsPack, 0);
 
 	// Load fonts and title graphics
-	fonts = load_datafile("fonts.dat");
+	fonts = load_encrypted_datafile("fonts.dat");
 
 	if (fonts == NULL)
 		report_error("\"fonts.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
@@ -189,13 +204,32 @@ void Initialise(void)
 	cd_set_volume(cd_vol, cd_vol);
 #endif
 
-	sfx = load_datafile("sfx.dat");
+	sfx = load_encrypted_datafile("sfx.dat");
 
 	if (sfx == NULL)
 		report_error("\"sfx.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
 
+	// add appropriate loaders for datafile
+	dumb_register_dat_it_quick(DUMB_DAT_IT);
+	dumb_register_dat_xm_quick(DUMB_DAT_XM);
+	dumb_register_dat_s3m_quick(DUMB_DAT_S3M);
+	dumb_register_dat_mod_quick(DUMB_DAT_MOD);
+
+	music_dat = load_encrypted_datafile("music.dat");
+
+	if (music_dat == NULL)
+		report_error("\"music.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
+
 	// Iterate through music
 	f_no = 0;
+
+	// Add music from datafiles
+	Add_Datafile_Mod("deadlock.xm", MUSIC_DEADLOCK, MODTYPE_DAT_XM);
+	Add_Datafile_Mod("fishtro.s3m", MUSIC_FISHTRO, MODTYPE_DAT_S3M);
+	Add_Datafile_Mod("inside.s3m", MUSIC_INSIDE, MODTYPE_DAT_S3M);
+	Add_Datafile_Mod("misthart.xm", MUSIC_MISTHART, MODTYPE_DAT_XM);
+
+	// Add any other files in music/
 	for_each_file_ex("./music/*.mod", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_MOD);
 	for_each_file_ex("./music/*.s3m", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_S3M);
 	for_each_file_ex("./music/*.xm", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_XM);
@@ -221,4 +255,15 @@ void Save_Config()
 	set_config_int("Sound", "Music", mus_vol);
 	set_config_int("Sound", "SFX", sfx_vol);
 	set_config_int("Sound", "CD", cd_vol);
+}
+
+inline DATAFILE * load_encrypted_datafile (const char *filename)
+{
+	DATAFILE *ret;
+
+	packfile_password(DATAFILE_PASSWORD);
+	ret = load_datafile(filename);
+	packfile_password(NULL);
+
+	return(ret);
 }

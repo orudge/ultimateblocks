@@ -250,7 +250,7 @@ int Open_Maps_Title(void)
 
 	if (f_no == 0)
 	{
-		Display_Info_Window(&no_map_box);
+		Display_Info_Window((const InfoWindow *) &no_map_box);
 		return 0;
 	}
 

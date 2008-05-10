@@ -48,6 +48,14 @@
 	#endif
 #endif /* __GNUC__ */
 
+#if defined(_MSC_VER)
+	#define FORCEINLINE __forceinline
+	#define inline _inline
+
+	#define strcasecmp _stricmp
+	#define strncasecmp _strnicmp
+#endif
+
 typedef unsigned char byte;
 
 

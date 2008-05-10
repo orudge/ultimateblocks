@@ -146,13 +146,13 @@ void Mod_Music(void)
 
 	if (mod_last == 0)
 	{
-		Display_Info_Window(&no_music_box);
+		Display_Info_Window((const InfoWindow *) &no_music_box);
 		return;
 	}
 
 	while (display_menu)
 	{
-		if (mod_track > mod_last)
+		if (mod_track >= mod_last)
 			mod_track = 0;
 
 		if (mod_track < 0)
@@ -199,15 +199,36 @@ void Play_MOD_Track(const char *filename, int type, char loop)
 {
 	DUH_SIGRENDERER *sr;
 	DUMB_IT_SIGRENDERER *itsr;
+	int sel = -1;
+	int i;
 
 	al_stop_duh(mod_player);
 	mod_player = NULL;
 	mod_current_loop = loop;
 
-	unload_duh(music);
+	if (music_unload == 1)
+		unload_duh(music);
 
-	switch (type)
+	// find a piece of music matching this one
+	for (i = 0; i < mod_last; i++)
 	{
+		if (strcasecmp(mod[i].name, filename) == 0)
+		{
+			sel = i;
+			break;
+		}
+	}
+
+	if (sel == -1)
+		return;
+
+	music_unload = 1;
+
+	switch (mod[sel].type)
+	{
+		case MODTYPE_NULL:
+			break;
+
 		case MODTYPE_MOD:
 			music = dumb_load_mod_quick(filename);
 			break;
@@ -222,6 +243,14 @@ void Play_MOD_Track(const char *filename, int type, char loop)
 
 		case MODTYPE_IT:
 			music = dumb_load_it_quick(filename);
+			break;
+
+		case MODTYPE_DAT_MOD:
+		case MODTYPE_DAT_S3M:
+		case MODTYPE_DAT_XM:
+		case MODTYPE_DAT_IT:
+			music = (DUH *) music_dat[mod[sel].id].dat;
+			music_unload = 0;
 			break;
 
 		default:
@@ -272,7 +301,7 @@ void Poll_Music()
 			{
 				mod_track++;
 
-				if (mod_track > mod_last)
+				if (mod_track >= mod_last)
 					mod_track = 0;
 
 				Play_MOD_Track(mod[mod_track].name, mod[mod_track].type, 0);

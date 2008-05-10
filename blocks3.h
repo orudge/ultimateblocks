@@ -142,11 +142,17 @@
 #define ROCKY           3
 #define SNOWY           4
 
+#define MODTYPE_NULL	0
+
 #define MODTYPE_MOD		1
 #define MODTYPE_S3M		2
 #define MODTYPE_XM		3
 #define MODTYPE_IT		4
 
+#define MODTYPE_DAT_MOD	5
+#define MODTYPE_DAT_S3M	6
+#define MODTYPE_DAT_XM	7
+#define MODTYPE_DAT_IT	8
 
 #define MOTIF_ID_LEN	5
 
@@ -157,10 +163,13 @@
 #define FONT_HNEUE20	4
 #define FONT_HELV10		5
 
+#define DATAFILE_PASSWORD	"ub-dat-4.0"
+
 DUH *music;
+char music_unload;
 AL_DUH_PLAYER *mod_player;
 
-DATAFILE *fonts, *sfx;
+DATAFILE *fonts, *sfx, *music_dat;
 
 char login[13];
 
@@ -285,6 +294,7 @@ typedef struct DIR_DEF
 {
  char name[DIR_MAXNAME];
  char type;
+ char id;
 } DIR_DEF;
 
 #define MAX_MODS		50
@@ -472,11 +482,13 @@ void Map_Setup(void);
 
 // init.c
 int Remember_Mod_File(const char *fn, int a, void *b);
+void Add_Datafile_Mod(const char *fn, const char id, const char type);
 void LoadGraphicsPack(const char *fn, int a, int b);
 void UnloadGraphics();
 void Initialise(void);
 void Save_Config();
 void close_button_callback(void);
+inline DATAFILE * load_encrypted_datafile(const char *filename);
 
 volatile int close_button_pressed;
 

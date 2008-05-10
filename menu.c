@@ -644,5 +644,5 @@ static const InfoWindow about_box[] = {
 
 void About_Box(void)
 {
-	Display_Info_Window(&about_box);
+	Display_Info_Window((const InfoWindow *) &about_box);
 }

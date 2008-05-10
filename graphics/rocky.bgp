@@ -7,4 +7,4 @@ BlockWidth=32
 BlockHeight=32
 BlockDepth=8
 Filename=./graphics/ROCKY.BMP
-Music=./music/fishtro.s3m
+Music=fishtro.s3m

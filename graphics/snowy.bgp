@@ -8,4 +8,4 @@ BlockHeight=32
 BlockDepth=8
 Particles=1
 Filename=./graphics/SNOWY.BMP
-Music=./music/misthart.xm
+Music=misthart.xm
