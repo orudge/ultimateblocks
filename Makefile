@@ -39,7 +39,7 @@ endif
 
 ifeq ($(PLATFORM),mingw )
 CFLAGS   += -DALLEGRO_STATICLINK -DENABLE_CDA
-LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -ldsound
+LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -ldsound -Wl,-subsystem,windows
 RES      = res.o
 EXE      = blocks4.exe
 

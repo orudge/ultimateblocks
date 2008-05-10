@@ -77,6 +77,12 @@ void Change_Motif(const char *m)
 		}
 	}
 
+	if (gfx == NULL)
+	{
+		report_error("No graphics packs available. Please reinstall Ultimate Blocks.");
+		return;
+	}
+
 	safe_strcpy(motif, MOTIF_ID_LEN, m);
 
  	// Recreate bitmaps if necessary

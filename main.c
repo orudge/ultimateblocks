@@ -5,6 +5,10 @@
 
 #include <allegro.h>
 
+#if defined(WIN32) || defined(WIN64)
+	#include <winalleg.h>
+#endif
+
 #ifdef ENABLE_CDA
 	#include <libcda.h>
 #endif
@@ -688,4 +692,17 @@ char *safe_strcat(char *dest, const size_t dest_len, const char *src)
 		strcat(dest, src);
 
 	return(dest);
+}
+
+void report_error(char *str)
+{
+	set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
+	
+#if defined(WIN32) || defined(WIN64)
+	MessageBox(NULL, str, "Ultimate Blocks", MB_ICONERROR);
+#else
+	allegro_message(str);
+#endif
+
+	exit(1);
 }

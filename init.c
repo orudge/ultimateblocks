@@ -169,7 +169,14 @@ void Initialise(void)
 
 	// Load fonts and title graphics
 	fonts = load_datafile("fonts.dat");
+
+	if (fonts == NULL)
+		report_error("\"fonts.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
+
 	title_gfx = load_bitmap("title256.bmp", title_palette);
+
+	if (title_gfx == NULL)
+		report_error("\"title256.bmp\" not found or corrupt. Please reinstall Ultimate Blocks.");
 
 	// Setup sound
 	reserve_voices(64, -1);
@@ -183,6 +190,9 @@ void Initialise(void)
 #endif
 
 	sfx = load_datafile("sfx.dat");
+
+	if (sfx == NULL)
+		report_error("\"sfx.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
 
 	// Iterate through music
 	f_no = 0;

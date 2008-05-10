@@ -226,6 +226,15 @@ int Remember_File_Title(const char *fn, int a, void *b)
 	return(0);
 }
 
+static const InfoWindow no_map_box[] = {
+	{"Choose Map", FONT_HELV12B},
+	{"", FONT_HELV12},
+	{"There are no maps present in the \"maps\"", FONT_HELV12},
+	{"directory. Please add some, or reinstall the", FONT_HELV12},
+	{"game.", FONT_HELV12},
+	{END_OF_INFOWINDOW}
+};
+
 int Open_Maps_Title(void)
 {
  int file_sel = 0;
@@ -238,6 +247,12 @@ int Open_Maps_Title(void)
 
 	f_no = 0;
 	for_each_file_ex("./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File_Title, 0);
+
+	if (f_no == 0)
+	{
+		Display_Info_Window(&no_map_box);
+		return 0;
+	}
 
  font_height = text_height(fonts[FONT_HELV10].dat);
 

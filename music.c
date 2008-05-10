@@ -127,6 +127,15 @@ static const Menu mod_menu[] = {
 	{END_OF_MENU}
 };
 
+static const InfoWindow no_music_box[] = {
+	{"MOD Music", FONT_HELV12B},
+	{"", FONT_HELV12},
+	{"There are no music files present in the", FONT_HELV12},
+	{"\"music\" directory. Please add some, or", FONT_HELV12},
+	{"reinstall the game.", FONT_HELV12},
+	{END_OF_INFOWINDOW}
+};
+
 void Mod_Music(void)
 {
 	int ret, retval = 0;
@@ -134,6 +143,12 @@ void Mod_Music(void)
 	int flags = 0;
 	int def_item = 0;
 	int mod_track_last = mod_track;
+
+	if (mod_last == 0)
+	{
+		Display_Info_Window(&no_music_box);
+		return;
+	}
 
 	while (display_menu)
 	{

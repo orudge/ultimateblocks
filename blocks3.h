@@ -503,6 +503,7 @@ int Num_Tokens(void);
 char *safe_strcpy(char *dest, const size_t dest_len, const char *src);
 char *safe_strcat(char *dest, const size_t dest_len, const char *src);
 char *safe_strncpy(char *dest, const size_t dest_len, const char *src, const size_t source_len);
+void report_error(char *str);
 
 // menu.c
 typedef struct {
