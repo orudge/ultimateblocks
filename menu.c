@@ -256,7 +256,7 @@ void Display_Info_Window(const InfoWindow *menu)
 	}
 
 	if (num_items == 0)
-		return 0;
+		return;
 
 	menu_height = (num_items*(line_height+10)) + 70; //35    50 * num_items;
 	menu_width = (width + (10 - (width % 10)) + 100);

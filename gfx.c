@@ -270,7 +270,7 @@ void Draw_Block(int x, int y, int z, BITMAP *pic)
 
 void Draw_Screen(void)
 {
- int i, j, k;
+ int i = 0, j = 0, k = 0;
 
  Sort_Dirty();
  Draw_Area();

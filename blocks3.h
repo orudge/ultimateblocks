@@ -5,6 +5,8 @@
 
 #include <aldumb.h>
 
+#include "b3types.h"
+
 #if defined(_MSC_VER) || defined(__MINGW32__)
 	#ifndef WIN32	
 		#define WIN32
@@ -242,21 +244,21 @@ int dirty_count;
 
 typedef struct BOX_DEF
 {
- int x, y, z, dx, dy, dz, dir, type;
+ int16 x, y, z, dx, dy, dz, dir, type;
  BITMAP *pic;
 } BOX_DEF;
 
 BOX_DEF box[468];
-int box_count;
+uint16 box_count;
 
 typedef struct EXPLODE_DEF
 {
- int x, y, z, frame, type;
+ int16 x, y, z, frame, type;
 } EXPLODE_DEF;
 
 EXPLODE_DEF explode[468];
 
-int explode_count;
+uint16 explode_count;
 
 #define MENU_ITEM_NAME_LEN		50
 
@@ -409,11 +411,11 @@ typedef struct particle
 // functions
 
 // bomb.c
-void Del_Box(int b_no);
-void Add_Explode(int x, int y, int z);
-void Explode_Prime_Chain(int x, int y);
-void Explode_Prime(int x, int y, int z);
-void Bomb_Prime_Laser();
+void Del_Box(uint16 b_no);
+void Add_Explode(uint16 x, uint16 y, uint16 z);
+void Explode_Prime_Chain(uint16 x, uint16 y);
+void Explode_Prime(uint16 x, uint16 y, uint16 z);
+void Bomb_Prime_Laser(void);
 void Draw_Explode(void);
 
 // box.c

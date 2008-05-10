@@ -6,7 +6,7 @@
 #include <allegro.h>
 #include "blocks3.h"
 
-void Blow_Box(int b_no)
+void Blow_Box(uint16 b_no)
 {
 	Add_Explode(box[b_no].x / _block_width, box[b_no].y / _block_height, box[b_no].z / _block_depth);
 	map[box[b_no].x / _block_width][box[b_no].y / _block_height][box[b_no].z / _block_depth] = RESERVE;
@@ -15,7 +15,7 @@ void Blow_Box(int b_no)
 
 void Bomb_Prime_Laser(void)
 {
-	int i, j;
+	uint16 i, j;
 
 	for (i = 0; i < box_count; i++)
 	{
@@ -44,9 +44,9 @@ void Bomb_Prime_Laser(void)
 	}
 }
 
-void Del_Box(int b_no)
+void Del_Box(uint16 b_no)
 {
-	int i;
+	uint16 i;
 
 	for (i = b_no; i < box_count; i++)
 	{
@@ -63,7 +63,7 @@ void Del_Box(int b_no)
 	box_count--;
 }
 
-void Add_Explode(int x, int y, int z)
+void Add_Explode(uint16 x, uint16 y, uint16 z)
 {
 	explode[explode_count].x = x;
 	explode[explode_count].y = y;
@@ -76,9 +76,9 @@ void Add_Explode(int x, int y, int z)
 	Add_Sound(x, SFX_EXPLODE);
 }
 
-void Del_Explode(int e_no)
+void Del_Explode(uint16 e_no)
 {
-	int i;
+	uint16 i;
 
 	for (i = e_no; i < explode_count; i++)
 	{
@@ -94,7 +94,7 @@ void Del_Explode(int e_no)
 
 void Draw_Explode(void)
 {
-	int i;
+	uint16 i;
 
 	for (i = 0; i < explode_count; i++)
 	{
@@ -123,7 +123,7 @@ void Draw_Explode(void)
 	}
 }
 
-void Explode_Prime_Chain(int x, int y)
+void Explode_Prime_Chain(uint16 x, uint16 y)
 {
 	if (map[x][y][0] & BLOWUP)     Explode_Prime(x, y, 0);
 	if (map[x][y][1] & BLOWUP)     Explode_Prime(x, y, 1);
@@ -148,9 +148,9 @@ void Explode_Prime_Chain(int x, int y)
 
 }
 
-void Explode_Prime(int x, int y, int z)
+void Explode_Prime(uint16 x, uint16 y, uint16 z)
 {
-	int i, j;
+	uint16 i, j;
 
 	i = 0;
 
