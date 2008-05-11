@@ -7,5 +7,5 @@ BlockWidth=32
 BlockHeight=32
 BlockDepth=8
 Particles=1
-Filename=./graphics/SNOWY.BMP
+Filename=./graphics/snowy.bmp
 Music=misthart.xm

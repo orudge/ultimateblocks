@@ -6,5 +6,5 @@ UID=FRED
 BlockWidth=32
 BlockHeight=32
 BlockDepth=8
-Filename=./graphics/FRED.BMP
+Filename=./graphics/fred.bmp
 Music=./music/deadlock.xm
