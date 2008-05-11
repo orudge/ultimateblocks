@@ -24,7 +24,7 @@ ArchitecturesInstallIn64BitMode=x64
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Dirs]
 Name: "{app}\graphics"
@@ -60,7 +60,7 @@ Source: "E:\DriveF\Games\Blocks4\graphics\sunny.bgp"; DestDir: "{app}\graphics";
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"
+Name: "{group}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; WorkingDir: "{app}"
 Name: "{group}\{cm:ProgramOnTheWeb,Ultimate Blocks}"; Filename: "http://www.ultimateblocks.com/"
 Name: "{commondesktop}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; Tasks: desktopicon
 
