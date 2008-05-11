@@ -483,7 +483,7 @@ void Map_Setup(void);
 // init.c
 int Remember_Mod_File(const char *fn, int a, void *b);
 void Add_Datafile_Mod(const char *fn, const char id, const char type);
-void LoadGraphicsPack(const char *fn, int a, int b);
+int LoadGraphicsPack(const char *fn, int a, void *b);
 void UnloadGraphics();
 void Initialise(void);
 void Save_Config();

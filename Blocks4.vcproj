@@ -279,7 +279,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="aldmb_s.lib dumb_static.lib libcda.lib alleg_s_crt.lib winmm.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ole32.lib dinput.lib dinput8.lib ddraw.lib dxguid.lib dsound.lib"
 				IgnoreDefaultLibraryNames="msvcrt"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="17"

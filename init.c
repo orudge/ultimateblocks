@@ -50,7 +50,7 @@ int Remember_Mod_File(const char *fn, int a, void *b)
 void Add_Datafile_Mod(const char *fn, const char id, const char type)
 {
 	if (f_no == MAX_MODS)
-		return -1;
+		return;
 
 	safe_strcpy(mod[f_no].name, DIR_MAXNAME, fn);
 	mod[f_no].type = type;
@@ -61,14 +61,14 @@ void Add_Datafile_Mod(const char *fn, const char id, const char type)
 }
 
 
-void LoadGraphicsPack(const char *fn, int a, int b)
+int LoadGraphicsPack(const char *fn, int a, void *b)
 {
 	char tmp_id_max[11];
 	char tmp_id[MOTIF_ID_LEN];
 	int ver;
 
 	if (num_motifs >= 9)
-		return;
+		return -1;
 
 	// get filename of graphics pack
 	motifs[num_motifs].filename = get_filename(fn);
@@ -78,7 +78,7 @@ void LoadGraphicsPack(const char *fn, int a, int b)
 	ver = get_config_int("Blocks", "Version", 4);
 
 	if (ver != 4)
-		return;
+		return 0;
 
 	// allocate a temporary ID, but try to retrieve the real one from the config file
 	sprintf(tmp_id_max, "%d", num_motifs);
@@ -101,6 +101,8 @@ void LoadGraphicsPack(const char *fn, int a, int b)
 	motifs[num_motifs].particles = 0;
 #endif
 	num_motifs++;
+
+	return 0;
 }
 
 // not an init routine, but put in here because it's next to load graphics
@@ -180,7 +182,7 @@ void Initialise(void)
 	// Iterate through motifs
 
 	num_motifs = 0;
-	for_each_file("./graphics/*.bgp", FA_RDONLY | FA_ARCH, LoadGraphicsPack, 0);
+	for_each_file_ex("./graphics/*.bgp", 0, FA_DIREC | FA_LABEL, LoadGraphicsPack, 0);
 
 	// Load fonts and title graphics
 	fonts = load_encrypted_datafile("fonts.dat");
