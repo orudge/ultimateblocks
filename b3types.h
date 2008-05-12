@@ -59,11 +59,6 @@
 typedef unsigned char byte;
 
 
-/* This is already defined in unix, but not in QNX Neutrino (6.x)*/
-#if (!defined(UNIX) && !defined(__CYGWIN__) && !defined(__BEOS__) && !defined(__MORPHOS__)) || defined(__QNXNTO__)
-	typedef unsigned int uint;
-#endif
-
 #if !defined(__BEOS__) && !defined(__NDS__) /* Already defined on BEOS and NDS */
 	typedef unsigned char    uint8;
 	typedef   signed char     int8;
