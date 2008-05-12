@@ -142,13 +142,13 @@ int Run_Level(void)
 	{
 		Poll_Music();
 
-		Box_Move();
+/*		Box_Move();
 		Box_Fall();
 
 		Bomb_Prime_Laser();
 
 		Player_Fall(0);
-		Player_Fall(1);
+		Player_Fall(1);*/
 
 		if (((key[KEY_LCONTROL]) || key[KEY_RCONTROL]) && (no_ply == 2))
 			Player_Input(1);
@@ -172,7 +172,7 @@ int Run_Level(void)
 
 		if (no_ply == 2)
 			Player_Draw(1);
-
+/*
 		Check_Fall(0);
 
 		if (no_ply == 2)
@@ -198,7 +198,7 @@ int Run_Level(void)
 
 		Draw_Screen();
 
-		Play_Sound();
+		Play_Sound();*/
 
 /*		textprintf(screen, font, 10, 10, 7, "%d ", undo_count);
 

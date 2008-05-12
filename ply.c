@@ -37,33 +37,44 @@ void Player2_Input(int p_no)
 
 void Player_Input(int p_no)
 {
- if (ply[p_no].dz) return;
+	if (ply[p_no].dz)
+		return;
 
- if (key[KEY_UP]) ply[p_no].dir = 1;
- if (key[KEY_DOWN]) ply[p_no].dir = 4;
- if (key[KEY_LEFT]) ply[p_no].dir = 8;
- if (key[KEY_RIGHT]) ply[p_no].dir = 2;
+	if (key[KEY_UP])
+		ply[p_no].dir = 1;
 
- if ((key[KEY_UP]) && (ply[p_no].dy != -1) && (Player_Collision(p_no, 0, -1)))
- {
-  ply[p_no].dy = -1;
-  return;
- }
- if ((key[KEY_DOWN]) && (ply[p_no].dy != 1)  && (Player_Collision(p_no, 0, 1)))
- {
-  ply[p_no].dy = 1;
-  return;
- }
- if ((key[KEY_LEFT]) && (ply[p_no].dx != -1)  && (Player_Collision(p_no, -1, 0)))
- {
-  ply[p_no].dx = -1;
-  return;
- }
- if ((key[KEY_RIGHT]) && (ply[p_no].dx != 1)  && (Player_Collision(p_no, 1, 0)))
- {
-  ply[p_no].dx = 1;
-  return;
- }
+	if (key[KEY_DOWN])
+		ply[p_no].dir = 4;
+ 
+	if (key[KEY_LEFT])
+		ply[p_no].dir = 8;
+
+	if (key[KEY_RIGHT])
+		ply[p_no].dir = 2;
+
+	if ((key[KEY_UP]) && (ply[p_no].dy != -1) && (Player_Collision(p_no, 0, -1)))
+	{
+		ply[p_no].dy = -1;
+		return;
+	}
+
+	if ((key[KEY_DOWN]) && (ply[p_no].dy != 1)  && (Player_Collision(p_no, 0, 1)))
+	{
+		ply[p_no].dy = 1;
+		return;
+	}
+
+	if ((key[KEY_LEFT]) && (ply[p_no].dx != -1)  && (Player_Collision(p_no, -1, 0)))
+	{
+		ply[p_no].dx = -1;
+		return;
+	}
+
+	if ((key[KEY_RIGHT]) && (ply[p_no].dx != 1)  && (Player_Collision(p_no, 1, 0)))
+	{
+		ply[p_no].dx = 1;
+		return;
+	}
 }
 
 void Player_Draw(int p_no)
@@ -120,10 +131,17 @@ int Check_Can_Fall(int x, int y, int z)
 {
 	if (z > 0)
 	{
-		if (map[x/_block_width][y/_block_height][0] & FULL) return 0;
-		if (map[(x + (_block_width-1))/_block_width][y/_block_height][0] & FULL) return 0;
-		if (map[x/_block_width][(y + (_block_height-1))/_block_height][0] & FULL) return 0;
-		if (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][0] & FULL) return 0;
+		if (map[x/_block_width][y/_block_height][0] & FULL)
+			return 0;
+
+		if (map[(x + (_block_width-1))/_block_width][y/_block_height][0] & FULL)
+			return 0;
+
+		if (map[x/_block_width][(y + (_block_height-1))/_block_height][0] & FULL)
+			return 0;
+
+		if (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][0] & FULL)
+			return 0;
 
 		return 1;
 	}
@@ -194,36 +212,56 @@ void Player_Teleport(int p_no)
 
 int Check_Map(int x, int y, int z, int b, int or_and, int equals_and)
 {
- if (or_and == 1)   /* AND */
- {
-  if (equals_and == 1)  /* && */
-  if ((map[x/_block_width][y/_block_height][z/_block_depth] & b) &&
-      (map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] & b) &&
-      (map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b) &&
-      (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b)) return 1;
-  else          /* EQUALS */
-  if ((map[x/_block_width][y/_block_height][z/_block_depth] == b) &&
-      (map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] == b) &&
-      (map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b) &&
-      (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b)) return 1;
+	if (or_and == 1)   /* AND */
+	{
+		if (equals_and == 1)  /* && */
+		{
+			if ((map[x/_block_width][y/_block_height][z/_block_depth] & b) &&
+				(map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] & b) &&
+				(map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b) &&
+				(map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b))
+			{
+				return 1;
+			}
+			else          /* EQUALS */
+			{
+				if ((map[x/_block_width][y/_block_height][z/_block_depth] == b) &&
+					(map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] == b) &&
+					(map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b) &&
+					(map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b))
+				{
+					return 1;
+				}
+			}
+		}
 
-  return 0;
- }
- else   /* OR */
- {
-  if (equals_and == 1)  /* && */
-  if ((map[x/_block_width][y/_block_height][z/_block_depth] & b) ||
-      (map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] & b) ||
-      (map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b) ||
-      (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b)) return 1;
-  else          /* EQUALS */
-  if ((map[x/_block_width][y/_block_height][z/_block_depth] == b) ||
-      (map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] == b) ||
-      (map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b) ||
-      (map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b)) return 1;
+		return 0;
+	}
+	else   /* OR */
+	{
+		if (equals_and == 1)  /* && */
+		{
+			if ((map[x/_block_width][y/_block_height][z/_block_depth] & b) ||
+				(map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] & b) ||
+				(map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b) ||
+				(map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] & b))
+			{
+				return 1;
+			}
+			else          /* EQUALS */
+			{
+				if ((map[x/_block_width][y/_block_height][z/_block_depth] == b) ||
+					(map[(x + (_block_width-1))/_block_width][y/_block_height][z/_block_depth] == b) ||
+					(map[x/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b) ||
+					(map[(x + (_block_width-1))/_block_width][(y + (_block_height-1))/_block_height][z/_block_depth] == b))
+				{
+					return 1;
+				}
+			}
+		}
 
-  return 0;
- }
+		return 0;
+	}
 }
 
 void Player_Pickup_Check(int p_no)
@@ -244,43 +282,60 @@ void Player_Pickup(int p_no, int x, int y)
 
 int Player_Collision(int p_no, int dx, int dy)
 {
- if ((ply[p_no].z != 0) && (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, 0, MIRROR, 0, 1))) return 0;
+	if ((ply[p_no].z != 0) && (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, 0, MIRROR, 0, 1)))
+		return 0;
 
- if (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, 0, 1, 1)) return 1;
- if (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, SOLID, 0, 0)) return 0;
- if (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, TELEPORT, 0, 1)) return 1;
+	if (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, 0, 1, 1))
+		return 1;
 
- if ((ply[p_no].x%_block_width == 0) && (ply[p_no].y%_block_height == 0))
- if ((dx == 0) || (dy == 0))
- if (map[ply[p_no].x/_block_width + dx][ply[p_no].y/_block_height + dy][ply[p_no].z/_block_depth] & PUSH)
- if (!(map[ply[p_no].x/_block_width + dx*2][ply[p_no].y/_block_height + dy*2][0] & PICKUP))
- if (!Check_Can_Fall(ply[p_no].x, ply[p_no].y, ply[p_no].z))
- {
-  if ((map[ply[p_no].x/_block_width + dx*2][ply[p_no].y/_block_height + dy*2][ply[p_no].z/_block_depth] == 0) ||
-      (map[ply[p_no].x/_block_width + dx*2][ply[p_no].y/_block_height + dy*2][ply[p_no].z/_block_depth] & SWITCH))
-  {
-   Add_Undo();
+	if (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, SOLID, 0, 0))
+		return 0;
 
-   map[(ply[p_no].x/_block_width + dx)][(ply[p_no].y/_block_height + dy)][ply[p_no].z/_block_depth] = 0;
-   Box_Push((ply[p_no].x/_block_width + dx), (ply[p_no].y/_block_height + dy), ply[p_no].z, dx, dy);
-   return 1;
-  }
-  if (map[ply[p_no].x/_block_width + dx][ply[p_no].y/_block_height + dy][ply[p_no].z/_block_depth] == BOMB1)
-  {
-   Add_Undo();
+	if (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, TELEPORT, 0, 1))
+		return 1;
 
-   Explode_Prime(ply[p_no].x/_block_width + dx, ply[p_no].y/_block_height + dy, ply[p_no].z/_block_depth);
-  }
- }
+	if ((ply[p_no].x%_block_width == 0) && (ply[p_no].y%_block_height == 0))
+	{
+		if ((dx == 0) || (dy == 0))
+		{
+			if (map[ply[p_no].x/_block_width + dx][ply[p_no].y/_block_height + dy][ply[p_no].z/_block_depth] & PUSH)
+			{
+				if (!(map[ply[p_no].x/_block_width + dx*2][ply[p_no].y/_block_height + dy*2][0] & PICKUP))
+				{
+					if (!Check_Can_Fall(ply[p_no].x, ply[p_no].y, ply[p_no].z))
+					{
+						if ((map[ply[p_no].x/_block_width + dx*2][ply[p_no].y/_block_height + dy*2][ply[p_no].z/_block_depth] == 0) ||
+							(map[ply[p_no].x/_block_width + dx*2][ply[p_no].y/_block_height + dy*2][ply[p_no].z/_block_depth] & SWITCH))
+						{
+							Add_Undo();
 
- if (((Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, PICKUP, 0, 1)) ||
-     (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, SWITCH, 0, 1)) ||
-     (Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, FALL, 0, 1))) &&
-     (!(Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, PUSH, 0, 1))) &&
-     (!(Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, SOLID, 0, 1))))
-   return 1;
+							map[(ply[p_no].x/_block_width + dx)][(ply[p_no].y/_block_height + dy)][ply[p_no].z/_block_depth] = 0;
+							Box_Push((ply[p_no].x/_block_width + dx), (ply[p_no].y/_block_height + dy), ply[p_no].z, dx, dy);
+							return 1;
+						}
 
- return 0;
+						if (map[ply[p_no].x/_block_width + dx][ply[p_no].y/_block_height + dy][ply[p_no].z/_block_depth] == BOMB1)
+						{
+							Add_Undo();
+
+							Explode_Prime(ply[p_no].x/_block_width + dx, ply[p_no].y/_block_height + dy, ply[p_no].z/_block_depth);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (((Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, PICKUP, 0, 1)) ||
+		(Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, SWITCH, 0, 1)) ||
+		(Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, FALL, 0, 1))) &&
+		(!(Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, PUSH, 0, 1))) &&
+		(!(Check_Map(ply[p_no].x + dx, ply[p_no].y + dy, ply[p_no].z, SOLID, 0, 1))))
+	{
+		return 1;
+	}
+
+	return 0;
 }
 
 void Player_Monster_Collision(int p_no)
