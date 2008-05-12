@@ -533,7 +533,7 @@ void Finish_Game(void)
 	textprintf_centre(screen, fonts[0].dat, 320, 20, 7, "CONGRAGULATIONS!");
 	textprintf_centre(screen, fonts[0].dat, 320, 100, 7, "You have completed the");
 	textprintf_centre(screen, fonts[0].dat, 320, 160, makecol(255, 255, 0), "%s", map_save);
-	textprintf_centre(screen, fonts[0].dat, 320, 220, 7, "level set of Blocks 4: Ultimate");
+	textprintf_centre(screen, fonts[0].dat, 320, 220, 7, "level set of Ultimate Blocks.");
 	textprintf_centre(screen, fonts[0].dat, 320, 280, 7, "Thank you for playing!");
 
 	fade_in(palette, 10);
@@ -549,6 +549,7 @@ void Finish_Game(void)
 	}
 }
 
+#if 0
 void Convert(void)
 {
 	int i, j, k, l;
@@ -650,6 +651,7 @@ void Convert(void)
 
 	pack_fclose(file);
 }
+#endif
 
 char *safe_strcpy(char *dest, const size_t dest_len, const char *src)
 {
