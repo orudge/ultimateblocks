@@ -133,7 +133,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="aldmb_s.lib alld.lib dumb_static.lib libcda.lib winmm.lib"
-				IgnoreDefaultLibraryNames="msvcrt.lib;libcmtd.lib"
+				IgnoreDefaultLibraryNames="msvcrt.lib;libcmtd.lib;libcmt.lib"
 				GenerateDebugInformation="true"
 				TargetMachine="17"
 			/>

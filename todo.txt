@@ -28,6 +28,7 @@ todo:
 - Internet-based multiplayer?
 - gun turrets?
 - saved games
+- home directory stuff (see DetermineBasePaths in OpenTTD)
 
 keyboard stuff:
 
@@ -40,5 +41,16 @@ from Blocks3.doc:
 - More monsters
 - More levels
 - More motifs
-- Death sequence
+- Death sequence (eg, falling off, as in Blocks+)
 - Moving lasers
+
+other stuff:
+
+- replays
+- show statistics - how many levels completed in map set, current level at, time taken, etc
+
+levels:
+
+- blocks1:
+  - level 25 - monsters meant to move in same direction
+  - level 34 - the blocks below it get touched, they shouldn't.
