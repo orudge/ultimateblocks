@@ -219,12 +219,20 @@ int game_exit;
 int lev;
 int mus_vol, sfx_vol, cd_vol;
 
-int map[20][15][2];
-int maps[20][15][2][101];
+#define MAP_MAX_WIDTH		20
+#define MAP_MAX_HEIGHT		15
+#define MAP_MAX_DEPTH		2
+
+#define MAP_WIDTH		20
+#define MAP_HEIGHT		15
+#define MAP_DEPTH		2
+
+int map[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+int maps[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH][101];
 char map_motif[100][MOTIF_ID_LEN];
-int map2[20][15];
-int map_laser[20][15][2];
-int map_door[20][15][2];
+int map2[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+int map_laser[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+int map_door[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
 int map_done[100];
 int no_ply;
 int mod_track, mod_last;
@@ -350,9 +358,9 @@ typedef struct UNDO_DEF
  DOOR_DEF door[60];
  SWITCH_DEF switches[60];
 
- int map[20][15][2];
- int map_laser[20][15][2];
- int map_door[20][15][2];
+ int map[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+ int map_laser[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+ int map_door[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
 
  int box_count;
  int explode_count;
@@ -601,7 +609,7 @@ void Player_Monster_Collision(int p_no);
 void Player_Laser_Collision(int p_no);
 void Player_Death(int p_no);
 void Player2_Input(int p_no);
-int Player_Frame(int f);
+inline int Player_Frame(int f);
 int Player_Collision(int p_no, int dx, int dy);
 int Check_Can_Fall(int x, int y, int z);
 int Check_Map(int x, int y, int z, int b, int or_and, int equals_and);

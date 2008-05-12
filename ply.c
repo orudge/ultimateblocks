@@ -92,7 +92,7 @@ void Player_Draw(int p_no)
 
 }
 
-int Player_Frame(int f)
+inline int Player_Frame(int f)
 {
  if (f/20 == 0) return 0;
  if (f/20 == 1) return 1;

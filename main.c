@@ -172,7 +172,7 @@ int Run_Level(void)
 
 		if (no_ply == 2)
 			Player_Draw(1);
-/*
+
 		Check_Fall(0);
 
 		if (no_ply == 2)
@@ -198,7 +198,7 @@ int Run_Level(void)
 
 		Draw_Screen();
 
-		Play_Sound();*/
+		Play_Sound();
 
 /*		textprintf(screen, font, 10, 10, 7, "%d ", undo_count);
 
