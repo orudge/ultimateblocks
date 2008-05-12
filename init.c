@@ -141,11 +141,16 @@ void Initialise(void)
 	cd_vol = get_config_int("Sound", "CD", 255);
 
 	// Change screen resolutions
+#ifndef MACOSX
 	set_window_title("Ultimate Blocks");
+#endif
 #ifdef DJGPP
 	set_gfx_mode(GFX_AUTODETECT, 640, 480, 0, 0);
 #else
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED, 640, 480, 0, 0);
+#endif
+#ifdef MACOSX
+	set_window_title("Ultimate Blocks");
 #endif
 	set_display_switch_mode(SWITCH_BACKGROUND); // todo: may need to alter for fullscreen
 

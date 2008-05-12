@@ -48,7 +48,7 @@ endif
 
 ifeq ($(PLATFORM),macosx )
 CC       = ./gcc-uni.sh
-CFLAGS   += -DALLEGRO_STATICLINK
+CFLAGS   += -DALLEGRO_STATICLINK -DMACOSX
 LDFLAGS  += -laldmb -ldumb `allegro-config --static`
 RES      =
 EXE      = blocks4
