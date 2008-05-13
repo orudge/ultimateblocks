@@ -16,7 +16,7 @@ void Box_Push(int x, int y, int z, int dx, int dy)
 		i++;
 
 	if (i == box_count)
-		exit(7);
+		report_error("DEBUG ERROR: i == box_count");
 
 	if ((!box[i].dx) && (!box[i].dy) && (!box[i].dz))
 	{

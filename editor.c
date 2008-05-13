@@ -272,7 +272,7 @@ void Editor(void)
 			icon_start++;
 			Editor_Draw_Tiles();
 			scare_mouse();
-			blit(temp, screen, 0, 448, 0, 448, 640, 32);
+			blit(temp, screen, 0, 448, 0, 448, SCREEN_W, 32);
 			unscare_mouse();
 			while (key[KEY_RIGHT])
 			{
@@ -285,7 +285,7 @@ void Editor(void)
 			icon_start--;
 			Editor_Draw_Tiles();
 			scare_mouse();
-			blit(temp, screen, 0, 448, 0, 448, 640, 32);
+			blit(temp, screen, 0, 448, 0, 448, SCREEN_W, 32);
 			unscare_mouse();
 			while (key[KEY_LEFT])
 			{
@@ -338,14 +338,14 @@ void Editor_Draw_Screen(void)
 {
  Change_Motif(map_motif[elev]);
 
- blit(back, temp, 0, 0, 0, 0, 640, 480);
+ blit(back, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
  Draw_Map();
 
  Editor_Draw_Menu();
  Editor_Draw_Tiles();
 
  scare_mouse();
- blit(temp, screen, 0, 0, 0, 0, 640, 480);
+ blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
  unscare_mouse();
 }
 
@@ -534,7 +534,7 @@ void Directory(void)
 {
  int j;
 
- rectfill(temp, 0, 12, 640, 480, 7);
+ rectfill(temp, 0, 12, SCREEN_W, SCREEN_H, 7);
  rectfill(temp, 0, 0, 640, 12, makecol(180, 180, 255));
  line(temp, 0, 12, 640, 12, 0);
  line(temp, 128, 12, 128, 468, 0);

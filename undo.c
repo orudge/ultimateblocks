@@ -222,7 +222,7 @@ void Undo(void)
 
  Draw_Map();
 
- blit(temp, screen, 0, 0, 0, 0, 640, 480);
+ blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 }
 
 void Move_Undo_Down(void)

@@ -91,7 +91,7 @@ void Draw_Map(void)
  {
     for (i = 0; i < 20; i+=2)
     {
-       blit(gfx, back, 0, 200, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
+       blit(gfx, back, 0, 5*_block_height_depth, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
     }
  }
 
@@ -225,7 +225,7 @@ void Draw_Block(int x, int y, int z, BITMAP *pic)
   }
 
   //TODO: check
-  masked_blit(gfx, pic, (k%4)*_block_width + z*(16 * _block_depth), 280 + (k/4)*(_block_height+_block_depth), block_width_x, block_height_y, _block_width, _block_height+_block_depth);
+  masked_blit(gfx, pic, (k%4)*_block_width + z*(16 * _block_depth), (7 * _block_height_depth) + (k/4)*(_block_height+_block_depth), block_width_x, block_height_y, _block_width, _block_height+_block_depth);
  }
 
 

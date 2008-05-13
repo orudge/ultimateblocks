@@ -197,7 +197,8 @@ void Player_Teleport(int p_no)
    }
   }
 
-  if (j == ply[p_no].y/_block_height + 1) exit(12);
+  if (j == ply[p_no].y/_block_height + 1)
+     report_error("DEBUG ERROR: j == ply[p_no].y/_block_height + 1");
  }
 
  DirtyList(ply[p_no].x, ply[p_no].y, ply[p_no].z, _block_width, _block_height_depth, blank);

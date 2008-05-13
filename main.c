@@ -142,13 +142,13 @@ int Run_Level(void)
 	{
 		Poll_Music();
 
-/*		Box_Move();
+		Box_Move();
 		Box_Fall();
 
 		Bomb_Prime_Laser();
 
 		Player_Fall(0);
-		Player_Fall(1);*/
+		Player_Fall(1);
 
 		if (((key[KEY_LCONTROL]) || key[KEY_RCONTROL]) && (no_ply == 2))
 			Player_Input(1);
@@ -244,7 +244,7 @@ int Run_Level(void)
 			Draw_Map();
 			Init_Level();
 			Map_Setup();
-			blit(temp, screen, 0, 0, 0, 0, 640, 480);
+			blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 		}
 
 		if (key[KEY_BACKSPACE])
@@ -257,7 +257,7 @@ int Run_Level(void)
 	if (game_exit == 1)
 	{
 		Player_Death(0);
-		blit(screen, temp, 0, 0, 0, 0, 640, 480);
+		blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 		Transition_Out(temp, palette);
 		return -1;
 	}
@@ -265,7 +265,7 @@ int Run_Level(void)
 	if (game_exit == 3)
 	{
 		Well_Done();
-		blit(screen, temp, 0, 0, 0, 0, 640, 480);
+		blit(screen, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 		Transition_Out(temp, palette);
 		return 1;
 	}
@@ -344,9 +344,9 @@ int Num_Tokens(void)
 
 void Get_Ready(void)
 {
-	BITMAP *temp2 = create_bitmap(640, 480);
+	BITMAP *temp2 = create_bitmap(SCREEN_W, SCREEN_H);
 
-	blit(temp, temp2, 0, 0, 0, 0, 640, 480);
+	blit(temp, temp2, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
 	text_mode(-1);
 
@@ -361,7 +361,7 @@ void Get_Ready(void)
 
 	textprintf_centre(temp2, fonts[1].dat, 320, 150, 7, "GET.READY!");
 
-	blit(temp2, screen, 0, 0, 0, 0, 640, 480);
+	blit(temp2, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
 	play_sample(sfx[SFX_GETRED].dat, sfx_vol, 128, 1000, 0);
 
@@ -375,7 +375,7 @@ void Get_Ready(void)
 		Poll_Music();
 	}
 
-	blit(temp, screen, 0, 0, 0, 0, 640, 480);
+	blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 	while(key[KEY_ENTER])
 	{
 		Poll_Music();
@@ -384,9 +384,9 @@ void Get_Ready(void)
 
 void Well_Done(void)
 {
-	BITMAP *temp2 = create_bitmap(640, 480);
+	BITMAP *temp2 = create_bitmap(SCREEN_W, SCREEN_H);
 
-	blit(screen, temp2, 0, 0, 0, 0, 640, 480);
+	blit(screen, temp2, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
 	text_mode(-1);
 
@@ -401,7 +401,7 @@ void Well_Done(void)
 	
 	textprintf_centre(temp2, fonts[1].dat, 320, 150, 7, "WELL.DONE!");
 
-	blit(temp2, screen, 0, 0, 0, 0, 640, 480);
+	blit(temp2, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
 	play_sample(sfx[SFX_WELLDONE].dat, sfx_vol, 128, 1000, 0);
 

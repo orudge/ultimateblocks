@@ -9,9 +9,9 @@
 void Change_Levels(void)
 {
  int l, i, j;
- BITMAP *temp2 = create_bitmap(640, 480);
+ BITMAP *temp2 = create_bitmap(SCREEN_W, SCREEN_H);
 
- blit(temp, temp2, 0, 0, 0, 0, 640, 480);
+ blit(temp, temp2, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
  clear(temp);
 
  l = lev;
@@ -68,7 +68,7 @@ void Change_Levels(void)
 
    for (j = 0; j < 15; j+=2)
    for (i = 0; i < 20; i+=2)
-   blit(gfx, back, 0, 200, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
+   blit(gfx, back, 0, 5*_block_height_depth, i*_block_width, j*_block_height, _block_width*2, _block_height*2);
 
    blit(temp2, temp, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
    while(key[KEY_ESC]);
@@ -91,8 +91,9 @@ void Change_Levels(void)
   if (l > 99) l-=100;
  }
 
-exit(66);
+ report_error("DEBUG ERROR: exit(66)");
 }
+
 
 
 
