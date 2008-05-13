@@ -13,7 +13,7 @@
  * Sometimes OSX headers manages to include stdint.h before this but without
  * __STDC_LIMIT_MACROS so it will be without INT64_*. We need to define those
  * too if this is the case. */
-#if !defined(_MSC_VER) && !defined( __MORPHOS__) && !defined(_STDINT_H_)
+#if !defined(_MSC_VER) && !defined( __MORPHOS__) && !defined(_STDINT_H_) && !defined(__DJGPP__)
 	#if defined(SUNOS)
 		/* SunOS/Solaris does not have stdint.h, but inttypes.h defines everything
 		 * stdint.h defines and we need. */

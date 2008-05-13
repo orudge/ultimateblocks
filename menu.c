@@ -416,6 +416,18 @@ void In_Game_Menu(void)
 				game_exit = 0;
 			}
 
+			// redraw screen
+
+			Draw_Screen();
+			Draw_Map();
+
+			Player_Draw(0);
+
+			if (no_ply == 2)
+				Player_Draw(1);
+
+			blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+
 			break;
 
 		case 4:
@@ -430,6 +442,8 @@ void In_Game_Menu(void)
 			game_exit = 2;
 			break;
 	}
+
+	_redraw_status = 1;
 }
 
 #define MAX_VOL_LABEL_LEN		30

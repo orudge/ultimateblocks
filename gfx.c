@@ -426,9 +426,25 @@ void Map_Setup(void)
 
 void Draw_Status(void)
 {
-	rectfill(temp, 0, SCREEN_H - 32, SCREEN_W, SCREEN_H, makecol(0, 0, 0));
-	textprintf(temp, font, 25 + _block_width, SCREEN_H - 25, makecol(255, 255, 255), "%d  Undos: %d      Level: %d           %c", Num_Tokens(), _level_undos, lev+1, (map_done[lev] == 1) ? 'X' : ' ');
+	static int old_undo = 0;
+	static int old_lev = 0;
+	static int old_tokens = 0;
+	int tokens = 0;
 
-	masked_blit(token_pic, temp, 10, 10, 25, SCREEN_H - 32, 15, 18); // todo: _block_width, _block_height);
-	blit(temp, screen, 0, SCREEN_H - 32, 0, SCREEN_H - 32, SCREEN_W, SCREEN_H);
+	tokens = Num_Tokens();
+
+	if ((_level_undos != old_undo) || (old_lev != lev) || (old_tokens != tokens) || (_redraw_status))
+	{
+		_redraw_status = 0;
+
+		old_undo = _level_undos;
+		old_lev = lev;
+		old_tokens = tokens;
+
+		rectfill(temp, 0, SCREEN_H - 22, SCREEN_W, SCREEN_H, makecol(0, 0, 0));
+		textprintf(temp, font, 25 + _block_width, SCREEN_H - 15, makecol(255, 255, 255), "%d  Undos: %d      Level: %d           %c", tokens, _level_undos, lev+1, (map_done[lev] == 1) ? 'X' : ' ');
+
+		masked_blit(token_pic, temp, 10, 10, 25, SCREEN_H - 22, 15, 18); // todo: _block_width, _block_height);
+		blit(temp, screen, 0, SCREEN_H - 22, 0, SCREEN_H - 22, SCREEN_W, SCREEN_H);
+	}
 }

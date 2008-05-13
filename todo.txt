@@ -29,6 +29,7 @@ todo:
 - gun turrets?
 - saved games
 - home directory stuff (see DetermineBasePaths in OpenTTD)
+- lasers don't draw when on higher than 0 z-level (eg, one level in blocks3 map near the end)
 
 keyboard stuff:
 

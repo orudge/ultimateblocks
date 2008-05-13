@@ -395,6 +395,10 @@
 				RelativePath=".\undo.c"
 				>
 			</File>
+			<File
+				RelativePath=".\vars.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

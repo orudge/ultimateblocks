@@ -165,59 +165,59 @@
 
 #define DATAFILE_PASSWORD	"ub-dat-4.0"
 
-DUH *music;
-char music_unload;
-AL_DUH_PLAYER *mod_player;
+extern DUH *music;
+extern char music_unload;
+extern AL_DUH_PLAYER *mod_player;
 
-DATAFILE *fonts, *sfx, *music_dat;
+extern DATAFILE *fonts, *sfx, *music_dat;
 
-char login[13];
+extern char login[13];
 
 extern BITMAP *gfx, *temp, *back;
-BITMAP *ply_pic[2][12];
-BITMAP *mon_pic[5][12];
+extern BITMAP *ply_pic[2][12];
+extern BITMAP *mon_pic[5][12];
 
-BITMAP *temp_particle;
+extern BITMAP *temp_particle;
 
-BITMAP *title_gfx;
-PALETTE title_palette;
+extern BITMAP *title_gfx;
+extern PALETTE title_palette;
 
-BITMAP *box_pic, *bomb_pic[3];
-BITMAP *token_pic;
-BITMAP *teleport_pic[3];
-BITMAP *blank;
+extern BITMAP *box_pic, *bomb_pic[3];
+extern BITMAP *token_pic;
+extern BITMAP *teleport_pic[3];
+extern BITMAP *blank;
 
-BITMAP *laser_pic[5];
-BITMAP *beam_pic[7];
-BITMAP *mirror_pic[2];
+extern BITMAP *laser_pic[5];
+extern BITMAP *beam_pic[7];
+extern BITMAP *mirror_pic[2];
 
-BITMAP *explode_pic[8];
+extern BITMAP *explode_pic[8];
 
-BITMAP *filter_pic;
+extern BITMAP *filter_pic;
 
-BITMAP *door_pic[3];
-BITMAP *switches_pic[3];
+extern BITMAP *door_pic[3];
+extern BITMAP *switches_pic[3];
 
-BITMAP *editor_icons;
-BITMAP *fall_pic;
+extern BITMAP *editor_icons;
+extern BITMAP *fall_pic;
 
-BITMAP *dark[5];
+extern BITMAP *dark[5];
 
-PALETTE palette;
+extern PALETTE palette;
 
-COLOR_MAP trans_table;
-COLOR_MAP light_table;
+extern COLOR_MAP trans_table;
+extern COLOR_MAP light_table;
 
-int _block_width;
-int _block_height;
-int _block_depth;
+extern int _block_width;
+extern int _block_height;
+extern int _block_depth;
 #define _block_height_depth (_block_height + _block_depth)
 
-int time_count;
-int game_type;
-int game_exit;
-int lev;
-int mus_vol, sfx_vol, cd_vol;
+extern int time_count;
+extern int game_type;
+extern int game_exit;
+extern int lev;
+extern int mus_vol, sfx_vol, cd_vol;
 
 #define MAP_MAX_WIDTH		20
 #define MAP_MAX_HEIGHT		15
@@ -227,18 +227,18 @@ int mus_vol, sfx_vol, cd_vol;
 #define MAP_HEIGHT		15
 #define MAP_DEPTH		2
 
-int map[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
-int maps[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH][101];
-char map_motif[100][MOTIF_ID_LEN];
-int map2[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-int map_laser[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
-int map_door[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
-int map_done[100];
-int no_ply;
-int mod_track, mod_last;
-char motif[MOTIF_ID_LEN];
+extern int map[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+extern int maps[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH][101];
+extern char map_motif[100][MOTIF_ID_LEN];
+extern int map2[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+extern int map_laser[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+extern int map_door[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];
+extern int map_done[100];
+extern int no_ply;
+extern int mod_track, mod_last;
+extern char motif[MOTIF_ID_LEN];
 
-char map_save[20];
+extern char map_save[20];
 
 typedef struct PLY_DEF
 {
@@ -246,7 +246,7 @@ typedef struct PLY_DEF
  int frame, dir;
 } PLY_DEF;
 
-PLY_DEF ply[2];
+extern PLY_DEF ply[2];
 
 typedef struct DIRTY_DEF
 {
@@ -256,8 +256,8 @@ typedef struct DIRTY_DEF
 
 #define MAX_DIRTY	300
 
-DIRTY_DEF dirty[MAX_DIRTY], dirty_sort[MAX_DIRTY];
-int dirty_count;
+extern DIRTY_DEF dirty[MAX_DIRTY], dirty_sort[MAX_DIRTY];
+extern int dirty_count;
 
 typedef struct BOX_DEF
 {
@@ -265,17 +265,17 @@ typedef struct BOX_DEF
  BITMAP *pic;
 } BOX_DEF;
 
-BOX_DEF box[468];
-uint16 box_count;
+extern BOX_DEF box[468];
+extern uint16 box_count;
 
 typedef struct EXPLODE_DEF
 {
  int16 x, y, z, frame, type;
 } EXPLODE_DEF;
 
-EXPLODE_DEF explode[468];
+extern EXPLODE_DEF explode[468];
 
-uint16 explode_count;
+extern uint16 explode_count;
 
 #define MENU_ITEM_NAME_LEN		50
 
@@ -290,7 +290,7 @@ typedef struct MENU_DEF
  MENU_ITEM item[10];
 } MENU_DEF;
 
-MENU_DEF menu[4], menu_title[4];
+extern MENU_DEF menu[4], menu_title[4];
 
 #define DIR_MAXNAME		50
 
@@ -308,7 +308,7 @@ typedef struct DIR_DEF
 #define MAX_MODS		50
 #define MAX_DIRS		500
 
-DIR_DEF dir[MAX_DIRS], mod[MAX_MODS];
+extern DIR_DEF dir[MAX_DIRS], mod[MAX_MODS];
 
 typedef struct MON_DEF
 {
@@ -317,26 +317,26 @@ typedef struct MON_DEF
  int speed, count;
 } MON_DEF;
 
-MON_DEF mon[100];
+extern MON_DEF mon[100];
 
-int mon_count;
+extern int mon_count;
 
 typedef struct SWITCH_DEF
 {
  int x, y, z, c;
 } SWITCH_DEF;
 
-SWITCH_DEF switches[60];
+extern SWITCH_DEF switches[60];
 
 typedef struct DOOR_DEF
 {
  int x, y, z, c, state;
 } DOOR_DEF;
 
-DOOR_DEF door[60];
+extern DOOR_DEF door[60];
 
-int switches_count;
-int door_count;
+extern int switches_count;
+extern int door_count;
 
 typedef struct SOUND_DEF
 {
@@ -345,9 +345,9 @@ typedef struct SOUND_DEF
 
 #define MAX_SOUND_EFFECTS		40
 
-SOUND_DEF fx[MAX_SOUND_EFFECTS];
+extern SOUND_DEF fx[MAX_SOUND_EFFECTS];
 
-int fx_count;
+extern int fx_count;
 
 typedef struct UNDO_DEF
 {
@@ -369,8 +369,8 @@ typedef struct UNDO_DEF
  int switches_count;
 } UNDO_DEF;
 
-UNDO_DEF undo[20];
-int undo_count;
+extern UNDO_DEF undo[20];
+extern int undo_count;
 
 typedef struct MOTIF
 {
@@ -386,10 +386,10 @@ typedef struct MOTIF
 	char particles;
 } MOTIF;
 
-char _particles;
+extern char _particles;
 
-MOTIF motifs[20];
-int num_motifs;
+extern MOTIF motifs[20];
+extern int num_motifs;
 
 extern int B2Music;
 
@@ -404,8 +404,8 @@ typedef struct PARTICLE_DEF
 	int col;
 } PARTICLE_DEF;
 
-PARTICLE_DEF part[MAX_PARTICLES];
-int part_count;
+extern PARTICLE_DEF part[MAX_PARTICLES];
+extern int part_count;
 
 // todo: new particles
 typedef struct particle
@@ -425,6 +425,8 @@ typedef struct particle
 #define RAIN_PARTICLE  0  // here are just some types for the drawing types :)
 #define SNOW_PARTICLE1 1
 #define SNOW_PARTICLE2 2
+
+extern int _redraw_status;
 
 // functions
 
@@ -498,7 +500,7 @@ void Save_Config();
 void close_button_callback(void);
 inline DATAFILE * load_encrypted_datafile(const char *filename);
 
-volatile int close_button_pressed;
+extern volatile int close_button_pressed;
 
 // laser.c
 void Start_XYZ(int b_x, int b_y, int b_z, int b_dx, int b_dy, int b_dir);
@@ -638,4 +640,4 @@ void Undo(void);
 void Move_Undo_Down(void);
 void Clear_Undo(void);
 
-int _level_undos;
+extern int _level_undos;
