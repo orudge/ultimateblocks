@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "blocks3.h"
 #include "musicdat.h"
+#include "fps.h"
 #include <string.h>
 
 BITMAP *gfx, *back, *temp;
@@ -124,6 +125,26 @@ void UnloadGraphics()
 	}*/
 }
 
+void UpdateGameSpeeds()
+{
+	int frames = 0;
+
+	if (_game_speed == 0)
+		frames = 100;
+	else if (_game_speed == 1)
+		frames = 150;
+	else
+		frames = 200;
+
+	install_int_ex(increment_fps_counter, BPS_TO_TIMER(frames));
+
+#ifdef MEASURE_FPS
+	destroy_fps(fps);
+	fps = create_fps(frames);
+#endif
+}
+	
+
 void Initialise(void)
 {
 	// Initialise Allegro
@@ -146,6 +167,13 @@ void Initialise(void)
 	mus_vol = get_config_int("Sound", "Music", 255);
 	sfx_vol = get_config_int("Sound", "SFX", 255);
 	cd_vol = get_config_int("Sound", "CD", 255);
+
+	_game_speed = get_config_int("Game", "Speed", 1);
+
+	if (_game_speed < 0)
+		_game_speed = 0;
+	else if (_game_speed > 2)
+		_game_speed = 2;
 
 	// Change screen resolutions
 #ifndef MACOSX
@@ -179,7 +207,7 @@ void Initialise(void)
 	LOCK_VARIABLE(fps_count);
 	LOCK_FUNCTION(increment_fps_counter);
 
-	install_int_ex(increment_fps_counter, BPS_TO_TIMER(200));
+	UpdateGameSpeeds();
 
 	// Create translucency and light tables
 
@@ -274,6 +302,9 @@ void Save_Config()
 	set_config_int("Sound", "Music", mus_vol);
 	set_config_int("Sound", "SFX", sfx_vol);
 	set_config_int("Sound", "CD", cd_vol);
+
+	set_config_int("Game", "Speed", _game_speed);
+
 }
 
 inline DATAFILE * load_encrypted_datafile (const char *filename)

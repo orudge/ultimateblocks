@@ -22,6 +22,9 @@ FPS *create_fps(int fps) {
 
 
 void destroy_fps(FPS *fps) {
+	if (fps == NULL)
+		return;
+
 	free(fps->samples);
 	fps->samples = NULL;
 	fps->nSamples = 0;

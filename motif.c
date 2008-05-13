@@ -212,6 +212,9 @@ void Change_Motif(const char *m)
 
 	fall_pic = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 8, _block_width, _block_height_depth);
 
+	tick_pic[0] = create_sub_bitmap(gfx, _block_width * 8, _block_height_depth * 9, TICK_PIC_WIDTH, TICK_PIC_HEIGHT);
+	tick_pic[1] = create_sub_bitmap(gfx, _block_width * 9, _block_height_depth * 9, _block_width, _block_height);
+
 	blit(gfx, editor_icons, 0, _block_height_depth * 7, 0,   0, _block_width, _block_height);
 	blit(box_pic, editor_icons, 0, 0,   _block_width,  0, _block_width, _block_height);
 	blit(ply_pic[0][0], editor_icons, 0, 0,   _block_width*2,  0, _block_width, _block_height);

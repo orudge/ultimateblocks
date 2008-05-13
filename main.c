@@ -18,8 +18,6 @@
 
 #include "fps.h"
 
-FPS *fps;
-
 int i, j, full_exit;
 
 int main(void)
@@ -27,8 +25,6 @@ int main(void)
 	Initialise();
 
 /* play_mod (music, TRUE);*/
-
-	fps = create_fps(200);
 
 	Presents();
 
@@ -64,7 +60,9 @@ int main(void)
 	cd_exit();
 #endif
 
+#ifdef MEASURE_FPS
 	destroy_fps(fps);
+#endif
 
 	UnloadGraphics();
 
@@ -207,17 +205,21 @@ int Run_Level(void)
 				Player_Laser_Collision(1);
 			}
 
+#ifdef MEASURE_FPS
 			fps_tick(fps);
+#endif
 		}
 
 		Draw_Explode();
 
 		Draw_Screen();
 
+#ifdef MEASURE_FPS
 		text_mode(-1);
 		rectfill(screen, 0, 0, 200, 10, 0);
 		draw_fps(fps, screen, font, 0, 0, makecol(255,255,255), "Current FPS is: %d");
 		fps_frame(fps);
+#endif
 
 		Play_Sound();
 
@@ -255,6 +257,8 @@ int Run_Level(void)
 		{
 			close_button_pressed = FALSE;
 			In_Game_Menu();
+
+			fps_count = 0;
 		}
 
 		if (key[KEY_F2])
@@ -266,11 +270,17 @@ int Run_Level(void)
 			Init_Level();
 			Map_Setup();
 			blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+
+			fps_count = 0;
 		}
 
 		if (key[KEY_BACKSPACE])
 		{
-			while (key[KEY_BACKSPACE]);
+			while (key[KEY_BACKSPACE])
+			{
+				Poll_Music();
+			}
+
 			Undo();
 		}
 	}

@@ -21,6 +21,8 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 	int menu_font = FONT_HNEUE20;
 	int font_height = 0;
 	int actual_font_height = 0;
+	int width = 0;
+	int menu_width = 0;
 
 	BITMAP *temp2;
 	int item, i;
@@ -30,26 +32,29 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 	if (ret != NULL)
 		*ret = NULL;
 
+	if (flags & MENU_SMALL_FONT)
+		menu_font = FONT_HELV12B;
+
 	while (mptr++)
 	{
 		num_items++;
 
 		if (mptr->title == NULL)
 			break;
+
+		width = MAX(width, text_length(fonts[menu_font].dat, mptr->title));
 	}
 
 	if (num_items == 0)
 		return 0;
 
-	if (flags & MENU_SMALL_FONT)
-		menu_font = FONT_HELV12B;
-
 	actual_font_height = text_height(fonts[menu_font].dat);
 	font_height = actual_font_height + 10;
 
 	menu_height = (num_items*font_height) + 70; //35    50 * num_items;
+	menu_width = (width + (10 - (width % 10)) + 100);
 
-	#define MENU_WIDTH	200
+	#define MENU_WIDTH	menu_width //200
 	#define MENU_HEIGHT menu_height
 	#define MENU_X   ((SCREEN_W - MENU_WIDTH) / 2)
 	#define MENU_Y	 ((SCREEN_H - MENU_HEIGHT) / 2)
@@ -83,7 +88,7 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 		for (i = 0; i < num_items; i++)
 		{
-			textprintf_centre(temp2, fonts[menu_font].dat, 100, font_height + (font_height * i) + ((font_height - actual_font_height) / 2), makecol(0, 0, 0), menu[i].title);
+			textprintf_centre(temp2, fonts[menu_font].dat, MENU_WIDTH / 2, font_height + (font_height * i) + ((font_height - actual_font_height) / 2), makecol(0, 0, 0), menu[i].title);
 		}
 
 		for (i = -MENU_WIDTH; i < MENU_X+10; i+=10)
@@ -98,6 +103,10 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 
 			time_count = 0;
 		}
+
+		if (i != MENU_X)
+			blit(temp, screen, i - 10, MENU_Y, i-10, MENU_Y, 10, MENU_HEIGHT);
+
 	}
 
 	while (key[KEY_ESC])
@@ -124,7 +133,7 @@ int Display_Menu(const Menu *menu, int *ret, int flags, int def_item)
 				line(temp2, 10, (2*font_height) + (font_height * i), MENU_WIDTH - 11, (2*font_height) + (font_height * i), makecol(0, 0, 0));
 			}
 
-			textprintf_centre(temp2, fonts[menu_font].dat, 100, font_height + (font_height * i) + ((font_height - actual_font_height) / 2), makecol(0, 0, 0), menu[i].title);
+			textprintf_centre(temp2, fonts[menu_font].dat, MENU_WIDTH / 2, font_height + (font_height * i) + ((font_height - actual_font_height) / 2), makecol(0, 0, 0), menu[i].title);
 		}
 
 		blit(temp2, screen, 0, 0, MENU_X, MENU_Y, MENU_WIDTH, MENU_HEIGHT);
@@ -415,18 +424,20 @@ void In_Game_Menu(void)
 
 				game_exit = 0;
 			}
+			else
+			{
+				// redraw screen
 
-			// redraw screen
+				Draw_Screen();
+				Draw_Map();
 
-			Draw_Screen();
-			Draw_Map();
+				Player_Draw(0);
 
-			Player_Draw(0);
+				if (no_ply == 2)
+					Player_Draw(1);
 
-			if (no_ply == 2)
-				Player_Draw(1);
-
-			blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+				blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+			}
 
 			break;
 
@@ -448,7 +459,7 @@ void In_Game_Menu(void)
 
 #define MAX_VOL_LABEL_LEN		30
 
-#define OPTIONS_DELAY_10() {time_count = 0; while (time_count < 10) { Poll_Music();	} }
+#define OPTIONS_DELAY(x) {time_count = 0; while (time_count < x) { Poll_Music();	} }
 
 void Options_Menu(void)
 {
@@ -460,13 +471,15 @@ void Options_Menu(void)
 	char music_vol_str[MAX_VOL_LABEL_LEN];
 	char cd_vol_str[MAX_VOL_LABEL_LEN];
 	char sfx_vol_str[MAX_VOL_LABEL_LEN];
+	char game_speed_str[MAX_VOL_LABEL_LEN];
 
 	const Menu options_menu[] = {
 		{"Keyboard", 1, MENUITEM_CLOSE},
-		{(char *) &music_vol_str, 2, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{(char *) &cd_vol_str, 3, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{(char *) &sfx_vol_str, 4, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
-		{"Return", 5, MENUITEM_CLOSE},
+		{(char *) &game_speed_str, 2, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &music_vol_str, 3, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &cd_vol_str, 4, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{(char *) &sfx_vol_str, 5, MENUITEM_KEY_LEFT | MENUITEM_KEY_RIGHT},
+		{"Return", 6, MENUITEM_CLOSE},
 		{END_OF_MENU}
 	};
 
@@ -499,6 +512,7 @@ void Options_Menu(void)
 			old_cd_vol = cd_vol;
 		}
 
+		sprintf((char *) &game_speed_str, "Game Speed: %s", GAME_SPEEDS[_game_speed]);
 		sprintf((char *) &music_vol_str, "Music: %d", mus_vol*100/255);
 		sprintf((char *) &cd_vol_str, "CD: %d", cd_vol*100/255);
 		sprintf((char *) &sfx_vol_str, "SFX: %d", sfx_vol*100/255);
@@ -513,19 +527,39 @@ void Options_Menu(void)
 
 			case 2:
 				if (retval == MENU_KEY_LEFT)
+					_game_speed--;
+				else if (retval == MENU_KEY_RIGHT)
+					_game_speed++;
+
+				if (_game_speed < 0)
+					_game_speed = 0;
+				else if (_game_speed > 2)
+					_game_speed = 2;
+
+				display_menu = 1;
+				flags |= MENU_NO_REDRAW;
+				def_item = 1;
+
+				UpdateGameSpeeds();
+
+				OPTIONS_DELAY(50);
+				break;
+
+			case 3:
+				if (retval == MENU_KEY_LEFT)
 					mus_vol -= 3;
 				else if (retval == MENU_KEY_RIGHT)
 					mus_vol += 3;
 
 				display_menu = 1;
 				flags |= MENU_NO_REDRAW;
-				def_item = 1;
+				def_item = 2;
 
-				OPTIONS_DELAY_10();
+				OPTIONS_DELAY(10);
 
 				break;
 
-			case 3:
+			case 4:
 				if (retval == MENU_KEY_LEFT)
 					cd_vol -= 3;
 				else if (retval == MENU_KEY_RIGHT)
@@ -533,12 +567,12 @@ void Options_Menu(void)
 
 				display_menu = 1;
 				flags |= MENU_NO_REDRAW;
-				def_item = 2;
+				def_item = 3;
 
-				OPTIONS_DELAY_10();
+				OPTIONS_DELAY(10);
 				break;
 			
-			case 4:
+			case 5:
 				if (retval == MENU_KEY_LEFT)
 					sfx_vol -= 3;
 				else if (retval == MENU_KEY_RIGHT)
@@ -546,12 +580,12 @@ void Options_Menu(void)
 
 				display_menu = 1;
 				flags |= MENU_NO_REDRAW;
-				def_item = 3;
+				def_item = 4;
 
-				OPTIONS_DELAY_10();
+				OPTIONS_DELAY(10);
 				break;
 
-			case 5:
+			case 6:
 				display_menu = 0;
 				break;
 		}

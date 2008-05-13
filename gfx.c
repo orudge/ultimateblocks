@@ -442,7 +442,10 @@ void Draw_Status(void)
 		old_tokens = tokens;
 
 		rectfill(temp, 0, SCREEN_H - 22, SCREEN_W, SCREEN_H, makecol(0, 0, 0));
-		textprintf(temp, font, 25 + _block_width, SCREEN_H - 15, makecol(255, 255, 255), "%d  Undos: %d      Level: %d           %c", tokens, _level_undos, lev+1, (map_done[lev] == 1) ? 'X' : ' ');
+		textprintf(temp, font, 25 + _block_width, SCREEN_H - 15, makecol(255, 255, 255), "%d  Undos: %d      Level: %d ", tokens, _level_undos, lev+1);
+
+		if (map_done[lev])
+			masked_blit(tick_pic[0], temp, 0, 0, SCREEN_W - (TICK_PIC_WIDTH + 15), SCREEN_H - ((22 + TICK_PIC_HEIGHT) / 2), TICK_PIC_WIDTH, TICK_PIC_HEIGHT);
 
 		masked_blit(token_pic, temp, 10, 10, 25, SCREEN_H - 22, 15, 18); // todo: _block_width, _block_height);
 		blit(temp, screen, 0, SCREEN_H - 22, 0, SCREEN_H - 22, SCREEN_W, SCREEN_H);

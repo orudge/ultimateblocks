@@ -45,6 +45,8 @@ BITMAP *fall_pic;
 
 BITMAP *dark[5];
 
+BITMAP *tick_pic[2];
+
 PALETTE palette;
 
 COLOR_MAP trans_table;
@@ -62,6 +64,10 @@ int game_exit;
 int lev;
 int mus_vol, sfx_vol, cd_vol;
 
+int _game_speed;
+char *GAME_SPEEDS[3] = {"Slow ", "Normal", "Fast  "};
+
+FPS *fps = NULL;
 
 
 int map[MAP_MAX_WIDTH][MAP_MAX_HEIGHT][MAP_MAX_DEPTH];

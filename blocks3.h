@@ -6,6 +6,7 @@
 #include <aldumb.h>
 
 #include "b3types.h"
+#include "fps.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 	#ifndef WIN32	
@@ -203,6 +204,11 @@ extern BITMAP *fall_pic;
 
 extern BITMAP *dark[5];
 
+extern BITMAP *tick_pic[2];
+
+#define TICK_PIC_WIDTH	16
+#define TICK_PIC_HEIGHT	16
+
 extern PALETTE palette;
 
 extern COLOR_MAP trans_table;
@@ -219,6 +225,11 @@ extern int game_type;
 extern int game_exit;
 extern int lev;
 extern int mus_vol, sfx_vol, cd_vol;
+
+extern int _game_speed;
+extern char *GAME_SPEEDS[3];
+
+extern FPS *fps;
 
 #define MAP_MAX_WIDTH		20
 #define MAP_MAX_HEIGHT		15
@@ -500,6 +511,7 @@ void Initialise(void);
 void Save_Config();
 void close_button_callback(void);
 inline DATAFILE * load_encrypted_datafile(const char *filename);
+void UpdateGameSpeeds();
 
 extern volatile int close_button_pressed;
 
