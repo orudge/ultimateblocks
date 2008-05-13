@@ -55,7 +55,7 @@ int _block_height;
 int _block_depth;
 
 
-
+int fps_count;
 int time_count;
 int game_type;
 int game_exit;

@@ -26,6 +26,13 @@ void increment_time_counter(void)
 
 END_OF_FUNCTION(increment_time_counter);
 
+void increment_fps_counter(void)
+{
+	fps_count++;
+}
+
+END_OF_FUNCTION(increment_fps_counter);
+
 #ifndef DJGPP
 void close_button_callback(void)
 {
@@ -168,6 +175,11 @@ void Initialise(void)
 	LOCK_FUNCTION(increment_time_counter);
 
 	install_int_ex(increment_time_counter, BPS_TO_TIMER(200));
+
+	LOCK_VARIABLE(fps_count);
+	LOCK_FUNCTION(increment_fps_counter);
+
+	install_int_ex(increment_fps_counter, BPS_TO_TIMER(200));
 
 	// Create translucency and light tables
 

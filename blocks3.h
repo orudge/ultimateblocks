@@ -213,6 +213,7 @@ extern int _block_height;
 extern int _block_depth;
 #define _block_height_depth (_block_height + _block_depth)
 
+extern int fps_count;
 extern int time_count;
 extern int game_type;
 extern int game_exit;

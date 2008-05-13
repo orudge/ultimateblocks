@@ -16,6 +16,10 @@
 #include "blocks3.h"
 #include <string.h>
 
+#include "fps.h"
+
+FPS *fps;
+
 int i, j, full_exit;
 
 int main(void)
@@ -23,6 +27,8 @@ int main(void)
 	Initialise();
 
 /* play_mod (music, TRUE);*/
+
+	fps = create_fps(200);
 
 	Presents();
 
@@ -57,6 +63,8 @@ int main(void)
 	cd_stop();
 	cd_exit();
 #endif
+
+	destroy_fps(fps);
 
 	UnloadGraphics();
 
@@ -137,66 +145,79 @@ int Run_Level(void)
 
 	game_exit = 0;
 	_level_undos = 0;
+	fps_count = 0;
 
 	while (!game_exit)
 	{
-		Poll_Music();
-
-		Box_Move();
-		Box_Fall();
-
-		Bomb_Prime_Laser();
-
-		Player_Fall(0);
-		Player_Fall(1);
-
-		if (((key[KEY_LCONTROL]) || key[KEY_RCONTROL]) && (no_ply == 2))
-			Player_Input(1);
-		else
-			Player_Input(0);
-
-		if (no_ply == 2)
-			Player2_Input(1);
-
-		Player_Move(0);
-
-		if (no_ply == 2)
-			Player_Move(1);
-
-		Player_Pickup_Check(0);
-
-		if (no_ply == 2)
-			Player_Pickup_Check(1);
-  
-		Player_Draw(0);
-
-		if (no_ply == 2)
-			Player_Draw(1);
-
-		Check_Fall(0);
-
-		if (no_ply == 2)
-			Check_Fall(1);
-
-		Check_Fall_Prime();
-
-		Monster();
-
-		Laser();
-		Door();
-
-		Player_Monster_Collision(0);
-		Player_Laser_Collision(0);
-
-		if (no_ply == 2)
+		while (fps_count)
 		{
-			Player_Monster_Collision(1);
-			Player_Laser_Collision(1);
+			--fps_count;
+
+			Poll_Music();
+
+			Box_Move();
+			Box_Fall();
+
+			Bomb_Prime_Laser();
+
+			Player_Fall(0);
+			Player_Fall(1);
+
+			if (((key[KEY_LCONTROL]) || key[KEY_RCONTROL]) && (no_ply == 2))
+				Player_Input(1);
+			else
+				Player_Input(0);
+
+			if (no_ply == 2)
+				Player2_Input(1);
+
+			Player_Move(0);
+
+			if (no_ply == 2)
+				Player_Move(1);
+
+			Player_Pickup_Check(0);
+
+			if (no_ply == 2)
+				Player_Pickup_Check(1);
+  
+			Player_Draw(0);
+
+			if (no_ply == 2)
+				Player_Draw(1);
+
+			Check_Fall(0);
+
+			if (no_ply == 2)
+				Check_Fall(1);
+
+			Check_Fall_Prime();
+
+			Monster();
+
+			Laser();
+			Door();
+
+			Player_Monster_Collision(0);
+			Player_Laser_Collision(0);
+
+			if (no_ply == 2)
+			{
+				Player_Monster_Collision(1);
+				Player_Laser_Collision(1);
+			}
+
+			fps_tick(fps);
 		}
 
 		Draw_Explode();
 
 		Draw_Screen();
+
+		text_mode(-1);
+		rectfill(screen, 0, 0, 200, 10, 0);
+		draw_fps(fps, screen, font, 0, 0, makecol(255,255,255), "Current FPS is: %d");
+		fps_frame(fps);
 
 		Play_Sound();
 

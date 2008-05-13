@@ -336,6 +336,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\fps.c"
+				>
+			</File>
+			<File
 				RelativePath=".\gfx.c"
 				>
 			</File>

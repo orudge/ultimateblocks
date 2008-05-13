@@ -66,7 +66,7 @@ WINDRES = windres
 
 RM = rm -f
 
-OBJECTS = bomb.o   editor.o init.o   main.o   motif.o  ply.o    trans.o \
+OBJECTS = bomb.o   editor.o  fps.o  init.o   main.o   motif.o  ply.o    trans.o \
 box.o    fall.o   laser.o  menu.o   music.o  sound.o  undo.o \
 door.o   gfx.o    levels.o mon.o    part.o   title.o  vars.o $(RES)
 
