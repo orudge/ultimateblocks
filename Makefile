@@ -113,6 +113,8 @@ DATA_MUSIC = music/celesfnt.s3m music/exp4a.xm music/jungle.mod music/lounge.xm 
 
 DATA_MAPS = maps/2blocks.map maps/b1.map maps/b2.map maps/blocks3.map
 
+DATA_ROOT = music.dat sfx.dat fonts.dat title256.bmp
+
 $(APP) : $(EXE)
 	install -d $(APPR)/graphics $(APPR)/maps $(APPR)/music
 	install -d $(APP)/Contents/MacOS
@@ -121,6 +123,7 @@ $(APP) : $(EXE)
 	install -C $(DATA_GFX) $(APPR)/graphics
 	install -C $(DATA_MUSIC) $(APPR)/music
 	install -C $(DATA_MAPS) $(APPR)/maps
+	install -C $(DATA_ROOT) $(APPR)
 	install os/osx/UltimateBlocks.icns $(APPR)/UltimateBlocks.icns
 
 %.o : %.c
