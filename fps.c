@@ -1,3 +1,8 @@
+/*****************************************************/
+/* Ultimate Blocks                                   */
+/* Copyright (c) An Ly 2000, Owen Rudge 2001, 2008   */
+/*****************************************************/
+
 /* Module for measuring FPS for Allegro games - implementation.
    Written by Miran Amon.
 */

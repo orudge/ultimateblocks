@@ -187,10 +187,12 @@ void Log_In(void)
 	login[i + 2] = 'o';
 	login[i + 3] = 'g';
 
+	sprintf(login_path, "%s/%s", find_resource_file(SETTINGS_DIR, NULL), login);
+
 #ifdef WIN32
-	_mkdir(login);
+	_mkdir(login_path);
 #else
-	mkdir(login, 0755);
+	mkdir(login_path, 0755);
 #endif
 
 	for (i = 200; i < 650; i+=10)
@@ -244,9 +246,12 @@ int Open_Maps_Title(void)
  BITMAP *temp2 = create_bitmap(400, 300);
  int b4file = 0;
  int font_height = 0;
+ char map_path[MAX_PATH];
 
 	f_no = 0;
-	for_each_file_ex("./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File_Title, 0);
+
+	sprintf(map_path, "%s/*.map", _map_dir);
+	for_each_file_ex(map_path, 0, FA_LABEL | FA_DIREC, Remember_File_Title, 0);
 
 	if (f_no == 0)
 	{

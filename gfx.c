@@ -8,8 +8,25 @@
 
 void DirtyList(int x,int y, int z, int w, int h, BITMAP *pic)
 {
+#ifdef DEBUG_DIRTY
+	static int maxdirty=0;
+
+	if (dirty_count == MAX_DIRTY)
+	{
+		char str[30];
+		maxdirty++;
+
+		sprintf(str, "MAX_DIRTY: %d", maxdirty);
+		set_window_title(str);
+
+		return;
+	}
+	else
+		maxdirty = 0;
+#else
 	if (dirty_count == MAX_DIRTY)
 		return;
+#endif
 
 	dirty[dirty_count].x = x;
 	dirty[dirty_count].y = y;

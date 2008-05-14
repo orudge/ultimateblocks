@@ -466,8 +466,9 @@ void Init_Full_Game(void)
 	for (i = 0; i < 100; i++)
 	map_done[i] = 0;
 
-	safe_strcpy(fn, MAX_PATH, "./");
-	safe_strcat(fn, MAX_PATH, login);
+	safe_strcpy(fn, MAX_PATH, login_path);
+	//safe_strcpy(fn, MAX_PATH, "./");
+	//safe_strcat(fn, MAX_PATH, login);
 	safe_strcat(fn, MAX_PATH, "/");
 	safe_strcat(fn, MAX_PATH, map_save);
 
@@ -492,8 +493,9 @@ void Save_Map_Done(void)
 	char fn[MAX_PATH];
 	PACKFILE *file;
 
-	safe_strcpy(fn, MAX_PATH, "./");
-	safe_strcat(fn, MAX_PATH, login);
+	safe_strcpy(fn, MAX_PATH, login_path);
+	//safe_strcpy(fn, MAX_PATH, "./");
+	//safe_strcat(fn, MAX_PATH, login);
 	safe_strcat(fn, MAX_PATH, "/");
 	safe_strcat(fn, MAX_PATH, map_save);
 

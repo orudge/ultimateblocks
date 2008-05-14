@@ -17,6 +17,10 @@
 	#define strlwr	_strlwr
 #endif
 
+#ifndef MAX_PATH
+	#define MAX_PATH		200
+#endif
+
 #define OLD_SOLID           1
 #define OLD_BOX             2
 #define OLD_TOKEN           3
@@ -173,6 +177,7 @@ extern AL_DUH_PLAYER *mod_player;
 extern DATAFILE *fonts, *sfx, *music_dat;
 
 extern char login[13];
+extern char login_path[MAX_PATH];
 
 extern BITMAP *gfx, *temp, *back;
 extern BITMAP *ply_pic[2][12];
@@ -305,10 +310,6 @@ typedef struct MENU_DEF
 extern MENU_DEF menu[4], menu_title[4];
 
 #define DIR_MAXNAME		50
-
-#ifndef MAX_PATH
-	#define MAX_PATH		200
-#endif
 
 typedef struct DIR_DEF
 {
@@ -654,3 +655,20 @@ void Move_Undo_Down(void);
 void Clear_Undo(void);
 
 extern int _level_undos;
+
+// platform-specific .c
+
+#define APP_DIR			1
+#define GRAPHICS_DIR	2
+#define MUSIC_DIR		3
+#define MAP_DIR			4
+#define SAVE_DIR		5
+#define SETTINGS_DIR	6
+
+const char *get_resource_file_path (const char * str1, const char * str2, const char * file, char userdir);
+const char *find_resource_file (int dir, const char *file);
+
+const char *_config_file;
+const char *_graphics_dir;
+const char *_music_dir;
+const char *_map_dir;

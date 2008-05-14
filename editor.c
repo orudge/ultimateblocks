@@ -532,6 +532,7 @@ int Remember_File(const char *fn, int a, void *b)
 
 void Directory(void)
 {
+ char map_path[MAX_PATH];
  int j;
 
  rectfill(temp, 0, 12, SCREEN_W, SCREEN_H, 7);
@@ -544,7 +545,9 @@ void Directory(void)
  line(temp, 0, 468, 640, 468, 0);
 
  f_no = 0;
- for_each_file_ex((const char *) "./maps/*.map", 0, FA_LABEL | FA_DIREC, Remember_File, 0);
+
+ sprintf(map_path, "%s/*.map", _map_dir);
+ for_each_file_ex((const char *) map_path, 0, FA_LABEL | FA_DIREC, Remember_File, 0);
 
  text_mode(makecol(255, 255, 255));
  for (j = 0; j < f_no; j++)

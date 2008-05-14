@@ -13,7 +13,7 @@ AL_DUH_PLAYER *mod_player;
 DATAFILE *fonts, *sfx, *music_dat;
 
 char login[13];
-
+char login_path[MAX_PATH];
 
 
 BITMAP *ply_pic[2][12];

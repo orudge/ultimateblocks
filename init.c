@@ -147,6 +147,9 @@ void UpdateGameSpeeds()
 
 void Initialise(void)
 {
+	char graphics_str[MAX_PATH];
+	char music_str[MAX_PATH];
+
 	// Initialise Allegro
 	allegro_init();
 	install_keyboard();
@@ -161,7 +164,9 @@ void Initialise(void)
 	// Initialise DUMB
 	dumb_register_stdfiles();
 
-	set_config_file("blocks4.cfg");
+	_config_file = strdup(find_resource_file(SETTINGS_DIR, "blocks4.cfg"));
+
+	set_config_file(_config_file);
 	B2Music = get_config_int("Sound", "B2Music", 1);
 
 	mus_vol = get_config_int("Sound", "Music", 255);
@@ -227,15 +232,19 @@ void Initialise(void)
 	// Iterate through motifs
 
 	num_motifs = 0;
-	for_each_file_ex("./graphics/*.bgp", 0, FA_DIREC | FA_LABEL, LoadGraphicsPack, 0);
+
+	_graphics_dir = strdup(find_resource_file(GRAPHICS_DIR, NULL));
+	sprintf(graphics_str, "%s/*.bgp", _graphics_dir);
+
+	for_each_file_ex(graphics_str, 0, FA_DIREC | FA_LABEL, LoadGraphicsPack, 0);
 
 	// Load fonts and title graphics
-	fonts = load_encrypted_datafile("fonts.dat");
+	fonts = load_encrypted_datafile(find_resource_file(APP_DIR, "fonts.dat"));
 
 	if (fonts == NULL)
 		report_error("\"fonts.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
 
-	title_gfx = load_bitmap("title256.bmp", title_palette);
+	title_gfx = load_bitmap(find_resource_file(APP_DIR, "title256.bmp"), title_palette);
 
 	if (title_gfx == NULL)
 		report_error("\"title256.bmp\" not found or corrupt. Please reinstall Ultimate Blocks.");
@@ -251,7 +260,7 @@ void Initialise(void)
 	cd_set_volume(cd_vol, cd_vol);
 #endif
 
-	sfx = load_encrypted_datafile("sfx.dat");
+	sfx = load_encrypted_datafile(find_resource_file(APP_DIR, "sfx.dat"));
 
 	if (sfx == NULL)
 		report_error("\"sfx.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
@@ -262,7 +271,7 @@ void Initialise(void)
 	dumb_register_dat_s3m_quick(DUMB_DAT_S3M);
 	dumb_register_dat_mod_quick(DUMB_DAT_MOD);
 
-	music_dat = load_encrypted_datafile("music.dat");
+	music_dat = load_encrypted_datafile(find_resource_file(APP_DIR, "music.dat"));
 
 	if (music_dat == NULL)
 		report_error("\"music.dat\" not found or corrupt. Please reinstall Ultimate Blocks.");
@@ -277,10 +286,19 @@ void Initialise(void)
 	Add_Datafile_Mod("misthart.xm", MUSIC_MISTHART, MODTYPE_DAT_XM);
 
 	// Add any other files in music/
-	for_each_file_ex("./music/*.mod", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_MOD);
-	for_each_file_ex("./music/*.s3m", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_S3M);
-	for_each_file_ex("./music/*.xm", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_XM);
-	for_each_file_ex("./music/*.it", 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_IT);
+	_music_dir = strdup(find_resource_file(MUSIC_DIR, NULL));
+	
+	sprintf(music_str, "%s/*.mod", _music_dir);
+	for_each_file_ex(music_str, 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_MOD);
+
+	sprintf(music_str, "%s/*.s3m", _music_dir);
+	for_each_file_ex(music_str, 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_S3M);
+
+	sprintf(music_str, "%s/*.xm", _music_dir);
+	for_each_file_ex(music_str, 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_XM);
+
+	sprintf(music_str, "%s/*.it", _music_dir);
+	for_each_file_ex(music_str, 0, FA_DIREC | FA_LABEL, Remember_Mod_File, (void *) MODTYPE_IT);
 
 	mod_last = f_no;
 	mod_track = 0;
@@ -292,12 +310,14 @@ void Initialise(void)
     
 	// Change motif to default (Sunny)
 	Change_Motif("SUNY");
+
+	_map_dir = strdup(find_resource_file(MAP_DIR, NULL));
 }
 
 void Save_Config()
 {
 	// Save config file
-	set_config_file("blocks4.cfg");
+	set_config_file(_config_file);
 
 	set_config_int("Sound", "Music", mus_vol);
 	set_config_int("Sound", "SFX", sfx_vol);
@@ -305,6 +325,10 @@ void Save_Config()
 
 	set_config_int("Game", "Speed", _game_speed);
 
+	free(_config_file);
+	free(_music_dir);
+	free(_graphics_dir);
+	free(_map_dir);
 }
 
 inline DATAFILE * load_encrypted_datafile (const char *filename)

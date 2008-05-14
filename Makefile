@@ -42,8 +42,20 @@ CFLAGS   += -DALLEGRO_STATICLINK -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -ldsound -Wl,-subsystem,windows
 RES      = res.o
 EXE      = blocks4.exe
+#SVNVERSION = $(shell svnversion -n)
+#SVNVERSION_NUM = $(shell echo $(SVNVERSION) | sed "s/[^0-9]//g")
 
-SVNVERSION = $(shell svnversion -n)
+ifeq ($(shell if test -d .svn; then echo 1; fi), 1)
+# Find if the local source if modified
+REV_MODIFIED := $(shell svnversion $(SRC_DIR) | sed -n 's/.*\(M\).*/\1/p' )
+# Find the revision like: rXXXX-branch
+SVNVERSION := $(shell LC_ALL=C svn info . | awk '/^URL:.*branch/ { split($$2, a, "/"); BRANCH="-"a[5] } /^Last Changed Rev:/ { REV="r"$$4"$(REV_MODIFIED)" } END { print REV BRANCH }')
+SVNVERSION_NUM := $(shell LC_ALL=C svn info . | awk '/^Last Changed Rev:/ { print $$4 }')
+else
+SVNVERSION := 0
+SVNVERSION_NUM := 0
+endif
+
 endif
 
 ifeq ($(PLATFORM),macosx )
@@ -68,7 +80,7 @@ RM = rm -f
 
 OBJECTS = bomb.o   editor.o  fps.o  init.o   main.o   motif.o  ply.o    trans.o \
 box.o    fall.o   laser.o  menu.o   music.o  sound.o  undo.o \
-door.o   gfx.o    levels.o mon.o    part.o   title.o  vars.o $(RES)
+door.o   gfx.o    levels.o mon.o    part.o   title.o  vars.o  win.o $(RES)
 
 all: $(EXE)
 	@echo "Ultimate Blocks has been built."
@@ -79,8 +91,14 @@ $(EXE): $(OBJECTS)
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+res_rev.tmp :
+	$(RM) res_rev.tmp
+	echo "#define SVN_VERSION \"SVN revision $(SVNVERSION)\"" > res_rev.tmp
+	echo "#define SVN_FILEVERSION 4,0,0,$(SVNVERSION_NUM)" >> res_rev.tmp
+
 res.o : blocks4.rc
 	echo "#define SVN_VERSION \"SVN revision $(SVNVERSION)\"" > res_rev.tmp
+	echo "#define SVN_FILEVERSION 4,0,0,$(SVNVERSION_NUM)" >> res_rev.tmp
 	$(WINDRES) $< $@ -DWITH_REV
 	rm -f res_rev.tmp
 

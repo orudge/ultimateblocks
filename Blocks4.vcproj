@@ -27,6 +27,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Detecting SVN revision..."
+				CommandLine="$(ProjectDir)\makerev.bat $(ProjectDir)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -55,6 +57,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WITH_REV"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -97,9 +100,13 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Detecting SVN revision..."
+				CommandLine="$(ProjectDir)\makerev.bat $(ProjectDir)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				CommandLine=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -126,6 +133,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WITH_REV"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -169,6 +177,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Detecting SVN revision..."
+				CommandLine="$(ProjectDir)\makerev.bat $(ProjectDir)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -243,9 +253,13 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Detecting SVN revision..."
+				CommandLine="$(ProjectDir)\makerev.bat $(ProjectDir)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				CommandLine=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -405,6 +419,10 @@
 				RelativePath=".\vars.c"
 				>
 			</File>
+			<File
+				RelativePath=".\win.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -436,6 +454,30 @@
 			<File
 				RelativePath=".\blocks4.rc"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="WITH_REV"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="WITH_REV"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="WITH_REV"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\icon1.ico"
