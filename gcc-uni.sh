@@ -46,7 +46,7 @@ CFLAGS_i386=" -isysroot $SDK_i386 -I/usr/local/include"
 LDFLAGS_i386=" -isysroot $SDK_i386 -Wl,-syslibroot,$SDK_i386 -L/usr/local/lib"
 
 # ppc flags
-CFLAGS_PPC="-I$SDK_PPC/usr/include"
+CFLAGS_PPC="-I$SDK_PPC/usr/include -I$SDK_PPC/System/Library/Frameworks/"
 LDFLAGS_PPC="-L$SDK_PPC/usr/lib"
 
 # Parse options:

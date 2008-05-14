@@ -89,7 +89,12 @@ const char *find_resource_file (int dir, const char *file)
 {
 	static char ans[PATH_MAX];
 	NSString* found;
-	NSString* nsfile = [NSString stringWithCString: file];
+	NSString* nsfile;
+
+	if (file != NULL)
+		nsfile = [NSString stringWithCString: file];
+	else
+		nsfile = nil;
 
 	if (init_path == NO)
 	{
@@ -110,24 +115,24 @@ const char *find_resource_file (int dir, const char *file)
 	switch (dir)
 	{
 		case APP_DIR:
-			found = get_resource_file_path(game_dir, nil, nsfile, 0);
+			found = get_resource_file_path_osx(game_dir, nil, nsfile, 0);
 			break;
 
 		case GRAPHICS_DIR:
-			found = get_resource_file_path(game_dir, @"graphics", nsfile, 0);
+			found = get_resource_file_path_osx(game_dir, @"graphics", nsfile, 0);
 			break;
 
 		case MUSIC_DIR:
-			found = get_resource_file_path(game_dir, @"music", nsfile, 0);
+			found = get_resource_file_path_osx(game_dir, @"music", nsfile, 0);
 			break;
 
 		case MAP_DIR:
-			found = get_resource_file_path(game_dir, @"maps", nsfile, 0);
+			found = get_resource_file_path_osx(game_dir, @"maps", nsfile, 0);
 			break;
    
 		case SAVE_DIR:
 		case SETTINGS_DIR:
-			found = get_resource_file_path(user_dir, nil, nsfile, 1);
+			found = get_resource_file_path_osx(user_dir, nil, nsfile, 1);
 			break;
 
 		default:
