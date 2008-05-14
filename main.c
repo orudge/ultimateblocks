@@ -205,6 +205,7 @@ int Run_Level(void)
 				Player_Laser_Collision(1);
 			}
 
+			rest(1);
 #ifdef MEASURE_FPS
 			fps_tick(fps);
 #endif
