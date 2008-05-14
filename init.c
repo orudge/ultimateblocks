@@ -48,7 +48,9 @@ int Remember_Mod_File(const char *fn, int a, void *b)
 		return -1;
 
 	safe_strcpy(mod[f_no].name, DIR_MAXNAME, _music_dir); //"./music/");
+	safe_strcat(mod[f_no].name, DIR_MAXNAME, "/");
 	safe_strcat(mod[f_no].name, DIR_MAXNAME, get_filename(fn));
+
 	mod[f_no].type = (char) b;
 	f_no++;
 

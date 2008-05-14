@@ -655,6 +655,7 @@ Poll_Music();
 
  // safe_strcpy(fn, MAX_PATH, "./maps/");
  safe_strcpy(fn, MAX_PATH, _map_dir);
+ safe_strcat(fn, MAX_PATH, "/");
  safe_strcat(fn, MAX_PATH, dir[file_sel].name);
 
  file = pack_fopen(fn, "rp");
@@ -785,6 +786,7 @@ void Save_Maps(void)
 	 safe_strcpy(f, MAX_PATH, dir[file_sel].name);
 
  safe_strcpy(fn, MAX_PATH, _map_dir);
+ safe_strcat(fn, MAX_PATH, "/");
  //safe_strcpy(fn, MAX_PATH, "./maps/");
  safe_strcat(fn, MAX_PATH, f);
 
