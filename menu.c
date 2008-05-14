@@ -421,6 +421,7 @@ void In_Game_Menu(void)
 				Draw_Map();
 				Init_Level();
 				Map_Setup();
+				Get_Ready();
 
 				game_exit = 0;
 			}

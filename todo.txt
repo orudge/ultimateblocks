@@ -55,3 +55,7 @@ levels:
 - blocks1:
   - level 25 - monsters meant to move in same direction
   - level 34 - the blocks below it get touched, they shouldn't.
+
+bug:
+
+monsters, etc, start moving even when "get ready" is displayed?
