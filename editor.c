@@ -653,7 +653,8 @@ Poll_Music();
 
  if (Yes_Or_No() == 0) return;
 
- safe_strcpy(fn, MAX_PATH, "./maps/");
+ // safe_strcpy(fn, MAX_PATH, "./maps/");
+ safe_strcpy(fn, MAX_PATH, _map_dir);
  safe_strcat(fn, MAX_PATH, dir[file_sel].name);
 
  file = pack_fopen(fn, "rp");
@@ -783,7 +784,8 @@ void Save_Maps(void)
  if (mouse_b & 1)
 	 safe_strcpy(f, MAX_PATH, dir[file_sel].name);
 
- safe_strcpy(fn, MAX_PATH, "./maps/");
+ safe_strcpy(fn, MAX_PATH, _map_dir);
+ //safe_strcpy(fn, MAX_PATH, "./maps/");
  safe_strcat(fn, MAX_PATH, f);
 
  if (exists(fn))

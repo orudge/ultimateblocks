@@ -346,7 +346,8 @@ int Open_Maps_Title(void)
   return 0;
  }
 
- safe_strcpy(fn, MAX_PATH, "./maps/");
+ safe_strcpy(fn, MAX_PATH, _map_dir);
+ //safe_strcpy(fn, MAX_PATH, "./maps/");
  safe_strcat(fn, MAX_PATH, dir[file_sel].name);
  safe_strcpy(map_save, MAX_PATH, dir[file_sel].name);
 

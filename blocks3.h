@@ -309,7 +309,7 @@ typedef struct MENU_DEF
 
 extern MENU_DEF menu[4], menu_title[4];
 
-#define DIR_MAXNAME		50
+#define DIR_MAXNAME		MAX_PATH
 
 typedef struct DIR_DEF
 {
