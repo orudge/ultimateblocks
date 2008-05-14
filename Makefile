@@ -36,6 +36,7 @@ RES      =
 PLAT     = dos.o
 EXE      = blocks4.exe
 EXE_NOEXT= blocks4
+APP      =
 endif
 
 
@@ -45,6 +46,7 @@ LDFLAGS  += -lcda -laldmb -ldumb -lalleg_s -lwinmm -lkernel32 -luser32 -lgdi32 -
 RES      = res.o
 PLAT     = win.o
 EXE      = blocks4.exe
+APP      =
 #SVNVERSION = $(shell svnversion -n)
 #SVNVERSION_NUM = $(shell echo $(SVNVERSION) | sed "s/[^0-9]//g")
 
@@ -68,6 +70,7 @@ LDFLAGS  += -laldmb -ldumb `allegro-config --static`
 RES      =
 PLAT     = osx.o
 EXE      = blocks4
+APP      = UltimateBlocks.app
 endif
 
 ifeq ($(PLATFORM),linux )
@@ -77,6 +80,7 @@ LDFLAGS  += -laldmb -ldumb `allegro-config --libs` -lcda
 RES      =
 PLAT     = unix.o
 EXE      = blocks4
+APP
 endif
 
 WINDRES = windres
@@ -87,7 +91,7 @@ OBJECTS = bomb.o   editor.o  fps.o   init.o   main.o   motif.o  ply.o \
           box.o    fall.o   laser.o   menu.o  music.o  sound.o  undo.o   trans.o \
           door.o   gfx.o    levels.o  mon.o   part.o   title.o  vars.o   $(RES) $(PLAT)
 
-all: $(EXE)
+all: $(EXE) $(APP)
 	@echo "Ultimate Blocks has been built."
 
 $(EXE): $(OBJECTS)
@@ -95,9 +99,29 @@ $(EXE): $(OBJECTS)
 
 ifeq ($(PLATFORM),djgpp )
 	exe2coff $(EXE)
-	copy /b cwsdstub.exe+$(EXE_NOEXT) $(EXE)
+	copy /b os\dos\cwsdstub.exe+$(EXE_NOEXT) $(EXE)
 	$(RM) $(EXE_NOEXT)
 endif
+
+APPR = $(APP)/Contents/Resources
+
+DATA_GFX = graphics/castle.bmp graphics/rocky.bmp graphics/snowy.bmp graphics/sunny.bmp \
+           graphics/castle.bgp graphics/rocky.bgp graphics/snowy.bgp graphics/sunny.bgp
+
+DATA_MUSIC = music/celesfnt.s3m music/exp4a.xm music/jungle.mod music/lounge.xm music/memories.xm \
+             music/shopping.xm music/vivamine.mod
+
+DATA_MAPS = maps/2blocks.map maps/b1.map maps/b2.map maps/blocks3.map
+
+$(APP) : $(EXE)
+	install -d $(APPR)/graphics $(APPR)/maps $(APPR)/music
+	install -d $(APP)/Contents/MacOS
+	install -C os/osx/Info.plist $(APP)/Contents
+	install -C blocks4 $(APP)/Contents/MacOS
+	install -C $(DATA_GFX) $(APPR)/graphics
+	install -C $(DATA_MUSIC) $(APPR)/music
+	install -C $(DATA_MAPS) $(APPR)/maps
+	install os/osx/UltimateBlocks.icns $(APPR)/UltimateBlocks.icns
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
