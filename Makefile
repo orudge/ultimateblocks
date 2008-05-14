@@ -34,6 +34,7 @@ CFLAGS   += -DENABLE_CDA
 LDFLAGS  += -lcda -laldmb -ldumb -lalleg
 RES      =
 EXE      = blocks4.exe
+EXE_NOEXT= blocks4
 endif
 
 
@@ -78,15 +79,21 @@ WINDRES = windres
 
 RM = rm -f
 
-OBJECTS = bomb.o   editor.o  fps.o  init.o   main.o   motif.o  ply.o    trans.o \
-box.o    fall.o   laser.o  menu.o   music.o  sound.o  undo.o \
-door.o   gfx.o    levels.o mon.o    part.o   title.o  vars.o  win.o $(RES)
+OBJECTS = bomb.o   dos.o    editor.o  fps.o   init.o   main.o   motif.o  ply.o \
+          box.o    fall.o   laser.o   menu.o  music.o  sound.o  undo.o   trans.o \
+          door.o   gfx.o    levels.o  mon.o   part.o   title.o  vars.o   win.o $(RES)
 
 all: $(EXE)
 	@echo "Ultimate Blocks has been built."
 
 $(EXE): $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS)
+
+ifeq ($(PLATFORM),djgpp )
+	exe2coff $(EXE)
+	copy /b cwsdstub.exe+$(EXE_NOEXT) $(EXE)
+	$(RM) $(EXE_NOEXT)
+endif
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@

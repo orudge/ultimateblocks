@@ -19,6 +19,13 @@ OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
+VersionInfoCompany=Owen Rudge
+VersionInfoCopyright=Copyright © An Ly 1999-2001, Owen Rudge 2001, 2008. All Rights Reserved.
+VersionInfoDescription=Ultimate Blocks Setup
+VersionInfoProductName=Ultimate Blocks
+VersionInfoProductVersion=4.0
+VersionInfoTextVersion=4.0
+VersionInfoVersion=4.0.0.0
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -32,32 +39,35 @@ Name: "{app}\maps"
 Name: "{app}\music"
 
 [Files]
-Source: "E:\DriveF\Games\Blocks4\blocks4.exe"; DestDir: "{app}"; Flags: ignoreversion 32bit; Check: not Is64BitInstallMode
-Source: "E:\DriveF\Games\Blocks4\x64\Release\blocks4.exe"; DestDir: "{app}"; Flags: ignoreversion 64bit; Check: Is64BitInstallMode
-Source: "E:\DriveF\Games\Blocks4\fonts.dat"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music.dat"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\sfx.dat"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\title256.bmp"; DestDir: "{app}"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\shopping.xm"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\vivamine.mod"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\celesfnt.s3m"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\exp4a.xm"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\jungle.mod"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\lounge.xm"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\music\memories.xm"; DestDir: "{app}\music"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\maps\blocks3.map"; DestDir: "{app}\maps"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\maps\2blocks.map"; DestDir: "{app}\maps"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\maps\b1.map"; DestDir: "{app}\maps"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\maps\b2.map"; DestDir: "{app}\maps"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\sunny.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\castle.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\castle.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\rocky.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\rocky.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\snowy.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\snowy.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
-Source: "E:\DriveF\Games\Blocks4\graphics\sunny.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\blocks4.exe"; DestDir: "{app}"; Flags: ignoreversion 32bit; Check: not Is64BitInstallMode
+Source: "..\x64\Release\blocks4.exe"; DestDir: "{app}"; Flags: ignoreversion 64bit; Check: Is64BitInstallMode
+Source: "..\fonts.dat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\music.dat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\sfx.dat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\title256.bmp"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\music\shopping.xm"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\music\vivamine.mod"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\music\celesfnt.s3m"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\music\exp4a.xm"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\music\jungle.mod"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\music\lounge.xm"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\music\memories.xm"; DestDir: "{app}\music"; Flags: ignoreversion
+Source: "..\maps\blocks3.map"; DestDir: "{app}\maps"; Flags: ignoreversion
+Source: "..\maps\2blocks.map"; DestDir: "{app}\maps"; Flags: ignoreversion
+Source: "..\maps\b1.map"; DestDir: "{app}\maps"; Flags: ignoreversion
+Source: "..\maps\b2.map"; DestDir: "{app}\maps"; Flags: ignoreversion
+Source: "..\graphics\sunny.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\castle.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\castle.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\rocky.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\rocky.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\snowy.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\snowy.bmp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "..\graphics\sunny.bgp"; DestDir: "{app}\graphics"; Flags: ignoreversion
+Source: "shfolder.exe"; DestDir: "{tmp}"; Flags: ignoreversion; OnlyBelowVersion: 5.0,5.0
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
 
 [Icons]
 Name: "{group}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; WorkingDir: "{app}"
@@ -66,6 +76,7 @@ Name: "{commondesktop}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; Tasks: d
 
 [Run]
 Filename: "{app}\blocks4.exe"; Description: "{cm:LaunchProgram,Ultimate Blocks}"; Flags: nowait postinstall skipifsilent
+Filename: "{tmp}\shfolder.exe"; Parameters: "/q:a"; OnlyBelowVersion: 5.0,5.0
 
 [CustomMessages]
 ProgramOnTheWeb=%1 Online
