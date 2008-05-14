@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleExecutable</key>
+	<string>blocks4</string>
+	<key>CFBundleDisplayName</key>
 	<string>Ultimate Blocks</string>
 	<key>CFBundleIconFile</key>
 	<string>UltimateBlocks.icns</string>
