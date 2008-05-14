@@ -169,9 +169,9 @@ const char *find_resource_file (int dir, const char *file)
 
 		default:
 			return NULL;
-   }
+	}
 
-   return fix_filename_slashes (ans);
+	return fix_filename_slashes (ans);
 }
 
 #endif

@@ -72,7 +72,7 @@ Source: "shfolder.exe"; DestDir: "{tmp}"; Flags: ignoreversion; OnlyBelowVersion
 [Icons]
 Name: "{group}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; WorkingDir: "{app}"
 Name: "{group}\{cm:ProgramOnTheWeb,Ultimate Blocks}"; Filename: "http://www.ultimateblocks.com/"
-Name: "{commondesktop}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; Tasks: desktopicon
+Name: "{commondesktop}\Ultimate Blocks"; Filename: "{app}\blocks4.exe"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\blocks4.exe"; Description: "{cm:LaunchProgram,Ultimate Blocks}"; Flags: nowait postinstall skipifsilent

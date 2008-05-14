@@ -658,12 +658,7 @@ extern int _level_undos;
 
 // platform-specific .c
 
-#define APP_DIR			1
-#define GRAPHICS_DIR	2
-#define MUSIC_DIR		3
-#define MAP_DIR			4
-#define SAVE_DIR		5
-#define SETTINGS_DIR	6
+#include "b4dirs.h"
 
 const char *get_resource_file_path (const char * str1, const char * str2, const char * file, char userdir);
 const char *find_resource_file (int dir, const char *file);
