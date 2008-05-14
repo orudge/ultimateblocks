@@ -143,7 +143,7 @@ int Run_Level(void)
 
 	game_exit = 0;
 	_level_undos = 0;
-	fps_count = 0;
+	fps_count = 1;
 
 	while (!game_exit)
 	{
@@ -259,12 +259,15 @@ int Run_Level(void)
 			close_button_pressed = FALSE;
 			In_Game_Menu();
 
-			fps_count = 0;
+			fps_count = 1;
 		}
 
 		if (key[KEY_F2])
 		{
-			while (key[KEY_F2]);
+			while (key[KEY_F2])
+			{
+				Poll_Music();
+			}
 
 			Maps_to_Map(lev);
 			Draw_Map();
@@ -272,7 +275,7 @@ int Run_Level(void)
 			Map_Setup();
 			blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 
-			fps_count = 0;
+			fps_count = 1;
 		}
 
 		if (key[KEY_BACKSPACE])

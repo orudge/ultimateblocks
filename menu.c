@@ -423,6 +423,7 @@ void In_Game_Menu(void)
 				Map_Setup();
 				Get_Ready();
 
+				fps_count = 1;
 				game_exit = 0;
 			}
 			else
@@ -437,6 +438,7 @@ void In_Game_Menu(void)
 				if (no_ply == 2)
 					Player_Draw(1);
 
+				fps_count = 1;
 				blit(temp, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 			}
 
@@ -455,6 +457,7 @@ void In_Game_Menu(void)
 			break;
 	}
 
+	fps_count = 1;
 	_redraw_status = 1;
 }
 
