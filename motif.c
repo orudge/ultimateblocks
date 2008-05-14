@@ -9,6 +9,8 @@
 
 void Change_Motif(const char *m)
 {
+	char graphics_str[MAX_PATH];
+
 	int i;
 	int old_block_width = 0, old_block_height = 0, old_block_depth = 0;
  
@@ -43,11 +45,10 @@ void Change_Motif(const char *m)
 		gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
 		break;
 	}*/
-
-
 		if (strstr(m, motifs[i].uid) != NULL)// strcmp(m, motifs[i].uid) == 0)
 		{
-			gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
+			sprintf(graphics_str, "%s/%s", _graphics_dir, motifs[i].gfx_fn);
+			gfx = load_bitmap(graphics_str, palette); //motifs[i].gfx; //dat[0].dat;
 
 			_block_width = motifs[i].block_width;
 			_block_height = motifs[i].block_height;
@@ -63,7 +64,8 @@ void Change_Motif(const char *m)
 
 	if (gfx == NULL)
 	{
-	    gfx = load_bitmap("graphics/sunny.bmp", palette);
+		sprintf(graphics_str, "%s/sunny.bmp", _graphics_dir);
+	    gfx = load_bitmap(graphics_str, palette);
 
 		_block_width = motifs[i].block_width;
 		_block_height = motifs[i].block_height;
@@ -72,7 +74,7 @@ void Change_Motif(const char *m)
 
 		if (B2Music == 1)
 		{
-			set_config_file("blocks4.cfg");		
+			set_config_file(_config_file);		
 			Play_MOD_Track(get_config_string("Sound", "InitialMusic", "deadlock.xm"), 0, 1);
 		}
 	}
