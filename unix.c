@@ -5,6 +5,8 @@
 #if defined(UNIX)
 
 #include <allegro.h>
+#include <pwd.h>
+#include <sys/stat.h>
 #include "blocks3.h"
 
 static int init_path = 0;
@@ -99,10 +101,8 @@ const char *get_resource_file_path (const char * str1, const char * str2, const 
  */
 const char *find_resource_file (int dir, const char *file)
 {
-	HINSTANCE SHFolder;
-	SHGETFOLDERPATH SHGetFolderPath;
 	char *home;
-	static char ans[MAX_PATH];
+	char exe[MAX_PATH];
 
 	if (!init_path)
 	{
@@ -172,8 +172,6 @@ const char *find_resource_file (int dir, const char *file)
 		default:
 			return NULL;
 	}
-
-	return fix_filename_slashes (ans);
 }
 
 #endif
