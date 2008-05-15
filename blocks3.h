@@ -520,6 +520,7 @@ extern volatile int close_button_pressed;
 void Start_XYZ(int b_x, int b_y, int b_z, int b_dx, int b_dy, int b_dir);
 void Track_Laser(void);
 void Laser(void);
+void Draw_Lasers();
 
 // levels.c
 void Change_Levels(void);
@@ -588,6 +589,7 @@ enum {
 };
 
 // mon.c
+void Draw_Monsters();
 void Monster(void);
 void Monster_Draw(int m_no);
 void Monster_Mon0(int m_no);

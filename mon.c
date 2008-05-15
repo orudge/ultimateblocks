@@ -25,7 +25,7 @@ void Monster(void)
    if (mon[i].type == MON2) Monster_Mon1(i);
   }
 
-  Monster_Draw(i);
+//  Monster_Draw(i);
  }
 
  for (k = 0; k < 2; k++)
@@ -40,6 +40,14 @@ void Monster(void)
   map[mon[i].x/_block_width][(mon[i].y + (_block_height-1))/_block_height][mon[i].z/_block_depth] = RESERVE0;
   map[(mon[i].x + (_block_width-1))/_block_width][(mon[i].y + (_block_height-1))/_block_height][mon[i].z/_block_depth] = RESERVE0;
  }
+}
+
+void Draw_Monsters()
+{
+	int i;
+	
+	for (i = 0; i < mon_count; i++)
+		Monster_Draw(i);
 }
 
 void Monster_Draw(int m_no)

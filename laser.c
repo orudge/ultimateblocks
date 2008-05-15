@@ -10,48 +10,60 @@ int x, y, z, dx, dy;
 
 void Laser(void)
 {
- int i, j, k;
- int map_laser_back[20][15][2];
+	int i, j, k;
+	int map_laser_back[20][15][2];
 
- for (i = 0; i < 20; i++)
- for (j = 0; j < 15; j++)
- {
-  map_laser_back[i][j][0] = map_laser[i][j][0];
-  map_laser_back[i][j][1] = map_laser[i][j][1];
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 15; j++)
+		{
+			map_laser_back[i][j][0] = map_laser[i][j][0];
+			map_laser_back[i][j][1] = map_laser[i][j][1];
 
-  map_laser[i][j][0] = 0;
-  map_laser[i][j][1] = 0;
- }
+			map_laser[i][j][0] = 0;
+			map_laser[i][j][1] = 0;
+		}
+	}
 
- for (i = 0; i < box_count; i++)
- {
-  if (box[i].type & LASER)
-  {
-   if (box[i].type == LASER_4WAY)
-   {
-    Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 1);
-    Track_Laser();
-    Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 2);
-    Track_Laser();
-    Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 4);
-    Track_Laser();
-    Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 8);
-    Track_Laser();
-   }
-   else
-   {
-    Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, box[i].dir);
-    Track_Laser();
-   }
-  }
- }
+	for (i = 0; i < box_count; i++)
+	{
+		if (box[i].type & LASER)
+		{
+			if (box[i].type == LASER_4WAY)
+			{
+				Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 1);
+				Track_Laser();
+				Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 2);
+				Track_Laser();
+				Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 4);
+				Track_Laser();
+				Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, 8);
+				Track_Laser();
+			}
+			else
+			{
+				Start_XYZ(box[i].x, box[i].y, box[i].z, box[i].dx, box[i].dy, box[i].dir);
+				Track_Laser();
+			}
+		}
+	}
 
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 15; j++)
+		{
+			for (k = 0; k < 2; k++)
+			{
+				if (map_laser[i][j][k] != map_laser_back[i][j][k])
+					DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height_depth, blank);
+			}
+		}
+	}
+}
 
- for (i = 0; i < 20; i++)
- for (j = 0; j < 15; j++)
- for (k = 0; k < 2; k++)
- if (map_laser[i][j][k] != map_laser_back[i][j][k]) DirtyList(i*_block_width, j*_block_height, k*_block_depth, _block_width, _block_height_depth, blank);
-
+void Draw_Lasers()
+{
+	// TODO: sort out properly
 }
 
 void Start_XYZ(int b_x, int b_y, int b_z, int b_dx, int b_dy, int b_dir)

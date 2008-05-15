@@ -179,10 +179,10 @@ int Run_Level(void)
 			if (no_ply == 2)
 				Player_Pickup_Check(1);
   
-			Player_Draw(0);
+/*			Player_Draw(0);
 
 			if (no_ply == 2)
-				Player_Draw(1);
+				Player_Draw(1);*/
 
 			Check_Fall(0);
 
@@ -210,6 +210,17 @@ int Run_Level(void)
 			fps_tick(fps);
 #endif
 		}
+
+		Player_Draw(0);
+
+		if (no_ply == 2)
+			Player_Draw(1);
+
+		Draw_Monsters();
+		//Draw_Lasers();
+		// still todo: Doors
+
+		//
 
 		Draw_Explode();
 
