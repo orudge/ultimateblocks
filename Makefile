@@ -75,12 +75,12 @@ endif
 
 ifeq ($(PLATFORM),linux )
 CC       = gcc
-CFLAGS   += -DENABLE_CDA
+CFLAGS   += -DENABLE_CDA -DUNIX
 LDFLAGS  += -laldmb -ldumb `allegro-config --libs` -lcda
 RES      =
 PLAT     = unix.o
 EXE      = blocks4
-APP
+APP      =
 endif
 
 WINDRES = windres
