@@ -311,3 +311,23 @@ void Poll_Music()
 
 	rest(0); // good opportunity to yield to other processes - todo: implement properly (http://www.allegro.cc/forums/thread/592422)
 }
+
+static int SortMusicComparator(const void *arg1, const void *arg2);
+
+void Sort_Music_Files()
+{
+	if (mod_last <= _music_predefined)
+		return;
+
+	qsort(&mod[_music_predefined], mod_last - _music_predefined, sizeof(mod[0]), SortMusicComparator);
+}
+
+static int SortMusicComparator(const void *arg1, const void *arg2)
+{
+	DIR_DEF *a1, *a2;
+
+	a1 = (DIR_DEF *) arg1;
+	a2 = (DIR_DEF *) arg2;
+
+	return(strcasecmp(a1->name, a2->name));
+}

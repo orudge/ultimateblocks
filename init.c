@@ -75,6 +75,7 @@ int LoadGraphicsPack(const char *fn, int a, void *b)
 {
 	char tmp_id_max[11];
 	char tmp_id[MOTIF_ID_LEN];
+	char graphics_str[MAX_PATH];
 	int ver;
 
 	if (num_motifs >= 9)
@@ -110,7 +111,11 @@ int LoadGraphicsPack(const char *fn, int a, void *b)
 #else
 	motifs[num_motifs].particles = 0;
 #endif
-	num_motifs++;
+
+	sprintf(graphics_str, "%s/%s", _graphics_dir, motifs[num_motifs].gfx_fn);
+
+	if (exists(graphics_str))
+		num_motifs++;
 
 	return 0;
 }
@@ -287,6 +292,8 @@ void Initialise(void)
 	Add_Datafile_Mod("inside.s3m", MUSIC_INSIDE, MODTYPE_DAT_S3M);
 	Add_Datafile_Mod("misthart.xm", MUSIC_MISTHART, MODTYPE_DAT_XM);
 
+	_music_predefined = f_no;
+
 	// Add any other files in music/
 	_music_dir = strdup(find_resource_file(MUSIC_DIR, NULL));
 	
@@ -304,6 +311,8 @@ void Initialise(void)
 
 	mod_last = f_no;
 	mod_track = 0;
+
+	Sort_Music_Files();
 
 	// If we're not using the Blocks+-style music, we need to start playing the first track
 	// If we are, it'll be done automatically when we change motif

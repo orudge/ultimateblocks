@@ -18,7 +18,11 @@
 #endif
 
 #ifndef MAX_PATH
-	#define MAX_PATH		200
+	#ifdef PATH_MAX
+		#define MAX_PATH PATH_MAX
+	#else
+		#define MAX_PATH		200
+	#endif
 #endif
 
 #define OLD_SOLID           1
@@ -173,6 +177,8 @@
 extern DUH *music;
 extern char music_unload;
 extern AL_DUH_PLAYER *mod_player;
+
+extern int _music_predefined;
 
 extern DATAFILE *fonts, *sfx, *music_dat;
 
@@ -461,6 +467,7 @@ void CD_Player(void);
 void Mod_Music(void);
 void Play_MOD_Track(const char *filename, int type, char loop);
 void Poll_Music();
+void Sort_Music_Files();
 
 // door.c
 void Door(void);

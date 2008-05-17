@@ -9,6 +9,7 @@
 DUH *music;
 char music_unload;
 AL_DUH_PLAYER *mod_player;
+int _music_predefined = 0;
 
 DATAFILE *fonts, *sfx, *music_dat;
 
