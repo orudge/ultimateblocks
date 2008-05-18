@@ -51,6 +51,8 @@ int Remember_Mod_File(const char *fn, int a, void *b)
 	safe_strcat(mod[f_no].name, DIR_MAXNAME, "/");
 	safe_strcat(mod[f_no].name, DIR_MAXNAME, get_filename(fn));
 
+	fix_filename_slashes(mod[f_no].name);
+
 	mod[f_no].type = (char) b;
 	f_no++;
 

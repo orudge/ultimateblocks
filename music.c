@@ -212,7 +212,7 @@ void Play_MOD_Track(const char *filename, int type, char loop)
 	// find a piece of music matching this one
 	for (i = 0; i < mod_last; i++)
 	{
-		if (strcasecmp(mod[i].name, filename) == 0)
+		if (strcasecmp(get_filename(mod[i].name), filename) == 0)
 		{
 			sel = i;
 			break;
@@ -230,19 +230,19 @@ void Play_MOD_Track(const char *filename, int type, char loop)
 			break;
 
 		case MODTYPE_MOD:
-			music = dumb_load_mod_quick(filename);
+			music = dumb_load_mod_quick(mod[sel].name);
 			break;
 
 		case MODTYPE_S3M:
-			music = dumb_load_s3m_quick(filename);
+			music = dumb_load_s3m_quick(mod[sel].name);
 			break;
 
 		case MODTYPE_XM:
-			music = dumb_load_xm_quick(filename);
+			music = dumb_load_xm_quick(mod[sel].name);
 			break;
 
 		case MODTYPE_IT:
-			music = dumb_load_it_quick(filename);
+			music = dumb_load_it_quick(mod[sel].name);
 			break;
 
 		case MODTYPE_DAT_MOD:
@@ -255,16 +255,16 @@ void Play_MOD_Track(const char *filename, int type, char loop)
 
 		default:
 			{
-			char *lwr = strlwr(get_extension(filename));
+			char *lwr = strlwr(get_extension(mod[sel].name));
 
 			if (strcmp(lwr, "mod") == 0)
-				music = dumb_load_mod_quick(filename);
+				music = dumb_load_mod_quick(mod[sel].name);
 			else if (strcmp(lwr, "s3m") == 0)
-				music = dumb_load_s3m_quick(filename);
+				music = dumb_load_s3m_quick(mod[sel].name);
 			else if (strcmp(lwr, "xm") == 0)
-				music = dumb_load_xm_quick(filename);
+				music = dumb_load_xm_quick(mod[sel].name);
 			else if (strcmp(lwr, "it") == 0)
-				music = dumb_load_it_quick(filename);
+				music = dumb_load_it_quick(mod[sel].name);
 			else
 				music = NULL;
 
