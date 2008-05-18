@@ -212,7 +212,7 @@ void Play_MOD_Track(const char *filename, int type, char loop)
 	// find a piece of music matching this one
 	for (i = 0; i < mod_last; i++)
 	{
-		if (strcasecmp(get_filename(mod[i].name), filename) == 0)
+		if (strcasecmp(get_filename(mod[i].name), get_filename(filename)) == 0)
 		{
 			sel = i;
 			break;
