@@ -171,7 +171,7 @@ void Initialise(void)
 #endif
 
 	// Initialise DUMB
-	dumb_register_stdfiles();
+	dumb_register_packfiles();
 
 	_config_file = strdup(find_resource_file(SETTINGS_DIR, "blocks4.cfg"));
 
