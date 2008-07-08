@@ -17,21 +17,6 @@ void Change_Motif(const char *m)
 	if (strcmp(m, motif) == 0)
 		return;
 
-/*	if ((m < 1) || (m > 4))
-		m = SUNNY;
-
-	if (m == SUNNY)
-		gfx = load_bitmap("sunny256.bmp", palette);
-
-	if (m == CASTLE)
-		gfx = load_bitmap("castl256.bmp", palette);
-
-	if (m == ROCKY)
-		gfx = load_bitmap("rocky256.bmp", palette);
-
-	if (m == SNOWY)
-		gfx = load_bitmap("snowy256.bmp", palette); */
-
 	Reset_Particles();
 
  	old_block_width = _block_width;
@@ -40,15 +25,10 @@ void Change_Motif(const char *m)
 
 	for (i = 0; i < num_motifs; i++)
 	{
-/*	if (motifs[i].special == m)
-    {
-		gfx = load_bitmap(motifs[i].gfx_fn, palette); //motifs[i].gfx; //dat[0].dat;
-		break;
-	}*/
-		if (strstr(m, motifs[i].uid) != NULL)// strcmp(m, motifs[i].uid) == 0)
+		if (strstr(m, motifs[i].uid) != NULL)
 		{
 			sprintf(graphics_str, "%s/%s", _graphics_dir, motifs[i].gfx_fn);
-			gfx = load_bitmap(graphics_str, palette); //motifs[i].gfx; //dat[0].dat;
+			gfx = load_bitmap(graphics_str, palette);
 
 			_block_width = motifs[i].block_width;
 			_block_height = motifs[i].block_height;
