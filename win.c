@@ -178,32 +178,84 @@ const char *find_resource_file (int dir, const char *file)
 	return fix_filename_slashes (ans);
 }
 
+typedef BOOL (WINAPI *CONVERTSIDTOSTRINGSID)(PSID, LPTSTR *);
+typedef BOOL (WINAPI *OPENPROCESSTOKEN)(HANDLE, DWORD, PHANDLE);
+typedef BOOL (WINAPI *GETTOKENINFORMATION)(HANDLE, TOKEN_INFORMATION_CLASS, LPVOID, DWORD, PDWORD);
+typedef BOOL (WINAPI *ISVALIDSID)(PSID);
+
 static const char *get_username_ex(EXTENDED_NAME_FORMAT format)
 {
-	HMODULE hModule;
+	CONVERTSIDTOSTRINGSID p_ConvertSidToStringSid;
+	OPENPROCESSTOKEN p_OpenProcessToken;
+	GETTOKENINFORMATION p_GetTokenInformation;
+	ISVALIDSID p_IsValidSid;
 	char username[MAX_PATH];
 	DWORD len = MAX_PATH;
-	BOOLEAN (WINAPI *gunEx) (EXTENDED_NAME_FORMAT, LPTSTR, PULONG);
+	HMODULE hModule;
 
-	hModule = LoadLibrary("secur32.dll");
+	if (GetUserName(username, &len) == 0)
+		strcpy(username, "Username");
 
-	if (hModule)
+	if (format == NameDisplay)
+		return(strdup(username));
+	else if (format == NameUniqueId)
 	{
-		gunEx = (BOOLEAN (WINAPI *) (EXTENDED_NAME_FORMAT, LPTSTR, PULONG)) GetProcAddress(hModule, "GetUserNameExA");
+		hModule = LoadLibrary("advapi32.dll");
 
-		if (gunEx)
+		if (hModule)
 		{
-			if (gunEx(format, username, &len) != 0)
-				return(strdup(username));
+			p_OpenProcessToken = (OPENPROCESSTOKEN) GetProcAddress(hModule, "OpenProcessToken");
+			p_GetTokenInformation = (GETTOKENINFORMATION) GetProcAddress(hModule, "GetTokenInformation");
+			p_ConvertSidToStringSid = (CONVERTSIDTOSTRINGSID) GetProcAddress(hModule, "ConvertSidToStringSidA");
+			p_IsValidSid = (ISVALIDSID) GetProcAddress(hModule, "IsValidSid");
+
+			if ((p_OpenProcessToken) && (p_ConvertSidToStringSid) && (p_GetTokenInformation))
+			{
+				HANDLE hToken = NULL;
+				DWORD dwBufferSize = 0;
+				PTOKEN_USER pTokenUser = NULL;
+				LPSTR StringSid;
+
+				/* Open the access token associated with the calling process. */
+				if (!p_OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
+				{
+					FreeLibrary(hModule);
+					return(strdup(username));
+				}
+
+				/* get the size of the memory buffer needed for the SID */
+				(void)p_GetTokenInformation(hToken, TokenUser, NULL, 0, &dwBufferSize);
+
+				pTokenUser = (PTOKEN_USER)malloc(dwBufferSize);
+				memset(pTokenUser, 0, dwBufferSize);
+
+				/* Retrieve the token information in a TOKEN_USER structure. */
+				if (!p_GetTokenInformation(hToken, TokenUser, pTokenUser, dwBufferSize, &dwBufferSize))
+				{
+					FreeLibrary(hModule);
+					return(strdup(username));
+				}
+
+				CloseHandle(hToken);
+
+				if (p_IsValidSid(pTokenUser->User.Sid))
+				{
+					if (p_ConvertSidToStringSid(pTokenUser->User.Sid, &StringSid) != 0)
+					{
+						memset(username, 0, sizeof(username));
+						safe_strncpy(username, sizeof(username), StringSid, lstrlen(StringSid));
+						LocalFree(StringSid);
+					}
+				}
+
+				free(pTokenUser);
+			}
 		}
+
+		FreeLibrary(hModule);
 	}
 
-	len = MAX_PATH;
-
-	if (GetUserName(username, &len) != 0)
-		return(strdup(username));
-
-	return(strdup("user"));
+	return(strdup(username));
 }
 
 const char *get_current_username()
