@@ -111,6 +111,7 @@ void Log_In(void)
 	BITMAP *temp2 = create_bitmap(200, 150);
 	int i, j;
 
+#if 0
 	rectfill(temp2, 0, 0, 199, 149, makecol(255, 255, 255));
 	rect(temp2, 0, 0, 199, 149, makecol(0, 0, 0));
 
@@ -188,6 +189,29 @@ void Log_In(void)
 	login[i + 3] = 'g';
 
 	sprintf(login_path, "%s/%s", find_resource_file(SETTINGS_DIR, NULL), login);
+#else
+	char *username, *nicename;
+	const char *user_str = "user";
+
+	username = get_current_username();
+	nicename = get_current_user_nicename();
+
+	if (!username)
+		username = user_str;
+
+	if (!nicename)
+		nicename = user_str;
+
+	strcpy(login, nicename);
+
+	sprintf(login_path, "%s/%s.log", find_resource_file(SETTINGS_DIR, NULL), username);
+
+	if (username != user_str)
+		free(username);
+
+	if (nicename != user_str)
+		free(nicename);
+#endif
 
 #ifdef WIN32
 	_mkdir(login_path);
@@ -195,6 +219,7 @@ void Log_In(void)
 	mkdir(login_path, 0755);
 #endif
 
+#if 0
 	for (i = 200; i < 650; i+=10)
 	{
 		blit(title_gfx, screen, i - 10, 100, i-10, 100, 10, 150);
@@ -207,14 +232,16 @@ void Log_In(void)
 
 		time_count = 0;
 	}
-
+#endif
+	text_mode(-1);
 	blit(title_gfx, screen, 550, 10, 550, 10, 90, 10);
 	textprintf(screen, font, 550, 11, makecol(255, 255, 255), "%s", login);
-
+#if 0
 	while(key[KEY_ENTER])
 	{
 		Poll_Music();
 	}
+#endif
 }
 
 int Remember_File_Title(const char *fn, int a, void *b)

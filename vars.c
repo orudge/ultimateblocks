@@ -13,8 +13,8 @@ int _music_predefined = 0;
 
 DATAFILE *fonts, *sfx, *music_dat;
 
-char login[13];
-char login_path[MAX_PATH];
+char login[LOGIN_LEN]; //13];
+char login_path[LOGIN_LEN];
 
 
 BITMAP *ply_pic[2][12];

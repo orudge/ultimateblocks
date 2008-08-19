@@ -25,6 +25,8 @@
 	#endif
 #endif
 
+#define LOGIN_LEN			(MAX_PATH + 4)
+
 #define OLD_SOLID           1
 #define OLD_BOX             2
 #define OLD_TOKEN           3
@@ -182,8 +184,8 @@ extern int _music_predefined;
 
 extern DATAFILE *fonts, *sfx, *music_dat;
 
-extern char login[13];
-extern char login_path[MAX_PATH];
+extern char login[LOGIN_LEN]; //13];
+extern char login_path[LOGIN_LEN];
 
 extern BITMAP *gfx, *temp, *back;
 extern BITMAP *ply_pic[2][12];
@@ -671,6 +673,9 @@ extern int _level_undos;
 
 const char *get_resource_file_path (const char * str1, const char * str2, const char * file, char userdir);
 const char *find_resource_file (int dir, const char *file);
+
+const char *get_current_username();
+const char *get_current_user_nicename();
 
 const char *_config_file;
 const char *_graphics_dir;

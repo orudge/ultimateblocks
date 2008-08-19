@@ -6,6 +6,10 @@
 
 #include <allegro.h>
 #include <winalleg.h>
+
+#define SECURITY_WIN32
+#include <security.h>
+
 #include "blocks3.h"
 
 static int init_path = 0;
@@ -172,6 +176,44 @@ const char *find_resource_file (int dir, const char *file)
 	}
 
 	return fix_filename_slashes (ans);
+}
+
+static const char *get_username_ex(EXTENDED_NAME_FORMAT format)
+{
+	HMODULE hModule;
+	char username[MAX_PATH];
+	DWORD len = MAX_PATH;
+	BOOLEAN (WINAPI *gunEx) (EXTENDED_NAME_FORMAT, LPTSTR, PULONG);
+
+	hModule = LoadLibrary("secur32.dll");
+
+	if (hModule)
+	{
+		gunEx = (BOOLEAN (WINAPI *) (EXTENDED_NAME_FORMAT, LPTSTR, PULONG)) GetProcAddress(hModule, "GetUserNameExA");
+
+		if (gunEx)
+		{
+			if (gunEx(format, username, &len) != 0)
+				return(strdup(username));
+		}
+	}
+
+	len = MAX_PATH;
+
+	if (GetUserName(username, &len) != 0)
+		return(strdup(username));
+
+	return(strdup("user"));
+}
+
+const char *get_current_username()
+{
+	return(get_username_ex(NameUniqueId));
+}
+
+const char *get_current_user_nicename()
+{
+	return(get_username_ex(NameDisplay));
 }
 
 #endif
