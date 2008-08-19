@@ -174,4 +174,31 @@ const char *find_resource_file (int dir, const char *file)
 	}
 }
 
+const char *get_current_username()
+{
+	struct passwd *pwd;
+
+	/* Try looking in password file for home dir. */
+	if ((pwd = getpwuid (getuid ())))
+		return(strdup(pwd->pw_name));
+	else
+		return(strdup("Username"));
+}
+
+const char *get_current_user_nicename()
+{
+	struct passwd *pwd;
+
+	/* Try looking in password file for home dir. */
+	if ((pwd = getpwuid (getuid ())))
+	{
+		if (pwd->pw_gecos)
+			return(strdup(pwd->pw_gecos));
+		else
+			return(strdup(pwd->pw_name));
+	}
+	else
+		return(strdup("Username"));
+}
+
 #endif
