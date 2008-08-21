@@ -233,6 +233,7 @@ static const char *get_username_ex(EXTENDED_NAME_FORMAT format)
 				if (!p_GetTokenInformation(hToken, TokenUser, pTokenUser, dwBufferSize, &dwBufferSize))
 				{
 					FreeLibrary(hModule);
+					free(pTokenUser);
 					return(strdup(username));
 				}
 
